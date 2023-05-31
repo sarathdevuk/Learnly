@@ -2,10 +2,10 @@ import nodemailer from 'nodemailer'
 
 let otpValue
 
-export default function sendVerificationCode (email){
-  
+export function sendVerificationCode (email){
+  console.log(email
+    ,"fsdfdfd");
   const otp = Math.floor(1000 + Math.random() * 9000);
-
   return new Promise((resolve, reject)=>{
       let transporter = nodemailer.createTransport({
           host: "smtp.gmail.com",
@@ -43,7 +43,7 @@ export default function sendVerificationCode (email){
 }
 
 
-export default function verifyOtp (otp) {
+export function verifyOtp (otp) {
   return new Promise((resolve,reject)=>{
     if (otpValue==otp){
         resolve({status:true});
