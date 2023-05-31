@@ -2,7 +2,9 @@ import nodemailer from 'nodemailer'
 
 let otpValue
 
-export default function sentOTP(email, otp){
+export default function sendVerificationCode (email){
+  
+  const otp = Math.floor(1000 + Math.random() * 9000);
 
   return new Promise((resolve, reject)=>{
       let transporter = nodemailer.createTransport({
