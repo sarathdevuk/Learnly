@@ -33,7 +33,7 @@ const userSchema = new mongoose.Schema(
 
     phone: {
       type: String,
-      required: [true, " phone is required "],
+      // required: [true, " phone is required "],
     },
 
     picture : {

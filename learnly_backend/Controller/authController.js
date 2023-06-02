@@ -112,12 +112,14 @@ export async function login(req, res) {
 // login with google 
 
 export async function googleAuth (req , res) {
-
+console.log("auth controller");
   try {
+   
     if (req.body.access_token) {
       // fetching user details  from google
       axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${req.body.access_token}`).then( async (response)=> {
         // checking user exist or not
+        console.log("axios.get success");
         const user = await User.findOne({ googleId : response.data.id , loginWithGoogle: true } , {password : 0 }).catch((err)=> {
           res.status(500).json({created : false , message : "internal server error "})
 
