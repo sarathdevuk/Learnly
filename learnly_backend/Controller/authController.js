@@ -2,6 +2,9 @@ import User from "../models/userModel.js";
 import { sendVerificationCode, verifyOtp } from "../helpers/otpVerification.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
+import axios from 'axios'
+import { response } from "express";
+
 const secret_key = process.env.JWT_SECRET_KEY;
 const maxAge = 3 * 24 * 60 * 60;
 
@@ -13,6 +16,7 @@ const createToken = (id) => {
   return jwt.sign({ id }, secret_key, { expiresIn: maxAge });
 };
 
+// post Signup
 export async function generateOtp(req, res) {
   console.log("generate otp");
   try {
@@ -41,6 +45,8 @@ export async function generateOtp(req, res) {
     console.log(error);
   }
 }
+
+// verify otp
 export async function doSignup(req, res) {
   try {
     console.log("generate signup");
@@ -74,6 +80,7 @@ export async function doSignup(req, res) {
   }
 }
 
+// login 
 export async function login(req, res) {
   console.log("generate login");
 
@@ -100,4 +107,52 @@ export async function login(req, res) {
   } catch (error) {
     console.log(error);
   }
+}
+
+// login with google 
+
+export async function googleAuth (req , res) {
+
+  try {
+    if (req.body.access_token) {
+      // fetching user details  from google
+      axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${req.body.access_token}`).then( async (response)=> {
+        // checking user exist or not
+        const user = await User.findOne({ googleId : response.data.id , loginWithGoogle: true } , {password : 0 }).catch((err)=> {
+          res.status(500).json({created : false , message : "internal server error "})
+
+        });
+
+        if(user) {
+          
+          const token = createToken(user._id);
+          res.status(200).json({created:true , user , token , message:"Login Success " })
+
+        }else {
+          // if user not exist creating new account 
+
+          const newUser = await User.create({
+            googleId : response.data.id,
+            firstName: response.data.given_name,
+            lastName : response.data.family_name,
+            email:response.data.email,
+            loginWithGoogle:true ,
+            picture : response.data.picture ,
+            password : response.data.id,
+
+          })
+
+          // create token after creating 
+          const token = createToken(newUser._id)
+          res.status(200).json({created:true , user: newUser , token , message : "Signup Success"})
+        }
+
+      })
+    }else{
+      res.status(401).json({massage:"Not authorized"})
+    }
+  } catch (error) {
+    console.log(error);
+  }
+
 }
