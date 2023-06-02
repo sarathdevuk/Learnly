@@ -14,6 +14,14 @@ app.use(express.json())
 app.use(express.urlencoded({extended:false}))
 app.use(express.static(path.resolve() +"/public"))
 
+app.use( 
+  cors({
+    origin : [process.env.CLIENT_URL],
+    methods : ["GET","POST" , "DELETE" ,"PUT" , "PATCH"] ,
+    credentials: true  
+  })
+);
+
 
 db();
 
