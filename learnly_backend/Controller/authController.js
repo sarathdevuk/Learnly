@@ -1,4 +1,4 @@
-import User from "../models/userModel.js";
+import User from "../models/UserModel.js";
 import { sendVerificationCode, verifyOtp } from "../helpers/otpVerification.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";

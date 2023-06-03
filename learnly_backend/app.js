@@ -6,6 +6,7 @@ import cors from 'cors'
 import path  from 'path'
 import db from './config/dbConnect.js'
 import userRouter from './Routers/userRouter.js'
+import adminRouter from "./Routers/adminRouter.js"
 
 const app = express();
 
@@ -29,6 +30,8 @@ const PORT = process.env.PORT || 5000
 
 
 app.use("/" , userRouter)
+app.use("/admin" , adminRouter)
+
 
 app.listen(PORT ,()=>{
   console.log(`Server Running on Port${PORT}`);
