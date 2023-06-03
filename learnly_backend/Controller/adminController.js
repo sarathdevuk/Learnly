@@ -78,4 +78,34 @@ export async function AdminLogin (req , res) {
 
 //  }
 
+export async function authAdmin (req,res) {
+  try {
+    const authHeader = req.headers.authorization;
+  console.log(authHeader, "auth head");
+  if(authHeader) {
+    const token = authHeader.split(' ')[1];
+    jwt.verify(token , secret_key , async(err , decoded )=>{
+      console.log(decoded);
+      if(err) {
+        res.json({ status: false, message: "Unauthorized" })
+      }else {
+        const admin = Admin.findById({_id : decoded.id });
+        if (admin) {
+          res.json({ status: true, message: "Authorized" });
 
+      } else {
+          res.json({ status: false, message: "Admin not exists" })
+
+      }
+      }
+
+
+    })
+  }else {
+    res.json ({ status : false , message : "Admin not exist "})
+  }
+  } catch (error) {
+    console.log(error);
+  }
+
+}
