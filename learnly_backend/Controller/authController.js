@@ -159,3 +159,37 @@ console.log("auth controller");
   }
 
 }
+
+//  user Authenticate
+
+// function to check user is loged in or not 
+export async function userAuth (req, res){
+  // accessing the token
+  const authHeader = req.headers.authorization ;
+  console.log(authHeader , "auth header");
+  if(authHeader) {
+    const token = authHeader.split(' ')[1];
+    // verifying user token
+    jwt.verify(token , secret_key , async (err , decoded) => {
+      if(err) {
+        res.json({
+          status:false , message : "Unauthorized "
+        })
+      }else {
+        // fetch user details 
+        const user = await User.findOne({ _id : decoded.id , status: true});
+
+        if(user){
+          res.status(200).json({status : true , user , message: "Authorized"})
+        }else{
+          res.json({status : false , message : "User not exists"})
+        }
+      }
+    })
+
+
+  } else {
+    res.json({ staus : false , message :"No token"})
+  }
+
+}
