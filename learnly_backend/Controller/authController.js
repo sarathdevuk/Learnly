@@ -8,7 +8,7 @@ import { response } from "express";
 const secret_key = process.env.JWT_SECRET_KEY;
 const maxAge = 3 * 24 * 60 * 60;
 
-let userDetais;
+let userDetails;
 
 var salt = bcrypt.genSaltSync(10);
 
@@ -35,7 +35,7 @@ export async function generateOtp(req, res) {
       sendVerificationCode(email, req)
         .then((response) => {
           res.json({ status: true, message: "OTP successfully send" });
-          userDetais = req.body;
+          userDetails = req.body;
         })
         .catch((response) => {
           res.json({ status: false, message: "OTP not send" });
@@ -54,9 +54,10 @@ export async function doSignup(req, res) {
     const verified = verifyOtp(req.body.otp);
 
     if (verified) {
-      const { firstName, lastName, email, phone, password } = userDetais;
+      console.log(userDetails);
+      const { firstName, lastName, email, phone, password } = userDetails;
 
-      if ((!firstName, !email, !password, !phone))
+      if ((!firstName, !email, !password ))
         throw new Error("All fields are mandatory");
 
       const hashedPassword = bcrypt.hashSync(password, salt);
