@@ -18,7 +18,7 @@ export async function AdminLogin (req , res) {
 
   console.log("AdminLogin");
   const {email , password } = req.body;
-
+  console.log(req.body);
   try {
      
     if(!email || !password  ) {
@@ -54,22 +54,28 @@ export async function AdminLogin (req , res) {
  }
 
 
- export async function authAdmin (req,res) {
-  console.log("req" ,req.headers.authorization );
-  // const authHeader = req.headers.authorization ;
-  console.log(req.cookies);
-  const token = req.cookies.jwt
-  if(!token) {
-    return res.json({status : false , message: "No Token"})
-  }
-  const verifiedJWT = jwt.verify(token , secret_key ) ;
-  const admin = await Admin.findById (verifiedJWT.id , {password : 0});
+//  export async function authAdmin (req,res) {
+//   console.log("req" ,req.headers.authorization );
+//   // const authHeader = req.headers.authorization ;
+//   // console.log(req);
+//   const token = req?.cookies?.jwt
 
-  if(!admin) {
-    return res.json({status : false , message : "Admin not Exists"});
-  }
+//   console.log(req.cookies)
 
-  return res.json({ status:true , message : "Authorized" })
 
- }
+
+//   if(!token) {
+//     return res.json({status : false , message: "No Token"})
+//   }
+//   const verifiedJWT = jwt.verify(token , secret_key ) ;
+//   const admin = await Admin.findById (verifiedJWT.id , {password : 0});
+
+//   if(!admin) {
+//     return res.json({status : false , message : "Admin not Exists"});
+//   }
+
+//   return res.json({ status:true , message : "Authorized" })
+
+//  }
+
 
