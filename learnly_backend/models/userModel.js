@@ -43,7 +43,12 @@ const userSchema = new mongoose.Schema(
 
     image: {
       type : Object 
+    },
+    status : {
+      type : Boolean ,
+      default : true,
     }
+
 
   },
   {

@@ -100,7 +100,14 @@ export async function login(req, res) {
         return res.json({ login: false, message: "incorrect password" });
       }
       // creating token using user Id
+      // console.log(user._id ,"user id");
       const token = createToken(user._id);
+    //   res.cookie("jwt", token, {
+    //     withCredential: true,
+    //     httpOnly: false,
+    //     maxAge: maxAge * 1000
+    // })
+
       res.status(200).json({ user, token, login: true });
     } else {
       res.json({ login: false, message: "incorrect username or password" });
@@ -127,7 +134,7 @@ console.log("auth controller");
         });
 
         if(user) {
-          
+        
           const token = createToken(user._id);
           res.status(200).json({created:true , user , token , message:"Login Success " })
 
@@ -165,8 +172,8 @@ console.log("auth controller");
 // function to check user is loged in or not 
 export async function userAuth (req, res){
   // accessing the token
-  const authHeader = req.headers.authorization ;
-  console.log(authHeader , "auth header");
+  const authHeader = req.headers.authorization;
+  console.log("userAuth conerfslkdfjkjfk" , authHeader);
   if(authHeader) {
     const token = authHeader.split(' ')[1];
     // verifying user token
@@ -177,8 +184,9 @@ export async function userAuth (req, res){
         })
       }else {
         // fetch user details 
-        const user = await User.findOne({ _id : decoded.id , status: true});
-
+        console.log(decoded);
+        const user = await User.findOne({ _id : decoded.id });
+        console.log("User" , user);
         if(user){
           res.status(200).json({status : true , user , message: "Authorized"})
         }else{
@@ -189,7 +197,7 @@ export async function userAuth (req, res){
 
 
   } else {
-    res.json({ staus : false , message :"No token"})
+    res.json({ status : false , message :"No token"})
   }
 
 }
