@@ -1,0 +1,27 @@
+.section-box {
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+  height: 100vh;
+}
+
+.form-box {
+  box-shadow: 0px 1px 10px 1px;
+  min-width: 400px;
+}
+.input-box-border {
+  border: 1px solid #6255a4 !important;
+}
+.input-box-label {
+  color: #53488d !important;
+}
+.form-btn {
+  background: #6255a4 !important;
+  color: white !important;
+  padding: 10px 45px 10px 45px !important;
+} 
+.success-box-border {
+  border: 1px solid #7ec196;
+  cursor: pointer;
+}
+
