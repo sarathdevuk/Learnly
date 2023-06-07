@@ -6,10 +6,10 @@ import { Link, useNavigate } from 'react-router-dom';
 function BannerWithSearch() {
     const navigate=useNavigate();
     return (
-        <div className='homepage-banner grid sm:grind-cols-1 md:grid-cols-3 ' style={{ backgroundImage: "url(/images/homeBanner.PNG)" }}>
+        <div className='homepage-banner grid sm:grind-cols-3 md:grid-cols-3 ' style={{ backgroundImage: "url(/images/CFM_BANNER-2.jpg" }}>
             <div className='col-span-2 h-full flex flex-col justify-center m-5 md:ml-14'>
                 <div>
-                    <h2 className="search-banner-title font-black text-3xl md:text-5xl mb-10  tracking-wide">
+                    <h2 className="search-banner-title font-black text-3xl md:text-3xl mb-10  tracking-wide">
                     The Premier Platform <br />
                     to Showcase Your Skills
 
@@ -25,7 +25,9 @@ function BannerWithSearch() {
                     </Button>
                 </div>
             </div>
-            <div className='col-span-1 flex justify-center items-center'>
+
+
+            {/* <div className='col-span-1 flex justify-center items-center'>
                 <div className="max-w-md mx-auto hidden lg:inline-block">
                     <div className=" banner-serach-bar relative flex items-center  h-14 border-white rounded-full focus-within:shadow-lg bg-white overflow-hidden">
                         <div className="grid place-items-center h-full w-12 text-gray-300">
@@ -39,9 +41,13 @@ function BannerWithSearch() {
                     </div>
                 </div>
 
-            </div>
+            </div> */}
+
+
         </div>
+        
+
     )
 }
 
-export default BannerWithSearch
+export default BannerWithSearch  

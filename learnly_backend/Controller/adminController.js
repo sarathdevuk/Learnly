@@ -1,7 +1,7 @@
 import Admin from "../models/adminModel.js"
 import jwt from "jsonwebtoken" ;
 import bcrypt from "bcrypt";
-
+import Tutor from '../models/tutorModel.js'
 
 const maxAge = 3 *24 * 60 * 60 ;
 const secret_key = process.env.JWT_SECRET_KEY;
@@ -16,7 +16,6 @@ const createToken = (id) => {
 
 export async function AdminLogin (req , res) {
 
-  console.log("AdminLogin");
   const {email , password } = req.body;
   console.log(req.body);
   try {
@@ -34,7 +33,7 @@ export async function AdminLogin (req , res) {
     if(!validPassword){
       return res.json({message: "Incorrect email or password"})
     }
-
+    // creating token with adminid
     const token = createToken(admin._id);
     res.cookie("jwt" , token , {
       withCredentials: true,
@@ -54,41 +53,21 @@ export async function AdminLogin (req , res) {
  }
 
 
-//  export async function authAdmin (req,res) {
-//   console.log("req" ,req.headers.authorization );
-//   // const authHeader = req.headers.authorization ;
-//   // console.log(req);
-//   const token = req?.cookies?.jwt
-
-//   console.log(req.cookies)
-
-
-
-//   if(!token) {
-//     return res.json({status : false , message: "No Token"})
-//   }
-//   const verifiedJWT = jwt.verify(token , secret_key ) ;
-//   const admin = await Admin.findById (verifiedJWT.id , {password : 0});
-
-//   if(!admin) {
-//     return res.json({status : false , message : "Admin not Exists"});
-//   }
-
-//   return res.json({ status:true , message : "Authorized" })
-
-//  }
-
+// check admin logged in 
 export async function authAdmin (req,res) {
   try {
     const authHeader = req.headers.authorization;
   console.log(authHeader, "auth head");
   if(authHeader) {
+
+    // seperating bearer and token and taking the token 
     const token = authHeader.split(' ')[1];
     jwt.verify(token , secret_key , async(err , decoded )=>{
-      console.log(decoded);
+    
       if(err) {
         res.json({ status: false, message: "Unauthorized" })
       }else {
+        // finding the admin with the decoded id
         const admin = Admin.findById({_id : decoded.id });
         if (admin) {
           res.json({ status: true, message: "Authorized" });
@@ -109,3 +88,6 @@ export async function authAdmin (req,res) {
   }
 
 }
+
+
+

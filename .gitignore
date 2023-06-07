@@ -25,7 +25,7 @@ dist-ssr
 *.sw?
 
 # env
-learnly_backend/.env
+learnly_backend/.env  
 learnly_frontend/.env
 client/.env
 client/node_modules
