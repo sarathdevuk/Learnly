@@ -135,7 +135,7 @@ try {
 
 
 
-export async function getAllTeachers(req, res) {
+export async function getAllTutors(req, res) {
 
   try {
     const tutor =  await Tutor.find({} ,{password: 0 })
