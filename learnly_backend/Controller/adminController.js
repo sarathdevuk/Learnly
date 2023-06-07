@@ -91,3 +91,12 @@ export async function authAdmin (req,res) {
 
 
 
+export async function getAllTeachers(req, res) {
+
+  try {
+    const tutor =  await Tutor.find({} ,{password: 0 })
+     res.status(200).json({status : true , tutor})
+  } catch (error) {
+    res.status(500).json({created : false , message:"" })
+  }
+}
