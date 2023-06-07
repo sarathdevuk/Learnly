@@ -116,3 +116,23 @@ export async function blockTutor (){
     res.status(500).json({ status : false , message: "Internal server Error"})
   }
 }
+
+export async function unBlockTutor () {
+  try {
+    // find tutor with id and update the status
+    const tutor = await Tutor.findByIdAndUpdate(req.params.id , 
+      {$set : {status : true}} , {new : true} )
+
+      if(tutor){
+        res.status(200).json({ status : true , message : "Tutor Unblocked Successfully"})
+      }else{
+        res.status(404).json({status : false , message : "Something went wrong "})
+      }
+
+  } catch (error) {
+  console.log(error);
+  res.status(500).json({status : false , message : "Internal server error" })    
+  }
+}
+
+
