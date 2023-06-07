@@ -1,4 +1,4 @@
-import User from "../models/UserModel.js";
+import User from "../models/userModel.js";
 import { sendVerificationCode, verifyOtp } from "../helpers/otpVerification.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
@@ -8,7 +8,7 @@ import { response } from "express";
 const secret_key = process.env.JWT_SECRET_KEY;
 const maxAge = 3 * 24 * 60 * 60;
 
-let userDetails;
+let userDetails ;
 
 var salt = bcrypt.genSaltSync(10);
 

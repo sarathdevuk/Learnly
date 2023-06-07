@@ -2,6 +2,8 @@ import Admin from "../models/adminModel.js"
 import jwt from "jsonwebtoken" ;
 import bcrypt from "bcrypt";
 import Tutor from '../models/tutorModel.js'
+import cryptoRandomSting from 'crypto-random-string'
+import { sendEmail } from "../helpers/sendEmail.js";
 
 const maxAge = 3 *24 * 60 * 60 ;
 const secret_key = process.env.JWT_SECRET_KEY;
@@ -86,6 +88,48 @@ export async function authAdmin (req,res) {
   } catch (error) {
     console.log(error);
   }
+
+}
+
+
+export async function addTutor (req, res) {
+
+try {
+  const {firstName , lastName , email ,  phone , place  } = req.body;
+// creating random password for tutor 
+  const randomPassword = cryptoRandomSting({length:6 , type: 'numeric'})
+  console.log(password);
+
+  const tutor = Tutor.findOne({email:email}); 
+
+  if(tutor){
+   return res.json({created:false , message :"Tutor already exists"});
+  }
+
+  const newTutor = await Tutor.create({
+    firstName,
+    lastName,
+    email ,
+    password : randomPassword ,
+    phone , 
+    place
+
+  })
+
+  console.log(newTutor);
+  // here send the password to the tutor via email 
+    const emailSend = await sendEmail(email , password);
+
+    if(emailSend.status) {
+        res.json({ created : true , message : " Tutor Details added successfully"})
+    }
+    else {
+      res.json({created : false ,  message : "Email not send" })
+    }
+} catch (error) {
+  console.log(error);
+  res.status(500).json("internal server error") ;
+}
 
 }
 
