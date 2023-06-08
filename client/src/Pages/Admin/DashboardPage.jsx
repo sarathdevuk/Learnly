@@ -1,10 +1,13 @@
 import React from "react";
-import AdminHeader from "../../Componants/Admin/Header/AdminHeader";
-
+import Header from "../../Componants/Header/AdminHeader";
+import Sidebar from "../../Componants/Sidebar/Sidebar";
 function DashboardPage() {
 
   return(
-    <AdminHeader role={'admin'}/>
+    <>
+    <Sidebar admin={true} />
+    <Header role={'admin'} />
+    </>
   )
 }
 
