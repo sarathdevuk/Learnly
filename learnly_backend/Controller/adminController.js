@@ -2,8 +2,10 @@ import Admin from "../models/adminModel.js"
 import jwt from "jsonwebtoken" ;
 import bcrypt from "bcrypt";
 import Tutor from '../models/tutorModel.js'
+import User from '../models/userModel.js'
 import cryptoRandomSting from 'crypto-random-string'
 import { sendEmail } from "../helpers/sendEmail.js";
+
 
 const maxAge = 3 *24 * 60 * 60 ;
 const secret_key = process.env.JWT_SECRET_KEY;
@@ -179,4 +181,19 @@ export async function unBlockTutor () {
   }
 }
 
+
+export async function getAllUsers (req , res) {  
+try {
+  const users = User.find({password:0})
+
+  if(users) {
+    res.json({ status: true , users })
+  }else {
+    return res(404).json({status:false , message: "No user found"})
+  }
+} catch (error) {
+  res.status(500).json({status : false , message : "Internal server Error"})
+}
+
+}
 
