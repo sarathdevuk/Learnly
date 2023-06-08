@@ -183,17 +183,35 @@ export async function unBlockTutor () {
 
 
 export async function getAllUsers (req , res) {  
-try {
-  const users = User.find({password:0})
+  try {
+     const users = User.find({password:0})
 
-  if(users) {
-    res.json({ status: true , users })
-  }else {
+     if (users) {
+       res.json({ status: true , users }) 
+     }else {
     return res(404).json({status:false , message: "No user found"})
   }
-} catch (error) {
+ } catch (error) {
   res.status(500).json({status : false , message : "Internal server Error"})
-}
+ }
 
 }
+
+export async function blockUser (req, res) {
+  try {
+    
+  const user = User.findByIdAndUpdate(req.params.id ,  
+    {$set : {status : false}} , {new: true});
+
+    if(user) {
+      res.status(200).json({status : true , message : "user Blocked successfully"})
+    }else {
+      res.status(500).json({status : false , message : "User not found"})
+    }
+
+  } catch (error) {
+    res.status(500).json({status : false , message : " Internal Sever Error"})
+  }
+}
+
 
