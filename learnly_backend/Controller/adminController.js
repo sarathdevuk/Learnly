@@ -214,4 +214,21 @@ export async function blockUser (req, res) {
   }
 }
 
+export async function unBlockUser (req, res) {
+  try {
+    
+  const user = User.findByIdAndUpdate(req.params.id ,  
+    {$set : {status : true}} , {new: true});
+
+    if(user) {
+      res.status(200).json({status : true , message : "user unBlocked successfully"})
+    }else {
+      res.status(500).json({status : false , message : "User not found"})
+    }
+
+  } catch (error) {
+    res.status(500).json({status : false , message : " Internal Sever Error"})
+  }
+}
+
 
