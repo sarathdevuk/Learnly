@@ -1,20 +1,21 @@
 import React , {useEffect , useState} from "react";
 import "./AdminHeader.scss";
 import { useSelector , useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { Link , useNavigate } from "react-router-dom";
+import { setSidebar } from "../../Redux/Features/adminSidebarToogle";
 
 
 
 function Header({ role }) {
-  const sidebarToogle = useSelector((state) => state.adminSidebarToggle)
-  const [showDiv , setShowDiv] = useState(false) ;
+  const sidebarToogle = useSelector((state) => state.adminSidebarToogle)
   const dispatch = useDispatch()
   const navigate = useNavigate();
+  const [showDiv , setShowDiv] = useState(false) ;
   
 
   return (
     <div className="p-3" >
-     <nav style={{ border: "1px solid #e5e7eb", position: 'fixed', width: '100%', top: '0', left: '0', right: '0' }} className="relative  z-50 px-4 py-4 flex justify-between items-center bg-white">
+     <nav style={{ border: "1px solid #e5e7eb", position: 'fixed', width: '100%', top: '0', left: '0', right: '0' }} className="relative  z-50 px-4 py-4 flex justify-between items-center bg-white shadow-md">
                 <a className="hidden md:flex text-3xl font-bold leading-none" href="#">
                     <h1 className='text-violet-800 text-2xl'>Learnly</h1>
                 </a>

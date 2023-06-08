@@ -5,8 +5,8 @@ function DashboardPage() {
 
   return(
     <>
-    <Sidebar admin={true} />
     <Header role={'admin'} />
+    <Sidebar admin={true} />
     </>
   )
 }

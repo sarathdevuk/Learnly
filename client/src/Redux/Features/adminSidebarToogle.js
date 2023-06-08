@@ -4,8 +4,8 @@ const initialState = {
   sidebar : true
 }
 
-const adminSidebarToggle = createSlice({
-  name : "adminSidebarToggle",
+const adminSidebarToogle = createSlice({
+  name : "adminSidebarToogle",
   initialState ,
   reducers: {
     setSidebar : (state , action) => {
@@ -16,6 +16,6 @@ const adminSidebarToggle = createSlice({
    
 })
 
-export const {setSidebar} = adminSidebarToggle
+export const {setSidebar} = adminSidebarToogle.actions
 
-export default adminSidebarToggle.reducer;
+export default adminSidebarToogle.reducer;
