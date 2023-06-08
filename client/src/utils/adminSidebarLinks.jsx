@@ -28,7 +28,7 @@ const adminLinks = [
   {
     title : 'User' ,
     links : [
-      {subTitle : "Users" , link : "/admin/course" , icon : <HiOutlineClipboardList size={22}/>}
+      {subTitle : "Users" , link : "/admin/users" , icon : <HiOutlineClipboardList size={22}/>}
     ]
   },
 
