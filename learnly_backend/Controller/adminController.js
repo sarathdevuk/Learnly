@@ -100,9 +100,9 @@ try {
   const {firstName , lastName , email ,  phone , place  } = req.body;
 // creating random password for tutor 
   const randomPassword = cryptoRandomSting({length:6 , type: 'numeric'})
-  console.log(password);
+  console.log(randomPassword);
 
-  const tutor = Tutor.findOne({email:email}); 
+  const tutor =await Tutor.findOne({email:email}); 
 
   if(tutor){
    return res.json({created:false , message :"Tutor already exists"});
@@ -120,7 +120,7 @@ try {
 
   console.log(newTutor);
   // here send the password to the tutor via email 
-    const emailSend = await sendEmail(email , password);
+    const emailSend = await sendEmail(email , randomPassword);
 
     if(emailSend.status) {
         res.json({ created : true , message : " Tutor Details added successfully"})
