@@ -2,11 +2,35 @@ import React , {useState} from "react";
 import LoadingButton from "../../User/LoadingButton/LoadingButton";
 import { ToastContainer ,  toast } from "react-toastify";
 import { error } from "console";
-import { Formik , useFormik } from "formik";
+import { useFormik } from "formik";
+import * as Yup from 'yup' ;
+import { addTutor } from "../../../services/adminApi";
 
 
 
 function AddTutor() {
+
+  const validate = Yup.object({
+    firstName : Yup.string()
+    .max(15, 'Must be 15 charecters or less')
+    .required('First Name is Required'),
+    lastName : Yup.string()
+    .max(15, 'Must be 15 charecters or less')
+    .required('Last Name is Required'),
+    email : Yup.string()
+    .email('Invalid email Address')
+    .required('Email is required '),
+    phone : Yup.string()
+    .max(10 ,"Please enter a Valid Phone Number")
+    .min(10 , "Please Enter a valid phone Number") 
+    .required("Phone Number is required"),
+    place : Yup.string()
+    .max(15 , 'Must be 15 charecters or less')
+    .required('Place is Required')
+
+  })
+
+
   const [loading , setLoading] = useState(false) ;
 
 
@@ -31,8 +55,32 @@ function AddTutor() {
       place: "",
 
     },
-    validationSchema : va
+    validationSchema : validate ,
+    onSubmit : async(values) =>{
+      setLoading(!loading) ;
+      const{ data } = await addTutor(values) ;
+
+      setLoading(false) 
+
+      if( data.created ) {
+        console.log(data);
+        successMessage(data.message)
+      }else {
+        console.log(data);
+        generateError(data.message)
+      }
+    }
+
   })
+
+  const handleChange = (e) => {
+    formik.setValues((prev) =>{
+       const formFields = {...prev}
+       formFields[e.target.name] =e.target.value ;
+       return formFields ; 
+      
+      })
+  }
 
 
   return (
