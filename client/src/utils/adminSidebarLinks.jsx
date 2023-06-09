@@ -16,7 +16,7 @@ const adminLinks = [
     title : 'Tutors',
     links : [
       {subTitle : "Add Tutor" , link : "/admin/add-tutor" , icon : <FaChalkboardTeacher size={22}/> },
-      {subTitle : "List Tutor" , link : "/admin/tutor" , icon : <HiOutlineClipboardList size={22}/> }
+      {subTitle : "List Tutor" , link : "/admin/tutors" , icon : <HiOutlineClipboardList size={22}/> }
     ]
   },
   {

@@ -7,6 +7,7 @@ function DashboardPage() {
     <>
     <Header role={'admin'} />
     <Sidebar admin={true} />
+    
     </>
   )
 }

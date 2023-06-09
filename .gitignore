@@ -29,3 +29,5 @@ learnly_backend/.env
 learnly_frontend/.env
 client/.env
 client/node_modules
+server/.env
+server/node_modules
