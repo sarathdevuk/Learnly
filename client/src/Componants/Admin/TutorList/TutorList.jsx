@@ -17,8 +17,9 @@ function TutorList() {
   
   // // get teacher Details
    
-  const getTutorsDetails = (page) => {
-    getTutors(page).then((response => {
+  const getTutorsDetails = () => {
+    getTutors().then((response => {
+      console.log(response.data);
       setTutor(response.data.tutors)
       setpagination(res.data.pagination) 
     }))

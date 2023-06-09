@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from 'bcrypt' ;
 
 const tutorSchema = new mongoose.Schema(
 {
@@ -17,7 +18,7 @@ const tutorSchema = new mongoose.Schema(
   phone : {
     type : String ,
     requird : [true , "Tutor Phone No is required"],
-    unique : true
+  
   },
   place : {
     type : String ,
@@ -42,6 +43,10 @@ const tutorSchema = new mongoose.Schema(
   timestamps : true
 }
 )
+
+tutorSchema.pre("save" , async function (next) {
+  this.password = await bcrypt.hash(this.password , 10) 
+} )
 
 const TutorModel = mongoose.model("Tutor", tutorSchema)
 

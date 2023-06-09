@@ -18,7 +18,7 @@
 //     className="loading-btn w-auto form-btn mt-2 font-medium rounded"
 //     onClick = {props.onClick}>
 
-//       <span className=  {`spinner ${props.loading ? 'active' : ''}`}>
+//       <span className=  {`spinner ${props.loading ? 'active z-30' : ''}`}>
 
 //         <i className="bx bx-loader-alt bx-spin"></i>
 //       </span>
@@ -38,6 +38,16 @@
 // }
 
 // export default Button ;
+
+
+
+
+
+
+
+
+
+
 
 // import { useEffect, useRef } from "react";
 // import PropTypes from 'prop-types';
@@ -77,6 +87,14 @@
 // }
 
 // export default Button;
+
+
+
+
+
+
+
+
 
 import React from "react";
 import PropTypes from 'prop-types';

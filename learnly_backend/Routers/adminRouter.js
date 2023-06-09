@@ -8,7 +8,7 @@ router.post("/login" , AdminLogin);
 
 // Admin Tutor Management
 router.post("/add-tutor" , addTutor);
-router.get ("/tutor" , getAllTutors) ;
+router.get ("/tutors" , getAllTutors) ;
 router.get("/block-tutor/:id" , blockTutor);
 router.get("/unblock-tutor/:id" , unBlockTutor);
 

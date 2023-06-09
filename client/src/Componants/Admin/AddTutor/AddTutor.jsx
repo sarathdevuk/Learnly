@@ -94,8 +94,8 @@ function AddTutor() {
       <div className="space-y-12">
     
         <div className="border-b border-gray-900/10 pb-12">
-          <h2 className="text-base font-semibold leading-7 text-gray-900">Tutor Information</h2>
-          <p className="mt-1 text-sm leading-6 text-gray-600"></p>
+          <h2 className="text-base font-semibold leading-7 text-gray-900"> Provide Tutor information  </h2>
+          {/* <p className="mt-1 text-sm leading-6 text-gray-600"></p> */}
 
           <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
             <div className="sm:col-span-3">
@@ -112,7 +112,7 @@ function AddTutor() {
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
                   {formik.touched.firstName && formik.errors.firstName ? (
-                            <p className="text-red-500 text-xs italic">{formik.errors.firstName}</p>
+                            <p className="mt-2 text-red-500 text-xs italic">{formik.errors.firstName}</p>
                         ) : null}
 
 
@@ -133,7 +133,7 @@ function AddTutor() {
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
                  {formik.touched.lastName && formik.errors.lastName ? (
-                            <p className="text-red-500 text-xs italic">{formik.errors.lastName}</p>
+                            <p className=" mt-2 text-red-500 text-xs italic">{formik.errors.lastName}</p>
                         ) : null}
               </div>
             </div>
@@ -152,13 +152,13 @@ function AddTutor() {
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
                   {formik.touched.email && formik.errors.email ? (
-                            <p className="text-red-500 text-xs italic">{formik.errors.email}</p>
+                            <p className=" mt-2 text-red-500 text-xs italic">{formik.errors.email}</p>
                         ) : null}
               </div>
             </div>
 
             <div className="sm:col-span-3">
-              <label htmlFor="last-name" className="block text-sm font-medium leading-6 text-gray-900">
+              <label htmlFor="last-name" className="block text-xs font-medium leading-6 text-gray-900">
                 Phone Number
               </label>
               <div className="mt-2">
@@ -171,7 +171,7 @@ function AddTutor() {
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
                   {formik.touched.phone && formik.errors.phone ? (
-                 <p className="text-red-500 text-xs italic">{formik.errors.phone}</p>
+                 <p className=" mt-2 text-red-500 text-xs italic">{formik.errors.phone}</p>
                   ) : null}
               </div>
             </div>
@@ -209,7 +209,7 @@ function AddTutor() {
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 />
                 {formik.touched.place && formik.errors.place ? (
-               <p className="text-red-500 text-xs italic">{formik.errors.phone}</p>
+               <p className=" mt-2 text-red-500 text-xs italic">{formik.errors.phone}</p>
                ) : null}
 
               </div>
@@ -224,6 +224,8 @@ function AddTutor() {
       <LoadingButton onClick={ () => formik.handleSubmit()} loading={loading}>
           Submit
         </LoadingButton>
+
+        {/* <span className="loading loading-spinner text-primary"></span> */}
     
       {/* <button type="button" class="text-white bg-purple-700 hover:bg-purple-800 focus:outline-none focus:ring-4 focus:ring-purple-300 font-medium rounded-sm text-sm px-5 py-2.5 text-center mb-2 dark:bg-purple-600 dark:hover:bg-purple-700 dark:focus:ring-purple-900">Create Tutor</button> */}
       </div>

@@ -98,15 +98,21 @@ export async function addTutor (req, res) {
 
 try {
   const {firstName , lastName , email ,  phone , place  } = req.body;
+
+  if(!firstName , !lastName , !email , !phone , !place) {
+    throw new Error("All fields are mandatory")
+  }
+
 // creating random password for tutor 
   const randomPassword = cryptoRandomSting({length:6 , type: 'numeric'})
   console.log(randomPassword);
 
-  const tutor =await Tutor.findOne({email:email}); 
+  const tutor = await Tutor.findOne({email:email , phone : phone }); 
 
   if(tutor){
    return res.json({created:false , message :"Tutor already exists"});
   }
+ 
 
   const newTutor = await Tutor.create({
     firstName,
@@ -138,10 +144,11 @@ try {
 
 
 export async function getAllTutors(req, res) {
-
+  console.log("tutores");
   try {
-    const tutor =  await Tutor.find({} ,{password: 0 })
-     res.status(200).json({status : true , tutor})
+    const tutors =  await Tutor.find({} ,{password: 0 })
+    console.log("get tutors ,  " , tutors);
+     res.status(200).json({status : true , tutors})
   } catch (error) {
     res.status(500).json({created : false , message:"" })
   }
