@@ -1,13 +1,39 @@
 import React , {useState} from "react";
 import LoadingButton from "../../User/LoadingButton/LoadingButton";
 import { ToastContainer ,  toast } from "react-toastify";
+import { error } from "console";
+import { Formik , useFormik } from "formik";
+
 
 
 function AddTutor() {
   const [loading , setLoading] = useState(false) ;
 
 
-  
+  const generateError = (error) =>{
+    toast.error(err , {
+      position : "top-center"
+    })
+  }
+
+  const successMessage = (message) => {
+    toast.success(message , {
+      position : "top-center"
+    } )
+  }
+
+  const formik = useFormik({
+    initialValues: {
+      firstName : "",
+      lastName : "" ,
+      email : "",
+      phone : "",
+      place: "",
+
+    },
+    validationSchema : va
+  })
+
 
   return (
     <div className="form-wrap w-1/1 m-6 lg:mt-10 ">
