@@ -12,14 +12,14 @@ function TutorList() {
 
   // initial load
   useEffect(()=> {
-    getTutorsDetails(1)
+    getTutorsDetails()
   },[])
   
   // // get teacher Details
    
   const getTutorsDetails = () => {
     getTutors().then((response => {
-      console.log(response.data);
+
       setTutor(response.data.tutors)
       setpagination(res.data.pagination) 
     }))
@@ -58,7 +58,7 @@ function TutorList() {
       blockTutor(tutorId).then((response)=> {
         if(response.data.status) {
           setTutor(tutor.map((obj) => {
-            if(obj._id = tutorId) {
+            if(obj._id == tutorId) {
               obj.status = false
             }
             return obj
@@ -157,7 +157,7 @@ function TutorList() {
                                         </td>
                                         <td className="px-6 py-4">
                                             {obj.status ?
-                                                <span className='text-green-600'>True</span>
+                                                <span className='text-green-600'>Active</span>
                                                 :
                                                 <span className='text-red-600'>Blocked</span>
                                             }

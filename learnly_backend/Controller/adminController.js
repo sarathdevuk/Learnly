@@ -154,7 +154,7 @@ export async function getAllTutors(req, res) {
   }
 }
 
-export async function blockTutor (){
+export async function blockTutor (req , res){
   try {
 
     // find tutor with id and update the status
@@ -171,7 +171,7 @@ export async function blockTutor (){
 }
 
 
-export async function unBlockTutor () {
+export async function unBlockTutor (req , res) {
   try {
     // find tutor with id and update the status
     const tutor = await Tutor.findByIdAndUpdate(req.params.id , 
