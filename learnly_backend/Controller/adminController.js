@@ -163,6 +163,7 @@ export async function blockTutor (){
   }
 }
 
+
 export async function unBlockTutor () {
   try {
     // find tutor with id and update the status
@@ -182,9 +183,11 @@ export async function unBlockTutor () {
 }
 
 
+
 export async function getAllUsers (req , res) {  
+ 
   try {
-     const users = User.find({password:0})
+     const users =await User.find()
 
      if (users) {
        res.json({ status: true , users }) 
@@ -197,13 +200,15 @@ export async function getAllUsers (req , res) {
 
 }
 
+
 export async function blockUser (req, res) {
   try {
-    
-  const user = User.findByIdAndUpdate(req.params.id ,  
+    console.log("get "  );
+  const user =await User.findByIdAndUpdate(req.params.id ,  
     {$set : {status : false}} , {new: true});
 
     if(user) {
+      console.log("suerersfs" , user);
       res.status(200).json({status : true , message : "user Blocked successfully"})
     }else {
       res.status(500).json({status : false , message : "User not found"})
@@ -214,10 +219,12 @@ export async function blockUser (req, res) {
   }
 }
 
+
 export async function unBlockUser (req, res) {
+  
   try {
     
-  const user = User.findByIdAndUpdate(req.params.id ,  
+  const user =await User.findByIdAndUpdate(req.params.id ,  
     {$set : {status : true}} , {new: true});
 
     if(user) {

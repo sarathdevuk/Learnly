@@ -94,6 +94,10 @@ export async function login(req, res) {
 
     const user = await User.findOne({ email });
     if (user) {
+      console.log(user.status);
+      if(!user.status) {
+        return res.json({ login : false , message :"Sorry You are banned"})
+      }
       const validPassword = await bcrypt.compare(password, user.password);
 
       if (!validPassword) {
@@ -134,9 +138,15 @@ console.log("auth controller");
         });
 
         if(user) {
+// check the user is banned or not 
+          if(user.status) {
+            
+            const token = createToken(user._id);
+            res.status(200).json({created:true , user , token , message:"Login Success " })
+          }else {
+            res.status(404).json({message : "Sorry you are banned..!"})
+          }
         
-          const token = createToken(user._id);
-          res.status(200).json({created:true , user , token , message:"Login Success " })
 
         }else {
           // if user not exist creating new account 
@@ -185,8 +195,8 @@ export async function userAuth (req, res){
       }else {
         // fetch user details 
         console.log(decoded);
-        const user = await User.findOne({ _id : decoded.id });
-        console.log("User" , user);
+        const user = await User.findOne({ _id : decoded.id ,status:true });
+      
         if(user){
           res.status(200).json({status : true , user , message: "Authorized"})
         }else{
