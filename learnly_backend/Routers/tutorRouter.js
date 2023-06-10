@@ -1,9 +1,11 @@
 import express from "express";
-import { tutorAuth, tutorLogin } from "../Controller/tutorController";
+import { tutorAuth, tutorLogin } from "../Controller/tutorController.js";
 
 const router = express.Router()
 
 
-router.get("/tutor-auth" , tutorAuth);
+router.get("/auth" , tutorAuth);
 
-router.post("/login" , tutorLogin)
+router.post("/login" , tutorLogin);
+
+export default router

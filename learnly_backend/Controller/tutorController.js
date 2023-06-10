@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken'
 import Tutor from '../models/tutorModel.js'
 import bcrypt from 'bcrypt'
 
-const secret_key = process.env.SECRET_KEY
+const secret_key = process.env.JWT_SECRET_KEY
 const maxAge = 3* 24 * 60 * 60; 
 
 
@@ -15,9 +15,10 @@ const createToken = (id)=> {
 
 
 export async function tutorLogin (req, res) {
-
+  console.log("tutor login");
 try {
   const { email , password } = req.body ;
+
   const tutor = await Tutor.findOne ({email : email })
   
   if(!tutor) {
@@ -25,25 +26,26 @@ try {
   }
 
   // verify the password
-  const validPassword = bcrypt.compare(password , tutor.password);
+  const validPassword = await bcrypt.compare(password , tutor.password);
+  console.log("valid" , validPassword);
 
   if (!validPassword) {
     return res.json({ login : false , message : "incorrect password"})
   }
-
+  console.log("secret" ,secret_key);
   const token = createToken(tutor._id)
 
   tutor.password = "empty"
-  res.status(200).json({ login : true , token , login : true })
+  res.status(200).json({ login : true , token , tutor })
 } catch (error) {
- 
+ console.log(error);
   res.json({login : false , message : "Internal serverError"})
 }
 
 }
 
 export function tutorAuth (req , res) {
-  
+  console.log("tutor auth ro");
 try {
   const authHeader = req.headers.authorization ;
   if (!authHeader) {

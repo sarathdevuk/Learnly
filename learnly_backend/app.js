@@ -7,6 +7,8 @@ import path  from 'path'
 import db from './config/dbConnect.js'
 import userRouter from './Routers/userRouter.js'
 import adminRouter from "./Routers/adminRouter.js"
+import tutorRouter from './Routers/tutorRouter.js'
+
 
 const app = express();
 
@@ -31,6 +33,7 @@ const PORT = process.env.PORT || 5000
 
 app.use("/" , userRouter)
 app.use("/admin" , adminRouter)
+app.use("/tutor" , tutorRouter)
 
 
 app.listen(PORT ,()=>{

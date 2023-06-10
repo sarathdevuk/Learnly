@@ -5,11 +5,12 @@ import { useDispatch  } from 'react-redux';
 import { setUserDetails } from '../../../Redux/Features/userSlice';
 import { setAdminDetails } from '../../../Redux/Features/adminSlice';
 import { adminLogin, authAdmin } from '../../../services/adminApi';
-import { authTutor } from '../../../services/tutorApi';
+import { authTutor, tutorLogin } from '../../../services/tutorApi';
 import { authUser , loginWithGoogle, userLogin } from '../../../services/userApi';
 import { ToastContainer , toast } from "react-toastify";
 import { useGoogleLogin } from '@react-oauth/google';
-import { tutorLogin } from '../../../../../learnly_backend/Controller/tutorController';
+import { setTutorDetails } from '../../../Redux/Features/tutorSlice';
+
 
 
 function Login(props){
@@ -33,6 +34,7 @@ useEffect(() => {
 
     })
   }else if(props.tutor){
+    console.log("tutor auth check ");
     authTutor().then((response)=>{
       if(response.data.status) navigate('/tutor/dashboard'); 
     })
@@ -148,10 +150,33 @@ const handleAdminSubmit = async () => {
   }
 }
 const handleTutorSubmit = async () => {
+  console.log("tutorsubmit");
     try {
-   
+      const {data} = await tutorLogin(loginData)
+      if(data.login) {
+        console.log("data" , data);
+        localStorage.setItem('tutorJwtToken' , data.token)  ;
+        
+        dispatch (
+          setTutorDetails({
+            id : data.tutor._id ,
+            email : data.tutor.email ,
+            firstName : data.tutor.firstName,
+            lastName : data.tutor.lastName ,
+            login : data.tutor.login,
+            token : data.tutor.token ,
+
+          })
+        )
+          console.log("navigated");
+        navigate('/tutor/dashboard')
+      } else {
+        generateError(data.message)
+      }
+
+
     } catch (error) {
-      
+        generateError(error.message)      
     }
 }
 
