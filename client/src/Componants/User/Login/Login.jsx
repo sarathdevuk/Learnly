@@ -9,6 +9,7 @@ import { authTutor } from '../../../services/tutorApi';
 import { authUser , loginWithGoogle, userLogin } from '../../../services/userApi';
 import { ToastContainer , toast } from "react-toastify";
 import { useGoogleLogin } from '@react-oauth/google';
+import { tutorLogin } from '../../../../../learnly_backend/Controller/tutorController';
 
 
 function Login(props){
@@ -28,12 +29,12 @@ useEffect(() => {
   if(props.admin) {
     authAdmin().then((response) =>{
       console.log("navigated to dash");
-      if(response.data.status) navigate('/admin/dashboard')
+      if(response.data.status) navigate('/admin/dashboard'); 
 
     })
   }else if(props.tutor){
     authTutor().then((response)=>{
-      if(response.data.status) navigate('/')
+      if(response.data.status) navigate('/tutor/dashboard'); 
     })
   }else{
     authUser().then((response)=>{
@@ -147,7 +148,11 @@ const handleAdminSubmit = async () => {
   }
 }
 const handleTutorSubmit = async () => {
-
+    try {
+   
+    } catch (error) {
+      
+    }
 }
 
 
