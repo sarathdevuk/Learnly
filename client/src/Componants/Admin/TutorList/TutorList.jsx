@@ -19,7 +19,7 @@ function TutorList() {
    
   const getTutorsDetails = () => {
     getTutors().then((response => {
-
+        console.log("response" , response.data);
       setTutor(response.data.tutors)
       setpagination(res.data.pagination) 
     }))

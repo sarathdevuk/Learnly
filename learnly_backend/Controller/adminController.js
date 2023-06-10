@@ -94,7 +94,8 @@ export async function authAdmin (req,res) {
 }
 
 
-export async function addTutor (req, res) {
+export async function addTutor (req, res) { 
+  console.log("add Tutor");
 
 try {
   const {firstName , lastName , email ,  phone , place  } = req.body;
@@ -107,7 +108,11 @@ try {
   const randomPassword = cryptoRandomSting({length:6 , type: 'numeric'})
   console.log(randomPassword);
 
-  const tutor = await Tutor.findOne({email:email , phone : phone }); 
+  const tutor = await Tutor.findOne({
+    $or:[{email:email} , {phone : phone }]
+  }); 
+
+  console.log(tutor  ,"tutoeor");
 
   if(tutor){
    return res.json({created:false , message :"Tutor already exists"});
