@@ -34,7 +34,7 @@ function AddTutor() {
 
 
   const generateError = (error) =>{
-    toast.error(err , {
+    toast.error(error , {
       position : "top-center"
     })
   }
