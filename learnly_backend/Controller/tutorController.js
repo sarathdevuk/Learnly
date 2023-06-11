@@ -73,3 +73,35 @@ try {
 
 }
 
+
+export async function changePassword (req , res ) {
+
+ try {
+  const {password} = req.body ;
+  // find tutor with id 
+  let tutor = await Tutor.findOne({_id : res.tutorId})
+  if(tutor) {
+    // verifying the old password
+    const validPassword = await bcrypt.compare(password , tutor.password)
+    if(!validPassword) {
+      throw new Error("Incorrect Old password");
+    }
+
+    // creating new hashed password
+    const newPassword = await bcrypt.hash(password  , 10)  
+
+    // updating that hashed password
+     Tutor.updataOne({_id : res.tutorId } , {
+      $set : { password : newPassword  }
+    }).then(() => {
+      res.status(200).json({status : true , message : "Password updated Successfully"})
+    })
+
+  }else{
+    throw new Error("Tutor Not exist ")
+  }
+ } catch (error) {
+  res.json({ status : false , message : error.message})
+ }
+
+}

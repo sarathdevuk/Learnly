@@ -19,6 +19,19 @@ import { ToastContainer , toast } from "react-toastify";
       .oneOf([Yup.ref('passwod') , null] , 'Password and ConfirmPassword must match' )
     })
 
+    // const formik = useFormik({
+    //   initialValues : {
+    //     oldpassword : "",
+    //     password : "",
+    //     confirmpassword : "",
+    //   },
+    //   validationSchema: validate,
+    //   onSubmit:async (values) => {
+      
+    //   }
+    
+    // })
+
 
   return (
     <div className="h-screen flex justify-center items-center ">
