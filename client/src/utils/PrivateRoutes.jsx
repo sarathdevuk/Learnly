@@ -4,6 +4,7 @@ import { toast } from 'react-toastify'
 import { useDispatch } from 'react-redux';
 import  { setUserDetails } from '../Redux/Features/userSlice'
 import {authUser} from '../services/userApi'
+import { authAdmin } from '../services/adminApi';
 
 function PrivateRoutes( {role , route}) {
 
@@ -13,7 +14,7 @@ function PrivateRoutes( {role , route}) {
 
 
   useEffect (()=> {
-    if(role === 'user') [
+    if(role === 'user') {
       authUser().then((response) => {
         if(response.data.status == false) {
           localStorage.removeItem('JwtToken')
@@ -32,7 +33,15 @@ function PrivateRoutes( {role , route}) {
         setAuth(response.data?.status)
         navigate('/')
       })
-    ]
+    }else if ( role === 'admin') {
+        authAdmin().then((response) => {
+          setAuth(response.data.status)
+        }).catch((response) => {
+          toast.error(response.message , { position :"top-center" })
+          setAuth(response.data?.status)
+          navigate('/');
+        })
+    }
   },[])
 
   if( auth == null) return 
