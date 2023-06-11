@@ -1,11 +1,23 @@
 import React from "react";
-// import { useFormik , Formik } from "formik";
+import { useFormik , Formik } from "formik";
 
-// import * as Yup from 'yup' ;
-// import { ToastContainer , toast } from "react-toastify";
+import * as Yup from 'yup' ;
+import { ToastContainer , toast } from "react-toastify";
+
 
 
   function ChangePassword (){
+
+    const validate = Yup.object({
+      oldpassword : Yup.string()
+      .min(6 , "Password must be atleat 6 charecters")
+      .required('Password is Required'),
+      password : Yup.string()
+      .min(6 , "Password must be atleat 6 charecters")
+      .required('Password is Required'),
+      confirmpassword : Yup.string()
+      .oneOf([Yup.ref('passwod') , null] , 'Password and ConfirmPassword must match' )
+    })
 
 
   return (
