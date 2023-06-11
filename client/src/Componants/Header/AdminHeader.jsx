@@ -20,7 +20,7 @@ function Header({ role }) {
                 <a className="hidden md:flex text-3xl font-bold leading-none" href="#">
                     <h1 className='text-violet-800 text-2xl'>Learnly</h1>
                 </a>
-                <div className="lg:hidden">
+                <div className="md:hidden">
                     <button className="navbar-burger flex items-center text-violet-700 p-3"
                         onClick={() => { dispatch(setSidebar(!sidebarToogle.sidebar)) }}
                     >
