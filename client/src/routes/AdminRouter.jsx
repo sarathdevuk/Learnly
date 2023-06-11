@@ -6,6 +6,7 @@ import UserListPage from "../Pages/Admin/UserLIstPage";
 import TutorLIstPage from "../Pages/Admin/TutorLIstPage";
 import AddTutorPage from "../Pages/Admin/AddTutorPage";
 import PrivateRoutes from "../utils/PrivateRoutes";
+import ErrorPage from "../Componants/ErrorPage/ErrorPage";
 
 function AdminRouter() {
   return (
@@ -17,6 +18,7 @@ function AdminRouter() {
         <Route path="/add-tutor" element={<AddTutorPage />} />
       </Route>
 
+      <Route path="/*" element={<ErrorPage/>} />
       <Route path="/" element={<AdminLogin />} />
     </Routes>
   );
