@@ -25,6 +25,11 @@ try {
     return res.json({ login : false , message :"User not Exist "})
   }
 
+  if(!tutor.status) {
+    return res.json({login: false , message : "Sorry You are Banned"})
+  }
+    
+
   // verify the password
   const validPassword = await bcrypt.compare(password , tutor.password);
   console.log("valid" , validPassword);
@@ -58,7 +63,7 @@ try {
     if(err) {
       res.json({ status : false , message : "Permission not allowed"})
     }else {
-      const tutor = Tutor.findOne({_id :decoded.id , status:true})
+      const tutor =await Tutor.findOne({_id :decoded.id , status:true})
 
       if (tutor){
         res.json({status : true , message : " Authorized"})

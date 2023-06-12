@@ -19,7 +19,7 @@ function TutorRouter() {
       <Route path="/*" element={<ErrorPage/>} />
       <Route path="/" element= {<TutorLoginPage/>} />
 
-    </Routes>
+    </Routes>  
   )
 }
 
