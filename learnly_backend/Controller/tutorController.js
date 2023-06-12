@@ -75,7 +75,7 @@ try {
 
 
 export async function changePassword (req , res ) {
-
+    console.log(req.body , " rewq.body " , res.tutorId);
  try {
   const {password} = req.body ;
   // find tutor with id 
