@@ -1,5 +1,5 @@
-import Tutor from "../models/tutorModel";
-import jwt, { decode } from 'jsonwebtoken';
+import Tutor from "../models/tutorModel.js";
+import jwt from 'jsonwebtoken';
 const secret_key = process.env.JWT_SECRET_KEY;
 
 export async function verifyTutorLogin (req , res, next ) {
@@ -17,7 +17,7 @@ export async function verifyTutorLogin (req , res, next ) {
             const tutor = await Tutor.findOne({_id : decoded.id})
   
             if(tutor) {
-              res.teacherId = decoded.id
+            res.tutorId = decoded.id
               next()
             }else{
               console.log("err");

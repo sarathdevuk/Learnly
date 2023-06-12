@@ -4,21 +4,18 @@ import { useFormik , Formik } from "formik";
 import * as Yup from 'yup' ;
 import { ToastContainer , toast } from "react-toastify";
 import { changePassword } from "../../services/tutorApi";
-import { useSelector } from "react-redux";
+
 
 
 
   function ChangePassword (){
-
-    const tutor = useSelector((state)=> state.tutor)
-
-    console.log("tutor " , tutor);
 
     const validate = Yup.object({
       oldpassword : Yup.string()
       .min(6 , "Password must be atleat 6 charecters")
       .required('Password is Required'),
       password : Yup.string()
+      .notOneOf([Yup.ref('oldpassword')] , "Old password and New passwod cant be same")
       .min(6 , "Password must be atleat 6 charecters")
       .required('Password is Required'),
       confirmpassword : Yup.string()
@@ -35,11 +32,15 @@ import { useSelector } from "react-redux";
       validationSchema: validate,
       onSubmit: async(values) => {
         console.log("onsubmit");
-        changePassword(values  , tutor.id).then((resposne)=> {
-          if(resposne.status) {
+        changePassword(values ).then((resposne)=> {
+          if(resposne.data.status) {
             toast.success(resposne.data.message , {
               position:"top-center" ,
             });
+          }else{
+            toast.error(resposne.data.message , {
+              position: "top-center"
+            })
           }
         }) 
         .catch((resposne) => {

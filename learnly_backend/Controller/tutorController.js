@@ -75,14 +75,19 @@ try {
 
 
 export async function changePassword (req , res ) {
-    console.log(req.body , " rewq.body " , res.tutorId);
+    
  try {
-  const {password} = req.body ;
+  const {oldpassword ,  password} = req.body ;
+   
+  if(!oldpassword , !password){
+    throw new Error("All fields are mandatory")
+  }
+
   // find tutor with id 
   let tutor = await Tutor.findOne({_id : res.tutorId})
   if(tutor) {
     // verifying the old password
-    const validPassword = await bcrypt.compare(password , tutor.password)
+    const validPassword = await bcrypt.compare(oldpassword , tutor.password)
     if(!validPassword) {
       throw new Error("Incorrect Old password");
     }
@@ -91,7 +96,7 @@ export async function changePassword (req , res ) {
     const newPassword = await bcrypt.hash(password  , 10)  
 
     // updating that hashed password
-     Tutor.updataOne({_id : res.tutorId } , {
+     Tutor.updateOne({_id : res.tutorId } , {
       $set : { password : newPassword  }
     }).then(() => {
       res.status(200).json({status : true , message : "Password updated Successfully"})
