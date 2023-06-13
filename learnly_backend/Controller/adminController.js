@@ -10,7 +10,7 @@ import { sendEmail } from "../helpers/sendEmail.js";
 const maxAge = 3 *24 * 60 * 60 ;
 const secret_key = process.env.JWT_SECRET_KEY;
 
-
+// Creating jwt token with secret key
 const createToken = (id) => {
   return jwt.sign({id} , secret_key , {
     expiresIn : maxAge
@@ -45,12 +45,13 @@ export async function AdminLogin (req , res) {
       maxAge: maxAge *1000
 
     })
-
+    // hiding password and pass the admin only
     admin.password = "empty"
     res.status(200).json({admin , token , login : true });
 
   } catch (error) {
     console.log(error);
+    res.json({message: "Internal Server Error"})
   }
 
 
@@ -118,7 +119,7 @@ try {
    return res.json({created:false , message :"Tutor already exists"});
   }
  
-
+// create newTutor with random pass
   const newTutor = await Tutor.create({
     firstName,
     lastName,
@@ -149,7 +150,7 @@ try {
 
 
 export async function getAllTutors(req, res) {
-  console.log("tutores");
+  
   try {
     const tutors =  await Tutor.find({} ,{password: 0 })
     console.log("get tutors ,  " , tutors);
@@ -215,7 +216,7 @@ export async function getAllUsers (req , res) {
 
 export async function blockUser (req, res) {
   try {
-    console.log("get "  );
+    // finding user with id and change their status 
   const user =await User.findByIdAndUpdate(req.params.id ,  
     {$set : {status : false}} , {new: true});
 
@@ -235,8 +236,9 @@ export async function blockUser (req, res) {
 export async function unBlockUser (req, res) {
   
   try {
-    
-  const user =await User.findByIdAndUpdate(req.params.id ,  
+
+    // finding user with id and change their status 
+  const user = await User.findByIdAndUpdate(req.params.id ,  
     {$set : {status : true}} , {new: true});
 
     if(user) {

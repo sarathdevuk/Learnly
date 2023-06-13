@@ -15,7 +15,7 @@ const createToken = (id)=> {
 
 
 export async function tutorLogin (req, res) {
-  console.log("tutor login");
+
 try {
   const { email , password } = req.body ;
 
@@ -38,8 +38,9 @@ try {
     return res.json({ login : false , message : "incorrect password"})
   }
   console.log("secret" ,secret_key);
+  // Create a jwt token with tutor id 
   const token = createToken(tutor._id)
-
+  
   tutor.password = "empty"
   res.status(200).json({ login : true , token , tutor })
 } catch (error) {
