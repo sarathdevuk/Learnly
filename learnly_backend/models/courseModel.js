@@ -43,7 +43,12 @@ const courseSchema = new mongoose.Schema({
       chapter : String ,
       image : String ,
       lessons : [
-
+            {
+              chapterName : String,
+              lessonName : String ,
+              videoUrl : String ,
+              
+            }
       ]
     }
   ],
