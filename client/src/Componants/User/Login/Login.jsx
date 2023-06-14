@@ -183,7 +183,15 @@ const handleTutorSubmit = async () => {
 
 
   return(
-  <section className="section-box">
+    
+    <div className=''>
+
+      
+  <section className="section-box  ">
+  <div className="image w-96 h-96">
+      <img src="/images/learning.jpg" alt="" />
+      </div>
+
     <form action="">
       <div className="grid-cols-1 shadow none sm:shadow-xl form-box p-10">
         <h2 className="text-center text-2xl font-medium pb-8"> {props.admin ? "Admin " : props.tutor ? "Tutor" : " " } 
@@ -214,7 +222,7 @@ const handleTutorSubmit = async () => {
 
       <div className="text-center" >
 
-        <button className="form--btn mt-2 font-medium rounded"
+        <button className="form--btn mt-2 font-medium rounded "
         onClick={props.admin ? handleAdminSubmit : props.tutor ? handleTutorSubmit : handleSubmit}
         type="button">
            Login  
@@ -223,11 +231,11 @@ const handleTutorSubmit = async () => {
       {props.admin || props.tutor ? "" :   
         
           <div>
-             <div className='flex justify-center success-box-border rounded p-2 mt-8'
+             <div className='flex justify-center success-box-border rounded p-2 mt-8 bg-green-500 text-cyan-50'
                        onClick={login}           
            >
              <img src="/images/Screenshot 2023-03-01 111718.png" alt="" />         
-             <p className='ml-4'>Google</p>
+             <p className='ml-2 mt-1 font-medium '>Continue with Google</p>
               </div>
         
           <Link to={'/signup'}  >
@@ -247,6 +255,9 @@ const handleTutorSubmit = async () => {
 
     <ToastContainer/>
   </section>
+  </div>
+
+
   )
 }
 
