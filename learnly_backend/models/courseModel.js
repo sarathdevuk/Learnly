@@ -11,7 +11,7 @@ const courseSchema = new mongoose.Schema({
   },
   tutor :  {
     type : mongoose.Schema.Types.ObjectId ,
-    ref : 'Tutors' ,
+    ref : 'Tutor' ,
     required : true ,
   },
   category : {
@@ -25,6 +25,10 @@ const courseSchema = new mongoose.Schema({
   price  : {
     type : Number,
     required: true
+  },
+  language : {
+    type : String ,
+    required : true
   },
   tutorRevenue : {
     type : Number,
@@ -47,7 +51,7 @@ const courseSchema = new mongoose.Schema({
               chapterName : String,
               lessonName : String ,
               videoUrl : String ,
-              
+
             }
       ]
     }
