@@ -116,3 +116,7 @@ export async function changePassword (req , res ) {
  }
 
 }
+
+export async function addCours (req ,res) {
+  
+}

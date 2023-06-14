@@ -62,7 +62,7 @@ import { changePassword } from "../../services/tutorApi";
 
 
   return (
-    <div className="h-screen flex justify-center items-center ">
+    <div className="m-2  mt-8 h-full flex justify-center items-center ">
       <div className="flex flex-col items-center justify-center mx-auto w-full lg:py-0">
         <div className="w-full p-6 bg-white rounded-lg ">
 
