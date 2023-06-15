@@ -6,7 +6,10 @@ const fileFilter = ( req , file , cb ) => {
      file.mimetype == 'image/png'     ) {
     cb(null , true )
   }else{
-    cb(null , false)
+    const err = new multer.MulterError();
+    err.code = 'LIMIT_FIELD_TYPE' ;
+    err.message = 'Only jpeg , jpg, png , avif , and gif image allow';
+    return cb(err , false)
   }
 }
 

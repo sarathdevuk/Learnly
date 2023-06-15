@@ -8,7 +8,7 @@ import db from './config/dbConnect.js'
 import userRouter from './Routers/userRouter.js'
 import adminRouter from "./Routers/adminRouter.js"
 import tutorRouter from './Routers/tutorRouter.js'
-
+import multer from 'multer';
 
 const app = express();
 
@@ -35,6 +35,19 @@ app.use("/" , userRouter)
 app.use("/admin" , adminRouter)
 app.use("/tutor" , tutorRouter)
 
+// multer Errror
+app.use(( err ,req , res , next) => {
+ if(err instanceof multer.MulterError) {
+  // A multer error occured when uploading image
+  if(err.code === 'LIMIT_FILE_TYPE') {
+    res.status(400).json({ message : err.message });
+  }else{
+    res.status(500).json({ message: err.message });
+  }
+ }else{
+  res.status(500).json({ message: "Unknown error occured" });
+ }
+})
 
 app.listen(PORT ,()=>{
   console.log(`Server Running on Port${PORT}` );
