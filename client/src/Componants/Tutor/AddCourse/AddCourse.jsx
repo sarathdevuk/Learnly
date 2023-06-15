@@ -37,10 +37,11 @@ function AddCourse() {
       <form className='w-full mt-10 p-1' >
         <div>
           <div>
-          <label htmlFor="name">
+          <label className='block uppercase tracking-wide text-violet-700 text-sm font-bold mb-2 ' htmlFor="name">
             Name
           </label>
-          <input type="text" name='name' placeholder='Course Name'  id='name' />
+          <input className='border-gray-300 appearance-none block w-full bg-white  text-gray-700 border rounded py-3 '
+           type="text" name='name' placeholder='Course Name'  id='name' />
           </div>
         </div>
 
