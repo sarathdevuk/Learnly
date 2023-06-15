@@ -17,7 +17,7 @@ export async function verifyTutorLogin (req , res, next ) {
            res.json({status: false , message : "Permission not allowed" });
           }else{
 
-        // finding the admin with the decoded id
+        // finding the tutor with the decoded id
 
             const tutor = await Tutor.findOne({_id : decoded.id})
   
