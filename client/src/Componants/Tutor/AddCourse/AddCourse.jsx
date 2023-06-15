@@ -13,7 +13,7 @@ function AddCourse() {
            
 
                 <div>
-                    <div class={!image ? "flex items-center justify-center w-full" :"items-center justify-center w-full hidden"}>
+                    <div class= "flex items-center justify-center w-full" >
                             <div className='w-full lg:w-1/3  md:w-1/2 sm:w-1/1'>
                             <label for="dropzone-file" className="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
                                 <div className="flex flex-col items-center justify-center pt-5 pb-6">
