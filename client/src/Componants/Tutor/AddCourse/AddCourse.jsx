@@ -40,8 +40,14 @@ function AddCourse() {
           <label className='block uppercase tracking-wide text-violet-700 text-sm font-bold mb-2 ' htmlFor="name">
             Name
           </label>
-          <input className='border-gray-300 appearance-none block w-full bg-white  text-gray-700 border rounded py-3 '
+          <input className='border-gray-300 appearance-none block w-full bg-white  text-gray-700 border rounded py-3  '
            type="text" name='name' placeholder='Course Name'  id='name' />
+          </div>
+          <div>
+            <label className='block uppercase tracking-wide text-violet-700 font-bold text-sm  mt-3 mb-2 ' htmlFor="Category">
+              Category</label>
+            <input className='border-gray-300  appearance-none block w-full bg-white text-gray-700 border rounded py-3'
+            type="text" id='Category' placeholder='Category' name='category' />
           </div>
         </div>
 
