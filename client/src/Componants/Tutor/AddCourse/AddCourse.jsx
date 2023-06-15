@@ -6,7 +6,7 @@ function AddCourse() {
     <div className='mb-4 pb-4 form-title-box ' >
         <span className='text-base font-semibold text-violet-700'>Add Course</span>
     </div>
-    <div className='mt-10'>
+      <div className='mt-10'>
                     <div className='flex items-center justify-center w-full ' >
                         <img class="h-auto max-w-lg rounded-lg w-full course-image"  alt="image description"></img>
                 </div>
@@ -29,9 +29,22 @@ function AddCourse() {
                             </label>
                         </div>
                     </div>
+
                 </div>
 
-            </div>
+      </div>
+
+      <form className='w-full mt-10 p-1' >
+        <div>
+          <div>
+          <label htmlFor="name">
+            Name
+          </label>
+          <input type="text" name='name' placeholder='Course Name'  id='name' />
+          </div>
+        </div>
+
+      </form>
 
     </div>
   )
