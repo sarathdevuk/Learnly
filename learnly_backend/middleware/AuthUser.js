@@ -1,5 +1,5 @@
-import User from '../models/userModel';
-import jwt, { decode } from 'jsonwebtoken';
+import User from '../models/userModel.js';
+import jwt from 'jsonwebtoken';
 
 const secret_key = process.env.JWT_SECRET_KEY ;
 
