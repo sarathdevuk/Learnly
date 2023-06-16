@@ -226,7 +226,7 @@ function AddCourse() {
       >
         <form
           method="dialog"
-          className=" relative w-auto translate-y-[-50px]  transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px] min-[992px]:max-w-[800px] min-[1200px]:min-w-[975px]"
+          className=" relative w-auto translate-y-[-50px]  transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px] min-[992px]:max-w-[800px] min-[1200px]:min-w-[845px]"
         >
           <div className=" relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none dark:bg-neutral-600">
             <div className="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
@@ -238,9 +238,9 @@ function AddCourse() {
               </button>
             </div>
             <div className="p-7">
-              <div className="flex  mt-5 ">
+              <div className="flex md:ml-20 mt-5 ">
                 <div
-                  className="relative mb-3 w-full md:w-1/2 m-3"
+                  className="relative mb-3 w-full  md:w-1/2 lg:w-2/3 m-3"
               
                 >
                   <input
@@ -264,9 +264,9 @@ function AddCourse() {
                 </div>
               </div>
 
-              <div className="flex  mt-5 ">
+              <div className="flex  md:ml-20  mt-5 ">
                 <div
-                  className="relative mb-3 w-full  md:w-1/2 sm:w-1/2 m-3 "
+                  className="relative mb-3 w-full sm:w-1/2 md:w-2/3 m-3 "
               
                 >
                   <input
@@ -289,7 +289,7 @@ function AddCourse() {
                   </label>
                 </div>
                 <div
-                  className="relative mb-3 w-full md:w-1/2 sm:w-1/1 m-3"
+                  className="relative mb-3 w-full sm:w-1/2   m-3"
 
                 >
                   <input
@@ -317,8 +317,8 @@ function AddCourse() {
                 >
                   <button
                     type="button"
-                    className="focus:outline-none text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-400 
-                                    dark:hover:bg-green-500 dark:focus:ring-green-500"
+                    className="focus:outline-none text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:ring-green-300 font-medium rounded text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-400 
+                            md:ml-5  dark:hover:bg-green-500 dark:focus:ring-green-500"
                     // onClick={lessonFormik.handleSubmit}
                   >
                     Add
@@ -347,8 +347,8 @@ function AddCourse() {
 
                                     </div> */}
 
-                <div className="flex flex-wrap -mx-3 mb-2">
-                  <div className="mt-8 w-full  flex justify-end mr-7">
+                <div className="flex  flex-wrap -mx-3 mb-2">
+                  <div className="mt-8 w-full  flex justify-center mr-7">
                     <button
                       type="button"
                       className="loading-btn form-btn mt-2 font-medium rounded"
