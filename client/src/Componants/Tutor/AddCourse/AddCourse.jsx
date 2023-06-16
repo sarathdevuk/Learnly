@@ -1,75 +1,79 @@
-import React , {useState , useRef} from "react";
-import LoadingButton from '../../User/LoadingButton/LoadingButton'
-import { useFormik , Formik } from "formik";
-import * as Yup from 'yup' ;
-import { ToastContainer , toast } from "react-toastify";
-import './AddCourse.scss';
+import React, { useState, useRef } from "react";
+import LoadingButton from "../../User/LoadingButton/LoadingButton";
+import { useFormik, Formik } from "formik";
+import * as Yup from "yup";
+import { ToastContainer, toast } from "react-toastify";
+import "./AddCourse.scss";
 import { addCourse } from "../../../services/tutorApi";
 
-
 function AddCourse() {
+  const [lesson, setLesson] = useState([]);
+  const [chapter, setChapter] = useState("");
+  const [course, setCourse] = useState([]);
+  const [image, setImage] = useState(" ");
+  const [chapterDetails, setChapterDetails] = useState(null);
 
-    const [lesson , setLesson] = useState([]);
-    const [chapter , setChapter] = useState('');
-    const [course , setCourse] = useState([])
+  const handleClick = () => {};
 
-    const handleClick = ()=>{
+  const validate = Yup.object({
+    name: Yup.string().required("Course Name Required"),
+    category: Yup.string().required("Category Required"),
+    duration: Yup.string().required("Duration Required"),
+    language: Yup.string().required("Language Required"),
+    price: Yup.string().required("Price Required"),
+    description: Yup.string().required("Description Required"),
+  });
 
-    }
-
-
-    const validate = Yup.object({
-        name:Yup.string()
-        .required('Course Name Required'),
-        category : Yup.string()
-        .required('Category Required'),
-        duration: Yup.string()
-        .required('Duration Required'),
-        language : Yup.string()
-        .required ('Language Required'),
-        price : Yup.string()
-        .required('Price Required'),
-        description: Yup.string()
-        .required("Description Required")
-
-    })
-
-    const  formik = useFormik({
-        initialValues:{
-            name: "",
-            image:"",
-            category: "",
-            duration: "",
-            language: "",
-            price:"",
-            description: ""
-        },
-        validationSchema : validate ,
-        onSubmit: async(values) => {
-            console.log(values);
-            addCourse(values ).then((response) =>{
-                if(response.data.status) {
-                
-                }
-            })
-        }
-    })
-
-
-    const generateErrror = (err) => {
-        toast.error(err , {
-            position: "top-center"
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      image: "",
+      category: "",
+      duration: "",
+      language: "",
+      price: "",
+      description: "",
+    },
+    validationSchema: validate,
+    onSubmit: async (values) => {
+      console.log(values);
+      addCourse(values)
+        .then((response) => {
+          if (response.data.status) {
+            successMessage(response.data.message);
+          } else {
+            generateErrror(response.data.message);
+          }
         })
-    }
+        .catch((err) => {
+          generateErrror("Network error");
+        });
+    },
+  });
 
-    const successMessage =(message) =>{
-        toast.success(message , {
-            position:"top-center",
-        })
-    }
+  
 
+  const handleChange = (e) => {
+    formik.setValues((prev) => {
+      const formFields = { ...prev };
+      formFields[e.target.name] = e.target.value;
+      return formFields;
+    });
+  };
 
-    return (
+  const generateErrror = (err) => {
+    toast.error(err, {
+      position: "top-center",
+    });
+  };
+
+  const successMessage = (message) => {
+    toast.success(message, {
+      position: "top-center",
+    });
+  };
+
+  return (
     <div className="form-wrap w-3/3 mr-md-4 mt-7">
       <div className="mb-4 pb-4 form-title-box ">
         <span className="text-base font-semibold text-violet-700">
@@ -141,7 +145,15 @@ function AddCourse() {
             name="name"
             placeholder="Course Name"
             id="name"
+            value={formik.values.name}
+            onChange={(e) => {
+              handleChange(e);
+            }}
           />
+
+          {formik.touched.name && formik.errors.name ? (
+            <p className="text-red-500 text-xs ">{formik.errors.name}</p>
+          ) : null}
         </div>
         <div>
           <label
@@ -156,7 +168,12 @@ function AddCourse() {
             id="Category"
             placeholder="Category"
             name="category"
+            value={formik.values.category}
+            onChange={(e) => {handleChange(e)}}
           />
+           {formik.touched.category && formik.errors.category ? (
+                            <p className="text-red-500 text-xs ">{formik.errors.category}</p>
+                        ) : null}
         </div>
         <div className=" flex flex-wrap -mx-3  mb-3">
           <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
@@ -172,7 +189,12 @@ function AddCourse() {
               id="Duration"
               placeholder="Course Duration"
               name="duration"
+              value={formik.values.duration}
+              onChange={(e) => {handleChange(e)}}
             />
+             {formik.touched.duration && formik.errors.duration ? (
+                            <p className="text-red-500 text-xs ">{formik.errors.duration}</p>
+                        ) : null}
           </div>
           <div className="w-full md:w-1/2 px-3">
             <label
@@ -187,7 +209,12 @@ function AddCourse() {
               id="Language"
               placeholder="Course Duration"
               name="language"
+              value={formik.values.language}
+              onChange={(e) => {handleChange(e)}}
             />
+             {formik.touched.name && formik.errors.name ? (
+                            <p className="text-red-500 text-xs ">{formik.errors.name}</p>
+                        ) : null}
           </div>
         </div>
 
@@ -205,7 +232,12 @@ function AddCourse() {
               name="price"
               type="text"
               placeholder="Price"
+              value={formik.values.price}
+              onChange={(e) => {handleChange(e)}}
             />
+             {formik.touched.price && formik.errors.price ? (
+                            <p className="text-red-500 text-xs ">{formik.errors.price}</p>
+                        ) : null}
           </div>
         </div>
 
@@ -223,7 +255,11 @@ function AddCourse() {
             name="description"
             className="block p-3 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500  dark:placeholder-gray-400 dark:text-dark dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Write your thoughts here..."
-          ></textarea>
+                onChange={(e) => {handleChange(e)}}
+          >{formik.values.description}</textarea>
+           {formik.touched.description && formik.errors.description ? (
+                            <p className="text-red-500 text-xs ">{formik.errors.description}</p>
+                        ) : null}
         </div>
 
         <div className="mt-7">
@@ -382,7 +418,7 @@ function AddCourse() {
                 </div>
               </div>
 
-              {lesson[0] ? 
+              {lesson[0] ? (
                 <div>
                   <div>
                     <h1 className="ml-4 mt-3">Lessons</h1>
@@ -398,7 +434,7 @@ function AddCourse() {
                           >
                             <div className="flex flex-col justify-between p-4 leading-normal">
                               <h5 className=" text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
-                                <span className="mr-3">{ 1}.</span>
+                                <span className="mr-3">{1}.</span>
                                 lesson Name
                               </h5>
                             </div>
@@ -419,9 +455,9 @@ function AddCourse() {
                     </div>
                   </div>
                 </div>
-               : 
+              ) : (
                 ""
-              }
+              )}
             </div>
           </div>
         </form>
