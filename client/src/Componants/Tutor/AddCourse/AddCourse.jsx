@@ -1,7 +1,32 @@
-import React from "react";
+import React , {useState , useRef} from "react";
+import LoadingButton from '../../User/LoadingButton/LoadingButton'
+import { useFormik , Formik } from "formik";
+import * as Yup from 'yup' ;
+import { ToastContainer , toast } from "react-toastify";
+import './AddCourse.scss';
+
 
 function AddCourse() {
-  return (
+
+    const [lesson , setLesson] = useState([]);
+    const [chapter , setChapter] = useState('');
+    const [course , setCourse] = useState([])
+
+    const handleClick = ()=>{
+
+    }
+
+    const lessonFormik = useFormik({
+        initialValues:{
+            chapterName : "" ,
+            lessonName : "" ,
+            videoUrl: ""
+        },
+        validationSchema : 
+    })
+
+
+    return (
     <div className="form-wrap w-3/3 mr-md-4 mt-7">
       <div className="mb-4 pb-4 form-title-box ">
         <span className="text-base font-semibold text-violet-700">
@@ -239,10 +264,7 @@ function AddCourse() {
             </div>
             <div className="p-7">
               <div className="flex md:ml-20 mt-5 ">
-                <div
-                  className="relative mb-3 w-full  md:w-1/2 lg:w-2/3 m-3"
-              
-                >
+                <div className="relative mb-3 w-full  md:w-1/2 lg:w-2/3 m-3">
                   <input
                     type="text"
                     className="peer block min-h-[auto] w-full rounded border-gray-300  bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
@@ -265,10 +287,7 @@ function AddCourse() {
               </div>
 
               <div className="flex  md:ml-20  mt-5 ">
-                <div
-                  className="relative mb-3 w-full sm:w-1/2 md:w-2/3 m-3 "
-              
-                >
+                <div className="relative mb-3 w-full sm:w-1/2 md:w-2/3 m-3 ">
                   <input
                     type="text"
                     className="peer block min-h-[auto] w-full rounded border-gray-300  bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
@@ -288,10 +307,7 @@ function AddCourse() {
                     Lesson Name
                   </label>
                 </div>
-                <div
-                  className="relative mb-3 w-full sm:w-1/2   m-3"
-
-                >
+                <div className="relative mb-3 w-full sm:w-1/2   m-3">
                   <input
                     type="text"
                     name="videoUrl"
@@ -311,10 +327,7 @@ function AddCourse() {
                     Video Link
                   </label>
                 </div>
-                <div
-                  className="relative mb-3 w-full md:w-1/3 m-3"
-                  
-                >
+                <div className="relative mb-3 w-full md:w-1/3 m-3">
                   <button
                     type="button"
                     className="focus:outline-none text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:ring-green-300 font-medium rounded text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-400 
@@ -326,38 +339,46 @@ function AddCourse() {
                 </div>
               </div>
 
-              {/* {lesson[0] ? */}
-              <div>
-                {/* <div>
-                                        <h1 className='ml-4 mt-3'>Lessons</h1>
-                                    </div>
+              {lesson[0] ? 
+                <div>
+                  <div>
+                    <h1 className="ml-4 mt-3">Lessons</h1>
+                  </div>
 
-                                    <div className='flex flex-wrap'>
-                                    
-                                                    <div className='p-3 w-full md:w-1/2'>
-                                                        <a href="#" className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
-                                                            <div className="flex flex-col justify-between p-4 leading-normal">
-                                                                <h5 className=" text-lg font-semibold tracking-tight text-gray-900 dark:text-white"><span className='mr-3'>{1}.</span>lessonName</h5>
+                  <div className="flex flex-wrap">
+                    {lesson.map((obj, index) => {
+                      return (
+                        <div className="p-3 w-full md:w-1/2">
+                          <a
+                            href="#"
+                            className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+                          >
+                            <div className="flex flex-col justify-between p-4 leading-normal">
+                              <h5 className=" text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
+                                <span className="mr-3">{ 1}.</span>
+                                lesson Name
+                              </h5>
+                            </div>
+                          </a>
+                        </div>
+                      );
+                    })}
+                  </div>
 
-                                                            </div>
-                                                        </a>
-
-                                                    </div>
-                                         
-
-                                    </div> */}
-
-                <div className="flex  flex-wrap -mx-3 mb-2">
-                  <div className="mt-8 w-full  flex justify-center mr-7">
-                    <button
-                      type="button"
-                      className="loading-btn form-btn mt-2 font-medium rounded"
-                    >
-                      <span className="txt">Submit</span>
-                    </button>
+                  <div className="flex  flex-wrap -mx-3 mb-2">
+                    <div className="mt-8 w-full  flex justify-center mr-7">
+                      <button
+                        type="button"
+                        className="loading-btn form-btn mt-2 font-medium rounded"
+                      >
+                        <span className="txt">Submit</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
+               : 
+                ""
+              }
             </div>
           </div>
         </form>
