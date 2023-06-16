@@ -11,3 +11,7 @@ export const tutorLogin = (loginData) => {
 export const changePassword = (data ) => {
   return axiosInstance("tutorJwtToken").put(`/tutor/change-password` ,{...data} )
 }
+
+export const addCourse = ( values , course , image ) => {
+  return axiosInstance("tutorJwtToken").post('/tutor/add-course' , {...values , course ,image } )
+}
