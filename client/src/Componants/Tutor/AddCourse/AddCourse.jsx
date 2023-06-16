@@ -62,6 +62,12 @@ function AddCourse() {
         })
     }
 
+    const successMessage =(message) =>{
+        toast.success(message , {
+            position:"top-center",
+        })
+    }
+
 
     return (
     <div className="form-wrap w-3/3 mr-md-4 mt-7">
