@@ -16,6 +16,22 @@ function AddCourse() {
 
     }
 
+    const validate = Yup.object({
+        name:Yup.string()
+        .required('Course Name Required'),
+        category : Yup.string()
+        .required('Category Required'),
+        duration: Yup.string()
+        .required('Duration Required'),
+        language : Yup.string()
+        .required ('Language Required'),
+        price : Yup.string()
+        .required('Price Required'),
+        description: Yup.string()
+        .required("Description Required")
+
+    })
+
     const lessonFormik = useFormik({
         initialValues:{
             chapterName : "" ,
