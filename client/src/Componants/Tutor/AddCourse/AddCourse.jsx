@@ -4,6 +4,7 @@ import { useFormik , Formik } from "formik";
 import * as Yup from 'yup' ;
 import { ToastContainer , toast } from "react-toastify";
 import './AddCourse.scss';
+import { addCourse } from "../../../services/tutorApi";
 
 
 function AddCourse() {
@@ -15,6 +16,7 @@ function AddCourse() {
     const handleClick = ()=>{
 
     }
+
 
     const validate = Yup.object({
         name:Yup.string()
@@ -32,14 +34,33 @@ function AddCourse() {
 
     })
 
-    const lessonFormik = useFormik({
+    const  formik = useFormik({
         initialValues:{
-            chapterName : "" ,
-            lessonName : "" ,
-            videoUrl: ""
+            name: "",
+            image:"",
+            category: "",
+            duration: "",
+            language: "",
+            price:"",
+            description: ""
         },
-        validationSchema : 
+        validationSchema : validate ,
+        onSubmit: async(values) => {
+            console.log(values);
+            addCourse(values ).then((response) =>{
+                if(response.data.status) {
+                
+                }
+            })
+        }
     })
+
+
+    const generateErrror = (err) => {
+        toast.error(err , {
+            position: "top-center"
+        })
+    }
 
 
     return (
