@@ -6,6 +6,7 @@ import ChangePasswordPage from "../Pages/Tutor/ChangePasswordPage";
 import PrivateRoutes from "../utils/PrivateRoutes"; 
 import ErrorPage from "../Componants/ErrorPage/ErrorPage";
 import AddCouresePage from "../Pages/Tutor/AddCouresePage";
+import CourseLIstPage from "../Pages/Tutor/CourseLIstPage";
 
 function TutorRouter() {
   return (
@@ -15,6 +16,7 @@ function TutorRouter() {
       <Route element={<PrivateRoutes role={"tutor"} route={'/tutor'} />} >
        <Route path="/dashboard" element= {<TutorDashboard/>} /> 
        <Route path="/add-course" element={<AddCouresePage/>} />
+       <Route path="/course-view" element={<CourseLIstPage/>}/>
       <Route path="/change-password" element ={<ChangePasswordPage/>}/>
 
       </Route>

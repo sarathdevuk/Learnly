@@ -3,6 +3,7 @@ import ReactDOM from "react-dom/client";
 import App from "./App.jsx";
 import "./index.css";
 import { Provider } from "react-redux";
+import * as te from 'tw-elements' ;
 import store from "./Redux/Store/store.js";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
