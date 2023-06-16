@@ -221,17 +221,12 @@ function AddCourse() {
 
       {/*add course modal */}
       <dialog
-        // data-te-modal-init
         className=" modal fixed top-0 left-0 z-[1055]  h-full w-full overflow-y-auto overflow-x-hidden outline-none "
         id="my_modal_3"
-        // tabIndex="-1"
-        // aria-labelledby="exampleModalXlLabel"
-        // aria-modal="true"
-        // role="dialog"
       >
         <form
           method="dialog"
-          className=" relative w-auto translate-y-[-50px]  transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px] min-[992px]:max-w-[800px] min-[1200px]:max-w-[1140px]"
+          className=" relative w-auto translate-y-[-50px]  transition-all duration-300 ease-in-out min-[576px]:mx-auto min-[576px]:mt-7 min-[576px]:max-w-[500px] min-[992px]:max-w-[800px] min-[1200px]:min-w-[975px]"
         >
           <div className=" relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none dark:bg-neutral-600">
             <div className="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
@@ -246,7 +241,7 @@ function AddCourse() {
               <div className="flex  mt-5 ">
                 <div
                   className="relative mb-3 w-full md:w-1/2 m-3"
-                  data-te-input-wrapper-init
+              
                 >
                   <input
                     type="text"
@@ -271,7 +266,7 @@ function AddCourse() {
 
               <div className="flex  mt-5 ">
                 <div
-                  className="relative mb-3 w-full md:w-1/2 m-3"
+                  className="relative mb-3 w-full  md:w-1/2 sm:w-1/2 m-3 "
               
                 >
                   <input
