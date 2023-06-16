@@ -56,6 +56,30 @@ function AddCourse() {
   });
 
 
+  const validateLesson = Yup.object({
+    chapterName : Yup.string()
+    .required('Chapter Name is Required'),
+    lessonName  : Yup.string()
+    .required('Lesson Name is Required'),
+    videoUrl: Yup.string()
+    .required('Video Link Required')
+
+
+  })
+
+
+  const lessonFormik = useFormik({
+    initialValues :{
+        chapterName: "",
+        lessonName : "",
+        videoUrl : "",
+
+    },
+    validationSchema : validateLesson ,
+    
+  })
+
+
 
   const handleChange = (e) => {
     formik.setValues((prev) => {
