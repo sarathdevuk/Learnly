@@ -7,13 +7,17 @@ import "./AddCourse.scss";
 import { addCourse } from "../../../services/tutorApi";
 
 function AddCourse() {
+
+    const fileInputRef = useRef();
   const [lesson, setLesson] = useState([]);
   const [chapter, setChapter] = useState("");
   const [course, setCourse] = useState([]);
   const [image, setImage] = useState(" ");
   const [chapterDetails, setChapterDetails] = useState(null);
 
-  const handleClick = () => {};
+  const handleClick = () => {
+    fileInputRef.current.click() ;
+  };
 
   const validate = Yup.object({
     name: Yup.string().required("Course Name Required"),
@@ -51,7 +55,7 @@ function AddCourse() {
     },
   });
 
-  
+
 
   const handleChange = (e) => {
     formik.setValues((prev) => {
@@ -81,13 +85,15 @@ function AddCourse() {
         </span>
       </div>
       <div className="mt-10">
+            {image ?  
         <div className="flex items-center justify-center w-full ">
           <img
             class="h-auto max-w-lg rounded-lg w-full course-image"
-            alt="image description"
-          ></img>
+            alt="image description" src={image ? URL.createObjectURL(image) : ""} 
+            onClick={handleClick}
+            ></img>
         </div>
-
+:""}
         <div>
           <div class="flex items-center justify-center w-full">
             <div className="w-full lg:w-1/3  md:w-1/2 sm:w-1/1">
