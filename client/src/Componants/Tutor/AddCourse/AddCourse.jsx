@@ -76,7 +76,9 @@ function AddCourse() {
     validationSchema : validateLesson,
     onSubmit: (values) => {
         setLesson([...lesson , values]);
+// After setting the lesson the lessoName field value will be cleared
         lessonFormik.setFieldValue('lessonName', '');
+    // clearing the vedioUrl field
         lessonFormik.setFieldValue('videoUrl' , '');
 
     }
@@ -125,7 +127,7 @@ function AddCourse() {
         </div>
 :""}
         <div>
-          <div class="flex items-center justify-center w-full">
+          <div class={ image ? "flex items-center justify-center w-full ": "items-center justify-center w-full hidden"}>
             <div className="w-full lg:w-1/3  md:w-1/2 sm:w-1/1">
               <label
                 for="dropzone-file"
