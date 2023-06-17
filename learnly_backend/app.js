@@ -16,7 +16,6 @@ app.use(morgan('dev'));
 app.use(express.json())
 app.use(express.urlencoded({extended:false}))
 app.use(express.static(path.resolve() +"/public"))
-// app.use(express.static(path.join(__dirname, 'public')));
 app.use( 
   cors({
     origin : [process.env.CLIENT_URL],
@@ -35,12 +34,14 @@ app.use("/" , userRouter)
 app.use("/admin" , adminRouter)
 app.use("/tutor" , tutorRouter)
 
+
 // multer Errror
 app.use(( err ,req , res , next) => {
  if(err instanceof multer.MulterError) {
+
   // A multer error occured when uploading image
-  if(err.code === 'LIMIT_FILE_TYPE') {
-    res.status(400).json({ message : err.message });
+  if(err.code == 'LIMIT_FILE_TYPE') {
+    res.json({ message : err.message });
   }else{
     res.status(500).json({ message: err.message });
   }
@@ -48,6 +49,7 @@ app.use(( err ,req , res , next) => {
   res.status(500).json({ message: "Unknown error occured" });
  }
 })
+
 
 app.listen(PORT ,()=>{
   console.log(`Server Running on Port${PORT}` );

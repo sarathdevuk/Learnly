@@ -43,6 +43,7 @@ function AddCourse() {
       console.log(values ,"img" ,image);
       addCourse(values , course , image)
         .then((response) => {
+          console.log("res" , response);
           if (response.data.status) {
             successMessage(response.data.message);
           } else {
