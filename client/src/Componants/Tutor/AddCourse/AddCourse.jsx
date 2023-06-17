@@ -62,7 +62,8 @@ function AddCourse() {
     lessonName  : Yup.string()
     .required('Lesson Name is Required'),
     videoUrl: Yup.string()
-    .required('Video Link Required')
+    .required('(Video Link Required')
+    .matches(/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/, 'Invalid YouTube link'),
 
   })
 
