@@ -41,7 +41,7 @@ function AddCourse() {
     validationSchema: validate,
     onSubmit: async (values) => {
       console.log(values);
-      addCourse(values)
+      addCourse(values , course , image)
         .then((response) => {
           if (response.data.status) {
             successMessage(response.data.message);
@@ -64,21 +64,27 @@ function AddCourse() {
     videoUrl: Yup.string()
     .required('Video Link Required')
 
-
   })
-
 
   const lessonFormik = useFormik({
-    initialValues :{
-        chapterName: "",
+    initialValues : {
+        chapterName: "" ,
         lessonName : "",
-        videoUrl : "",
+        videoUrl:""
 
     },
-    validationSchema : validateLesson ,
-    
+    validationSchema : validateLesson,
+    onSubmit: (values) => {
+        setLesson([...lesson , values]);
+        lessonFormik.setFieldValue('lessonName', '');
+        lessonFormik.setFieldValue('videoUrl' , '');
+
+    }
   })
 
+
+
+  
 
 
   const handleChange = (e) => {
