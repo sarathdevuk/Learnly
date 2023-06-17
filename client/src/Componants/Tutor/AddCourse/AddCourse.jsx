@@ -141,7 +141,7 @@ function AddCourse() {
         </div>
 :""}
         <div>
-          <div class={ image ? "flex items-center justify-center w-full ": "items-center justify-center w-full hidden"}>
+          <div class={ !image ? "flex items-center justify-center w-full ": "items-center justify-center w-full hidden"}>
             <div className="w-full lg:w-1/3  md:w-1/2 sm:w-1/1">
               <label
                 for="dropzone-file"
