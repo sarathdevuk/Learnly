@@ -103,6 +103,14 @@ function AddCourse() {
     });
   };
 
+  const addChapter = () =>{
+    setCourse([...course , { chapter , lesson : lesson  }])
+    setLesson([])
+    successMessage("Chapter Added successfully")
+    setChapter('')
+  }
+
+
   const generateErrror = (err) => {
     toast.error(err, {
       position: "top-center",
@@ -438,14 +446,14 @@ function AddCourse() {
                     type="text"
                     className="peer block min-h-[auto] w-full rounded border-gray-300  bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                     id="name"
-                    // value={lessonFormik.values.lessonName}
-                    // onChange={(e) => { handleLessonChange(e); }}
+                    value={lessonFormik.values.lessonName}
+                    onChange={(e) => { handleLessonChange(e); }}
                     name="lessonName"
                     placeholder="Name"
                   />
-                  {/* {lessonFormik.touched.lessonName && lessonFormik.errors.lessonName ? (
+                  {lessonFormik.touched.lessonName && lessonFormik.errors.lessonName ? (
                                         <p className="text-red-500 text-xs ">{lessonFormik.errors.lessonName}</p>
-                                    ) : null} */}
+                                    ) : null}
                   <label
                     htmlFor="name"
                     className="pointer-events-none absolute top-0 left-3 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.7rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.7rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-neutral-200"
@@ -457,15 +465,15 @@ function AddCourse() {
                   <input
                     type="text"
                     name="videoUrl"
-                    // onChange={(e) => { handleLessonChange(e) }}
-                    // value={lessonFormik.values.videoUrl}
+                    onChange={(e) => { handleLessonChange(e) }}
+                    value={lessonFormik.values.videoUrl}
                     className="peer block min-h-[auto] w-full rounded border-gray-300  bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                     id="videoUrl"
                     placeholder="Video Url"
                   />
-                  {/* {lessonFormik.touched.videoUrl && lessonFormik.errors.videoUrl ? (
+                  {lessonFormik.touched.videoUrl && lessonFormik.errors.videoUrl ? (
                                         <p className="text-red-500 text-xs ">{lessonFormik.errors.videoUrl}</p>
-                                    ) : null} */}
+                                    ) : null}
                   <label
                     htmlFor="videoUrl"
                     className="pointer-events-none absolute top-0 left-3 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.7rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.7rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-neutral-200"
@@ -478,7 +486,7 @@ function AddCourse() {
                     type="button"
                     className="focus:outline-none text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:ring-green-300 font-medium rounded text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-400 
                             md:ml-5  dark:hover:bg-green-500 dark:focus:ring-green-500"
-                    // onClick={lessonFormik.handleSubmit}
+                    onClick={lessonFormik.handleSubmit}
                   >
                     Add
                   </button>
@@ -501,8 +509,8 @@ function AddCourse() {
                           >
                             <div className="flex flex-col justify-between p-4 leading-normal">
                               <h5 className=" text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
-                                <span className="mr-3">{1}.</span>
-                                lesson Name
+                                <span className="mr-3">{index + 1}.</span>
+                                {obj.lessonName}
                               </h5>
                             </div>
                           </a>
@@ -513,7 +521,7 @@ function AddCourse() {
 
                   <div className="flex  flex-wrap -mx-3 mb-2">
                     <div className="mt-8 w-full  flex justify-center mr-7">
-                      <button
+                      <button onClick={addChapter}
                         type="button"
                         className="loading-btn form-btn mt-2 font-medium rounded"
                       >
