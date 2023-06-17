@@ -40,7 +40,7 @@ function AddCourse() {
     },
     validationSchema: validate,
     onSubmit: async (values) => {
-      console.log(values);
+      console.log(values ,"img" ,image);
       addCourse(values , course , image)
         .then((response) => {
           if (response.data.status) {
@@ -270,8 +270,8 @@ function AddCourse() {
               value={formik.values.language}
               onChange={(e) => {handleChange(e)}}
             />
-             {formik.touched.name && formik.errors.name ? (
-                            <p className="text-red-500 text-xs ">{formik.errors.name}</p>
+             {formik.touched.language && formik.errors.language ? (
+                            <p className="text-red-500 text-xs ">{formik.errors.language}</p>
                         ) : null}
           </div>
         </div>

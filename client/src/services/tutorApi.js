@@ -13,5 +13,5 @@ export const changePassword = (data ) => {
 }
 
 export const addCourse = ( values , course , image ) => {
-  return axiosInstance("tutorJwtToken").post('/tutor/add-course' , {...values , course ,image } )
+  return axiosInstance("tutorJwtToken").post('/tutor/add-course' , {...values , course ,image } ,{ headers : { "Content-Type" : "multipart/form-data" }} )
 }
