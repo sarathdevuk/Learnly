@@ -86,7 +86,13 @@ function AddCourse() {
 
 
 
-  
+ const handleLessonChange =(e) => {
+    lessonFormik.setValues((prev) => {
+        const formFields = {...prev} ;
+        formFields[e.target.name] = e.target.value ;
+        return formFields ;
+    })
+ } 
 
 
   const handleChange = (e) => {
@@ -159,9 +165,14 @@ function AddCourse() {
                 </div>
                 <input
                   id="dropzone-file"
+                  ref={fileInputRef}
                   type="file"
                   className="hidden"
                   required
+
+                  onChange={(e) => {
+                    setImage(e.target.files[0]);
+                  }}
                 />
               </label>
             </div>
@@ -335,28 +346,43 @@ function AddCourse() {
         </div>
 
         <div className="flex flex-wrap">
-          <div className="p-3 w-full md:w-1/2">
-            <a
-              href="#"
-              className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
-              data-te-toggle="modal"
-              data-te-target="#editCourse"
-              data-te-ripple-init
-              data-te-ripple-color="light"
-            >
-              <div className="flex flex-col justify-between p-4 leading-normal">
-                <h5 className=" text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
-                  <span className="mr-3">1.</span>
-                  chapter
-                </h5>
-              </div>
-            </a>
-          </div>
+
+            { course.map((obj , index) => {
+                return(
+                    <div className="p-3 w-full md:w-1/2">
+                    <a
+                      href="#"
+                      className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+                    //   data-te-toggle="modal"
+                    //   data-te-target="#editCourse"
+                    //   data-te-ripple-init
+                    //   data-te-ripple-color="light"
+                    onClick={() => {
+                        setChapterDetails(course.find(courses => courses.chapter === obj.chapter))
+                        console.log(chapterDetails ,"chapter detajd");
+                    }}
+                    >
+                      <div className="flex flex-col justify-between p-4 leading-normal">
+                        <h5 className=" text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
+                          <span className="mr-3">{index + 1}</span>
+                          {obj.chapter}
+                        </h5>
+                      </div>
+                    </a>
+                  </div>
+                )
+            })}
+
+
+
         </div>
 
         <div className="flex flex-wrap -mx-3 mb-2">
           <div className="mt-8 w-full  flex justify-end mr-3">
+        <LoadingButton onClick={formik.handleSubmit} > 
+
             <button>Submit</button>
+        </LoadingButton>
           </div>
         </div>
       </form>
@@ -388,11 +414,14 @@ function AddCourse() {
                     id="chapterName"
                     name="chapterName"
                     placeholder="Form control lg"
+                    value={chapter}
+                    onChange={(e) => {handleLessonChange(e); setChapter( e.target.value ) }} 
+
                   />
-                  {/* 
-                                    {lessonFormik.touched.chapterName && lessonFormik.errors.chapterName ? (
+                  
+                      {lessonFormik.touched.chapterName && lessonFormik.errors.chapterName ? (
                                         <p className="text-red-500 text-xs ">{lessonFormik.errors.chapterName}</p>
-                                    ) : null} */}
+                                    ) : null}
 
                   <label
                     htmlFor="chapterName"
