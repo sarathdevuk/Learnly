@@ -2,37 +2,36 @@ import Course from '../models/courseModel.js';
 
 
 export async function addCourse (req , res) {
-  console.log("Add course page");
+
   try {
     console.log("body" , req.body);
-    const {name , price ,duration , chapterName , language , category , description   } = req.body ;
+
+    const {name , price ,duration , language , category , description   } = req.body ;
+
+    if (!name || !price || !duration || !language || !category || !description) {
+      res.status(404);
+      throw new Error("All fields are mandatory");
+    }
     
     req.files.image[0].path = req.files.image[0].path.replace('public/', "");
-   
+
     const course = new Course({
-      name ,
-     category,
-      price ,
-      tutor : res.tutorId,
-      duration ,
-      chapterName ,
-      language ,
-      about : 'About Java',
+      name,
+      category,
+      price,
+      tutor: res.tutorId,
+      duration,
+      language,
+      about: 'About Java',
       description,
+      image: req.files.image[0].path, // Use req.files.image[0].path here
+      tutorRevenue:(Number(price) * (80/100)),
+      adminRevenue: (Number(price) * (20/100)),
       course: req.body.course,
-      image : req?.files?.image[0],
-      tutorRevanue :((20/ 100) * Number(price)),
-      adminRevanue :((80/100) * Number(price))
-    })
+    });
 
-    return await course.save()
-    .then(() => {
-      res.status(200).json({status : true , message : " Course has been added Successfully "})
-    })
-    .catch((error) => {
-      res.status(500).json({status : false , message : "Internal Server Error"})
-    })
-
+    await course.save();
+    res.status(200).json({ status: true, message: "Course has been added successfully" });
 
   } catch (error) {
     console.log( error );
