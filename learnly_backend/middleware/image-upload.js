@@ -22,7 +22,7 @@ export default function uploadImage (path) {
       cb(null , Date.now() + '-' + file.originalname)
     }
   })
-
+ 
   return multer({ storage , fileFilter  }).fields([{ name : 'image' , maxCount : 1}])
 }
-    
+     

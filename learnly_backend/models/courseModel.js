@@ -7,7 +7,7 @@ const courseSchema = new mongoose.Schema({
   },
   about : {
     type : String ,
-    required: true
+    
   },
   tutor :  {
     type : mongoose.Schema.Types.ObjectId ,
@@ -58,7 +58,7 @@ const courseSchema = new mongoose.Schema({
   ],
   image : {
     type : Object ,
-    required : true
+    // required : true
   },
   status :{
     type : Boolean ,

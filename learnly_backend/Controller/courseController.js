@@ -1,10 +1,14 @@
-import Course from '../models/courseModel';
+import Course from '../models/courseModel.js';
 
 
 export async function addCourse (req , res) {
+
   try {
     console.log("body" , req.body);
-    const {name , about , price ,duration , chapterName , language , category , description   } = req.body ;
+    const {name , price ,duration , chapterName , language , category , description   } = req.body ;
+    
+    req.files.image[0].path = req.files.image[0].path.replace('public/', "");
+   
     const course = new Course({
       name ,
      category,
@@ -13,8 +17,10 @@ export async function addCourse (req , res) {
       duration ,
       chapterName ,
       language ,
+      about : 'About Java',
       description,
       course: req.body.course,
+      image : req?.files?.image[0],
       tutorRevanue :((20/ 100) * Number(price)),
       adminRevanue :((80/100) * Number(price))
     })

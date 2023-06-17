@@ -12,7 +12,7 @@ function AddCourse() {
   const [lesson, setLesson] = useState([]);
   const [chapter, setChapter] = useState("");
   const [course, setCourse] = useState([]);
-  const [image, setImage] = useState(" ");
+  const [image, setImage] = useState("");
   const [chapterDetails, setChapterDetails] = useState(null);
 
   const handleClick = () => {
@@ -278,7 +278,7 @@ function AddCourse() {
         <div className="flex flex-wrap -mx-3  mb-3">
           <div className="w-full md:w-1/2 px-3">
             <label
-              className="block uppercase tracking-wide text-violet-700 text-xs font-bold mb-2"
+              className="block uppercase tracking-wide text-violet-700 text-sm font-bold mb-2"
               htmlFor="price"
             >
               Price
@@ -300,7 +300,7 @@ function AddCourse() {
 
         <div className="mb-4">
           <label
-            className="block uppercase tracking-wide text-violet-700 text-xs font-bold mb-2"
+            className="block uppercase tracking-wide text-violet-700 text-sm font-semibold mb-2"
             htmlfor="description"
           >
             Description
@@ -321,7 +321,7 @@ function AddCourse() {
 
         <div className="mt-7">
           <label
-            className="block uppercase tracking-wide text-violet-600 text-xs font-bold mb-2"
+            className="block uppercase tracking-wide text-violet-600 text-sm font-semibold mb-2"
             htmlFor="addchapter"
           >
             Add Chapter
