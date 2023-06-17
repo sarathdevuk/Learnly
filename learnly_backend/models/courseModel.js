@@ -2,7 +2,7 @@ import mongoose from 'mongoose'
 
 const courseSchema = new mongoose.Schema({
   name : {
-    tyre: String,
+    type: String,
     required : true
   },
   about : {
@@ -12,7 +12,7 @@ const courseSchema = new mongoose.Schema({
   tutor :  {
     type : mongoose.Schema.Types.ObjectId ,
     ref : 'Tutor' ,
-    required : true ,
+    required : true
   },
   category : {
     type : String ,

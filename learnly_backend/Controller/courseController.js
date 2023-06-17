@@ -2,7 +2,7 @@ import Course from '../models/courseModel.js';
 
 
 export async function addCourse (req , res) {
-
+  console.log("Add course page");
   try {
     console.log("body" , req.body);
     const {name , price ,duration , chapterName , language , category , description   } = req.body ;
