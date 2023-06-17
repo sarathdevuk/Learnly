@@ -4,7 +4,7 @@ const secret_key = process.env.JWT_SECRET_KEY;
 
 // check the admin logged in 
 export async function verifyTutorLogin (req , res, next ) {
-  console.log("verifyTutorLogin");
+  // console.log("verifyTutorLogin");
     try {
       // getting token from headers
       const authHeader = req.headers.authorization ;
@@ -22,6 +22,7 @@ export async function verifyTutorLogin (req , res, next ) {
             const tutor = await Tutor.findOne({_id : decoded.id})
   
             if(tutor) {
+              console.log("tutor verified");
         // if tutor exists pass tutor id to res.tutor id 
             res.tutorId = decoded.id
               next()
