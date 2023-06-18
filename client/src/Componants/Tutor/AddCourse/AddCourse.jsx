@@ -8,17 +8,21 @@ import { addCourse } from "../../../services/tutorApi";
 
 function AddCourse() {
 
-    const fileInputRef = useRef();
+
+  const fileInputRef = useRef();
+
   const [lesson, setLesson] = useState([]);
   const [chapter, setChapter] = useState("");
   const [course, setCourse] = useState([]);
   const [image, setImage] = useState("");
   const [chapterDetails, setChapterDetails] = useState(null);
 
+    // handle image select
   const handleClick = () => {
-    fileInputRef.current.click() ;
+    fileInputRef.current.click();
   };
 
+  // Validatig Course fields 
   const validate = Yup.object({
     name: Yup.string().required("Course Name Required"),
     category: Yup.string().required("Category Required"),
@@ -28,6 +32,7 @@ function AddCourse() {
     description: Yup.string().required("Description Required"),
   });
 
+// Used Formik form submition
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -38,15 +43,20 @@ function AddCourse() {
       price: "",
       description: "",
     },
+    // validate using Yup 
     validationSchema: validate,
+    // handling The form submition 
     onSubmit: async (values) => {
-      console.log(values ,"img" ,image);
-      addCourse(values , course , image)
+      console.log(values, "img", image);
+      // Calling addCourse api and pass the required data as body
+      addCourse(values, course, image)
         .then((response) => {
-          console.log("res" , response);
+          console.log("res", response);
           if (response.data.status) {
+            // Passing the success message to toast 
             successMessage(response.data.message);
           } else {
+            // generating Error message using toast alert
             generateErrror(response.data.message);
           }
         })
@@ -57,46 +67,53 @@ function AddCourse() {
   });
 
 
-  const validateLesson = Yup.object({
-    chapterName : Yup.string()
-    .required('Chapter Name is Required'),
-    lessonName  : Yup.string()
-    .required('Lesson Name is Required'),
-    videoUrl: Yup.string()
-    .required('(Video Link Required')
-    .matches(/^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/, 'Invalid YouTube link'),
+  // Validating Chapter Lessons using Yup Library
 
-  })
+  const validateLesson = Yup.object({
+
+    chapterName: Yup.string()
+    .required("Chapter Name is Required"),
+    lessonName: Yup.string()
+    .required("Lesson Name is Required"),
+    videoUrl: Yup.string()
+      .required("(Video Link Required")
+      .matches( /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/,"Invalid YouTube link" ),
+       
+  });
+
+  // Handling form submition with formik 
 
   const lessonFormik = useFormik({
-    initialValues : {
-        chapterName: "" ,
-        lessonName : "",
-        videoUrl:""
-
+    initialValues: {
+      chapterName: "",
+      lessonName: "",
+      videoUrl: "",
     },
-    validationSchema : validateLesson,
+    // Check validated
+    validationSchema: validateLesson,
+    // Handling submition
     onSubmit: (values) => {
-        setLesson([...lesson , values]);
-// After setting the lesson the lessoName field value will be cleared
-        lessonFormik.setFieldValue('lessonName', '');
-    // clearing the vedioUrl field
-        lessonFormik.setFieldValue('videoUrl' , '');
+      
+      setLesson([...lesson, values]);
+      // After setting the lesson the lessoName field value will be cleared
+      lessonFormik.setFieldValue("lessonName", "");
+      // clearing the vedioUrl field
+      lessonFormik.setFieldValue("videoUrl", "");
+    },
+  });
 
-    }
-  })
-
-
-
- const handleLessonChange =(e) => {
+  // Handle lesson change and updating in lesson formik
+  const handleLessonChange = (e) => {
     lessonFormik.setValues((prev) => {
-        const formFields = {...prev} ;
-        formFields[e.target.name] = e.target.value ;
-        return formFields ;
-    })
- } 
+      // storing the previous values in formFields 
+      const formFields = { ...prev };
+      // and updating theat field names with our new values
+      formFields[e.target.name] = e.target.value;
+      return formFields;
+    });
+  };
 
-
+  // handling the course change and updating the values in the formik  
   const handleChange = (e) => {
     formik.setValues((prev) => {
       const formFields = { ...prev };
@@ -105,13 +122,13 @@ function AddCourse() {
     });
   };
 
-  const addChapter = () =>{
-    setCourse([...course , { chapter , lesson : lesson  }])
-    setLesson([])
-    successMessage("Chapter Added successfully")
-    setChapter('')
-  }
-
+  // 
+  const addChapter = () => {
+    setCourse([...course, { chapter, lesson: lesson }]);
+    setLesson([]);
+    successMessage("Chapter Added successfully");
+    setChapter("");
+  };
 
   const generateErrror = (err) => {
     toast.error(err, {
@@ -133,17 +150,26 @@ function AddCourse() {
         </span>
       </div>
       <div className="mt-10">
-            {image ?  
-        <div className="flex items-center justify-center w-full ">
-          <img
-            class="h-auto max-w-lg rounded-lg w-full course-image"
-            alt="image description" src={image ? URL.createObjectURL(image) : ""} 
-            onClick={handleClick}
+        {image ? (
+          <div className="flex items-center justify-center w-full ">
+            <img
+              class="h-auto max-w-lg rounded-lg w-full course-image"
+              alt="image description"
+              src={image ? URL.createObjectURL(image) : ""}
+              onClick={handleClick}
             ></img>
-        </div>
-:""}
+          </div>
+        ) : (
+          ""
+        )}
         <div>
-          <div class={ !image ? "flex items-center justify-center w-full ": "items-center justify-center w-full hidden"}>
+          <div
+            class={
+              !image
+                ? "flex items-center justify-center w-full "
+                : "items-center justify-center w-full hidden"
+            }
+          >
             <div className="w-full lg:w-1/3  md:w-1/2 sm:w-1/1">
               <label
                 for="dropzone-file"
@@ -179,7 +205,6 @@ function AddCourse() {
                   type="file"
                   className="hidden"
                   required
-
                   onChange={(e) => {
                     setImage(e.target.files[0]);
                   }}
@@ -228,11 +253,13 @@ function AddCourse() {
             placeholder="Category"
             name="category"
             value={formik.values.category}
-            onChange={(e) => {handleChange(e)}}
+            onChange={(e) => {
+              handleChange(e);
+            }}
           />
-           {formik.touched.category && formik.errors.category ? (
-                            <p className="text-red-500 text-xs ">{formik.errors.category}</p>
-                        ) : null}
+          {formik.touched.category && formik.errors.category ? (
+            <p className="text-red-500 text-xs ">{formik.errors.category}</p>
+          ) : null}
         </div>
         <div className=" flex flex-wrap -mx-3  mb-3">
           <div className="w-full md:w-1/2 px-3 mb-4 md:mb-0">
@@ -249,11 +276,13 @@ function AddCourse() {
               placeholder="Course Duration"
               name="duration"
               value={formik.values.duration}
-              onChange={(e) => {handleChange(e)}}
+              onChange={(e) => {
+                handleChange(e);
+              }}
             />
-             {formik.touched.duration && formik.errors.duration ? (
-                            <p className="text-red-500 text-xs ">{formik.errors.duration}</p>
-                        ) : null}
+            {formik.touched.duration && formik.errors.duration ? (
+              <p className="text-red-500 text-xs ">{formik.errors.duration}</p>
+            ) : null}
           </div>
           <div className="w-full md:w-1/2 px-3">
             <label
@@ -269,11 +298,13 @@ function AddCourse() {
               placeholder="Course Duration"
               name="language"
               value={formik.values.language}
-              onChange={(e) => {handleChange(e)}}
+              onChange={(e) => {
+                handleChange(e);
+              }}
             />
-             {formik.touched.language && formik.errors.language ? (
-                            <p className="text-red-500 text-xs ">{formik.errors.language}</p>
-                        ) : null}
+            {formik.touched.language && formik.errors.language ? (
+              <p className="text-red-500 text-xs ">{formik.errors.language}</p>
+            ) : null}
           </div>
         </div>
 
@@ -292,11 +323,13 @@ function AddCourse() {
               type="text"
               placeholder="Price"
               value={formik.values.price}
-              onChange={(e) => {handleChange(e)}}
+              onChange={(e) => {
+                handleChange(e);
+              }}
             />
-             {formik.touched.price && formik.errors.price ? (
-                            <p className="text-red-500 text-xs ">{formik.errors.price}</p>
-                        ) : null}
+            {formik.touched.price && formik.errors.price ? (
+              <p className="text-red-500 text-xs ">{formik.errors.price}</p>
+            ) : null}
           </div>
         </div>
 
@@ -314,11 +347,15 @@ function AddCourse() {
             name="description"
             className="block p-3 w-full text-sm text-gray-900 bg-white rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500  dark:placeholder-gray-400 dark:text-dark dark:focus:ring-blue-500 dark:focus:border-blue-500"
             placeholder="Write your thoughts here..."
-                onChange={(e) => {handleChange(e)}}
-          >{formik.values.description}</textarea>
-           {formik.touched.description && formik.errors.description ? (
-                            <p className="text-red-500 text-xs ">{formik.errors.description}</p>
-                        ) : null}
+            onChange={(e) => {
+              handleChange(e);
+            }}
+          >
+            {formik.values.description}
+          </textarea>
+          {formik.touched.description && formik.errors.description ? (
+            <p className="text-red-500 text-xs ">{formik.errors.description}</p>
+          ) : null}
         </div>
 
         <div className="mt-7">
@@ -356,43 +393,36 @@ function AddCourse() {
         </div>
 
         <div className="flex flex-wrap">
-
-            { course.map((obj , index) => {
-                return(
-                    <div className="p-3 w-full md:w-1/2">
-                    <a
-                      href="#"
-                      className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
-                    //   data-te-toggle="modal"
-                    //   data-te-target="#editCourse"
-                    //   data-te-ripple-init
-                    //   data-te-ripple-color="light"
-                    onClick={() => {
-                        setChapterDetails(course.find(courses => courses.chapter === obj.chapter))
-                        console.log(chapterDetails ,"chapter detajd");
-                    }}
-                    >
-                      <div className="flex flex-col justify-between p-4 leading-normal">
-                        <h5 className=" text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
-                          <span className="mr-3">{index + 1}</span>
-                          {obj.chapter}
-                        </h5>
-                      </div>
-                    </a>
+          {course.map((obj, index) => {
+            return (
+              <div className="p-3 w-full md:w-1/2">
+                <a
+                  href="#"
+                  className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+                  onClick={() => {
+                    setChapterDetails(
+                      course.find((courses) => courses.chapter === obj.chapter)
+                    );
+                    console.log(chapterDetails, "chapter detajd");
+                  }}
+                >
+                  <div className="flex flex-col justify-between p-4 leading-normal">
+                    <h5 className=" text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
+                      <span className="mr-3">{index + 1}</span>
+                      {obj.chapter}
+                    </h5>
                   </div>
-                )
-            })}
-
-
-
+                </a>
+              </div>
+            );
+          })}
         </div>
 
         <div className="flex flex-wrap -mx-3 mb-2">
           <div className="mt-8 w-full  flex justify-end mr-3">
-        <LoadingButton onClick={formik.handleSubmit} > 
-
-            <button>Submit</button>
-        </LoadingButton>
+            <LoadingButton onClick={formik.handleSubmit}>
+              <button>Submit</button>
+            </LoadingButton>
           </div>
         </div>
       </form>
@@ -425,13 +455,18 @@ function AddCourse() {
                     name="chapterName"
                     placeholder="Form control lg"
                     value={chapter}
-                    onChange={(e) => {handleLessonChange(e); setChapter( e.target.value ) }} 
-
+                    onChange={(e) => {
+                      handleLessonChange(e);
+                      setChapter(e.target.value);
+                    }}
                   />
-                  
-                      {lessonFormik.touched.chapterName && lessonFormik.errors.chapterName ? (
-                                        <p className="text-red-500 text-xs ">{lessonFormik.errors.chapterName}</p>
-                                    ) : null}
+
+                  {lessonFormik.touched.chapterName &&
+                  lessonFormik.errors.chapterName ? (
+                    <p className="text-red-500 text-xs ">
+                      {lessonFormik.errors.chapterName}
+                    </p>
+                  ) : null}
 
                   <label
                     htmlFor="chapterName"
@@ -449,13 +484,18 @@ function AddCourse() {
                     className="peer block min-h-[auto] w-full rounded border-gray-300  bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                     id="name"
                     value={lessonFormik.values.lessonName}
-                    onChange={(e) => { handleLessonChange(e); }}
+                    onChange={(e) => {
+                      handleLessonChange(e);
+                    }}
                     name="lessonName"
                     placeholder="Name"
                   />
-                  {lessonFormik.touched.lessonName && lessonFormik.errors.lessonName ? (
-                                        <p className="text-red-500 text-xs ">{lessonFormik.errors.lessonName}</p>
-                                    ) : null}
+                  {lessonFormik.touched.lessonName &&
+                  lessonFormik.errors.lessonName ? (
+                    <p className="text-red-500 text-xs ">
+                      {lessonFormik.errors.lessonName}
+                    </p>
+                  ) : null}
                   <label
                     htmlFor="name"
                     className="pointer-events-none absolute top-0 left-3 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.7rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.7rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-neutral-200"
@@ -467,15 +507,20 @@ function AddCourse() {
                   <input
                     type="text"
                     name="videoUrl"
-                    onChange={(e) => { handleLessonChange(e) }}
+                    onChange={(e) => {
+                      handleLessonChange(e);
+                    }}
                     value={lessonFormik.values.videoUrl}
                     className="peer block min-h-[auto] w-full rounded border-gray-300  bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
                     id="videoUrl"
                     placeholder="Video Url"
                   />
-                  {lessonFormik.touched.videoUrl && lessonFormik.errors.videoUrl ? (
-                                        <p className="text-red-500 text-xs ">{lessonFormik.errors.videoUrl}</p>
-                                    ) : null}
+                  {lessonFormik.touched.videoUrl &&
+                  lessonFormik.errors.videoUrl ? (
+                    <p className="text-red-500 text-xs ">
+                      {lessonFormik.errors.videoUrl}
+                    </p>
+                  ) : null}
                   <label
                     htmlFor="videoUrl"
                     className="pointer-events-none absolute top-0 left-3 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.7rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.7rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-neutral-200"
@@ -523,7 +568,8 @@ function AddCourse() {
 
                   <div className="flex  flex-wrap -mx-3 mb-2">
                     <div className="mt-8 w-full  flex justify-center mr-7">
-                      <button onClick={addChapter}
+                      <button
+                        onClick={addChapter}
                         type="button"
                         className="loading-btn form-btn mt-2 font-medium rounded"
                       >

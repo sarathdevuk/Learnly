@@ -152,6 +152,7 @@ function Signup () {
                 id="email"
                 style={{ color: "black" }}
                 name='email'
+                onBlur={formik.handleBlur}
                 onChange={() => { handleChange(event) }}
 
                 placeholder="Email address" />
@@ -172,6 +173,7 @@ function Signup () {
                 id="password"
                 style={{ color: "black" }}
                 name='password'
+                onBlur={formik.handleBlur}
                 onChange={() => { handleChange(event) }}
 
                 placeholder="Password" />
@@ -192,6 +194,7 @@ function Signup () {
                 id="confirmPassword"
                 style={{ color: "black" }}
                 name='confirmpassword'
+                onBlur={formik.handleBlur}
                 onChange={() => { handleChange(event) }}
 
                 placeholder="Confirm password" />
