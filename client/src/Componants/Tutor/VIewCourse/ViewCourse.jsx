@@ -4,8 +4,10 @@ import {Menu , Transition } from '@headlessui/react'
 import { ToastContainer , toast } from 'react-toastify'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
-import { getCourse } from '../../../services/tutorApi'
+import { deleteCourse, getCourse } from '../../../services/tutorApi'
 import { setCourseDetails } from '../../../Redux/Features/courseSlice'
+import swal from 'sweetalert'
+import { error } from 'console'
 
 
 
@@ -23,8 +25,42 @@ function ViewCourse() {
   } , [])
 
 
-  const handleDelete= () => {
-    
+  const handleDelete = (courseId) => {
+    swal({
+      title : "Are you sure ?",
+      text:"Once deleted , you will not be able to recover file .!",
+      icon : "warning",
+      buttons : true ,
+      dangerMode : true
+    })
+    .then((willDelete) => {
+      if(willDelete) {
+        deleteCourse(courseId).then((response) => {
+          if(response.data.status){
+            successMessage(response.data.message)
+            setCourse(course.filter(obj => obj._id != courseId))
+          }else{
+            generateError(response.data.message)
+          }
+        })
+
+      }
+    })
+
+
+  }
+
+
+  const generateError=(message)=>{
+    toast.error(message , {
+      position: "top-center"
+    })
+  }
+
+  const successMessage = (message)=> {
+    toast.success(message , {
+      position : "top-center" 
+    })
   }
 
 
