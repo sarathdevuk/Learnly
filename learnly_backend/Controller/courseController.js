@@ -38,3 +38,16 @@ export async function addCourse (req , res) {
     res.status(500).json({status : false , message : "Internal Server Error"})
   }
 }
+
+export async function getCourse (req , res) {
+  try {
+    // find all course based on teacher 
+    const course = await Course.find({ tutor : res.tutorId });
+    if(course) {
+      res.status(200).json({status : true , course})
+    }
+  } catch (error) {
+    res.status(500).json({ status : true , message : "Internal Server Error"})
+  }
+}
+
