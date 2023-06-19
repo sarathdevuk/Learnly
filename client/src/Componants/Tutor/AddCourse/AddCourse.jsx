@@ -7,8 +7,6 @@ import "./AddCourse.scss";
 import { addCourse } from "../../../services/tutorApi";
 
 function AddCourse() {
-
-
   const fileInputRef = useRef();
 
   const [lesson, setLesson] = useState([]);
@@ -17,12 +15,12 @@ function AddCourse() {
   const [image, setImage] = useState("");
   const [chapterDetails, setChapterDetails] = useState(null);
 
-    // handle image select
+  // handle image select
   const handleClick = () => {
     fileInputRef.current.click();
   };
 
-  // Validatig Course fields 
+  // Validatig Course fields
   const validate = Yup.object({
     name: Yup.string().required("Course Name Required"),
     category: Yup.string().required("Category Required"),
@@ -32,7 +30,7 @@ function AddCourse() {
     description: Yup.string().required("Description Required"),
   });
 
-// Used Formik form submition
+  // Used Formik form submition
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -43,9 +41,9 @@ function AddCourse() {
       price: "",
       description: "",
     },
-    // validate using Yup 
+    // validate using Yup
     validationSchema: validate,
-    // handling The form submition 
+    // handling The form submition
     onSubmit: async (values) => {
       console.log(values, "img", image);
       // Calling addCourse api and pass the required data as body
@@ -53,7 +51,7 @@ function AddCourse() {
         .then((response) => {
           console.log("res", response);
           if (response.data.status) {
-            // Passing the success message to toast 
+            // Passing the success message to toast
             successMessage(response.data.message);
           } else {
             // generating Error message using toast alert
@@ -66,22 +64,20 @@ function AddCourse() {
     },
   });
 
-
   // Validating Chapter Lessons using Yup Library
 
   const validateLesson = Yup.object({
-
-    chapterName: Yup.string()
-    .required("Chapter Name is Required"),
-    lessonName: Yup.string()
-    .required("Lesson Name is Required"),
+    chapterName: Yup.string().required("Chapter Name is Required"),
+    lessonName: Yup.string().required("Lesson Name is Required"),
     videoUrl: Yup.string()
       .required("(Video Link Required")
-      .matches( /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/,"Invalid YouTube link" ),
-       
+      .matches(
+        /^(https?:\/\/)?(www\.)?(youtube\.com|youtu\.?be)\/.+$/,
+        "Invalid YouTube link"
+      ),
   });
 
-  // Handling form submition with formik 
+  // Handling form submition with formik
 
   const lessonFormik = useFormik({
     initialValues: {
@@ -93,7 +89,6 @@ function AddCourse() {
     validationSchema: validateLesson,
     // Handling submition
     onSubmit: (values) => {
-      
       setLesson([...lesson, values]);
       // After setting the lesson the lessoName field value will be cleared
       lessonFormik.setFieldValue("lessonName", "");
@@ -105,7 +100,7 @@ function AddCourse() {
   // Handle lesson change and updating in lesson formik
   const handleLessonChange = (e) => {
     lessonFormik.setValues((prev) => {
-      // storing the previous values in formFields 
+      // storing the previous values in formFields
       const formFields = { ...prev };
       // and updating theat field names with our new values
       formFields[e.target.name] = e.target.value;
@@ -113,7 +108,7 @@ function AddCourse() {
     });
   };
 
-  // handling the course change and updating the values in the formik  
+  // handling the course change and updating the values in the formik
   const handleChange = (e) => {
     formik.setValues((prev) => {
       const formFields = { ...prev };
@@ -122,7 +117,7 @@ function AddCourse() {
     });
   };
 
-  // 
+  //
   const addChapter = () => {
     setCourse([...course, { chapter, lesson: lesson }]);
     setLesson([]);
@@ -470,7 +465,11 @@ function AddCourse() {
 
                   <label
                     htmlFor="chapterName"
-                    className="pointer-events-none absolute top-0 left-3 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.7rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.7rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-neutral-200"
+                    className={`pointer-events-none absolute top-0 left-3 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out ${
+                      lessonFormik.values.chapterName
+                        ? "-translate-y-[1.7rem] scale-[0.8] text-primary"
+                        : ""
+                    } `}
                   >
                     Chapter Name
                   </label>
@@ -482,13 +481,13 @@ function AddCourse() {
                   <input
                     type="text"
                     className="peer block min-h-[auto] w-full rounded border-gray-300  bg-transparent py-[0.32rem] px-3 leading-[2.15] outline-none transition-all duration-200 ease-linear focus:placeholder:opacity-100 data-[te-input-state-active]:placeholder:opacity-100 motion-reduce:transition-none dark:text-neutral-200 dark:placeholder:text-neutral-200 [&:not([data-te-input-placeholder-active])]:placeholder:opacity-0"
-                    id="name"
+                    id="lessonName"
                     value={lessonFormik.values.lessonName}
                     onChange={(e) => {
                       handleLessonChange(e);
                     }}
                     name="lessonName"
-                    placeholder="Name"
+                    placeholder="Lesson Name"
                   />
                   {lessonFormik.touched.lessonName &&
                   lessonFormik.errors.lessonName ? (
@@ -497,8 +496,12 @@ function AddCourse() {
                     </p>
                   ) : null}
                   <label
-                    htmlFor="name"
-                    className="pointer-events-none absolute top-0 left-3 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.7rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.7rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-neutral-200"
+                    htmlFor="lessonName"
+                    className={`pointer-events-none absolute top-0 left-3 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out ${
+                      lessonFormik.values.lessonName
+                        ? "-translate-y-[1.7rem] scale-[0.8] text-primary"
+                        : ""
+                    } `}
                   >
                     Lesson Name
                   </label>
@@ -521,9 +524,14 @@ function AddCourse() {
                       {lessonFormik.errors.videoUrl}
                     </p>
                   ) : null}
+
                   <label
                     htmlFor="videoUrl"
-                    className="pointer-events-none absolute top-0 left-3 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out peer-focus:-translate-y-[1.7rem] peer-focus:scale-[0.8] peer-focus:text-primary peer-data-[te-input-state-active]:-translate-y-[1.7rem] peer-data-[te-input-state-active]:scale-[0.8] motion-reduce:transition-none dark:text-neutral-200 dark:peer-focus:text-neutral-200"
+                    className={`pointer-events-none absolute top-0 left-3 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out ${
+                      lessonFormik.values.videoUrl
+                        ? "-translate-y-[1.7rem] scale-[0.8] text-primary"
+                        : ""
+                    } `}
                   >
                     Video Link
                   </label>
