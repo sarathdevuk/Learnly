@@ -16,3 +16,7 @@ export const addCourse = ( values , course , image ) => {
   const headers = {Authorization :`Bearer ${localStorage.getItem('tutorJwtToken')}`}
   return axiosInstance("tutorJwtToken").post('/tutor/add-course' , {...values , course ,image } ,{ headers: {"Content-Type" : "multipart/form-data" }  })
 }
+
+export const getCourse =() => {
+  return axiosInstance('tutorJwtToken').get('/tutor/course/')
+}

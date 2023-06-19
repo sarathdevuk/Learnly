@@ -1,8 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { Fragment } from 'react'
+import {Menu , Transition } from '@headlessui/react'
 import { ToastContainer , toast } from 'react-toastify'
+import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+import { getCourse } from '../../../services/tutorApi'
+
 
 
 function ViewCourse() {
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate() ;
+  const [course , setCourse] = useState([]);
+
+  useEffect(() => {
+    getCourse().then((response) => {
+      console.log(response.data.course);
+      setCourse(response.data.course) ;
+    })
+  } , [])
+
+
+
+
   return (
     <>
     <div className='mb-4 pb-2 mt-7 ' >
@@ -12,11 +33,11 @@ function ViewCourse() {
       <div className="flex items-center justify-between pb-4">
         <div>
 
-          {/* <Menu as="div" className="relative inline-block text-left">
+          <Menu as="div" className="relative inline-block text-left">
             <div>
               <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
                 Last 30 days
-                <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
+                {/* <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" /> */}
               </Menu.Button>
             </div>
 
@@ -65,7 +86,7 @@ function ViewCourse() {
                 </div>
               </Menu.Items>
             </Transition>
-          </Menu> */}
+          </Menu>
         </div>
         <label htmlFor="table-search" className="sr-only">Search</label>
         <div className="relative">
@@ -101,7 +122,7 @@ function ViewCourse() {
             </th>
           </tr>
         </thead>
-        {/* <tbody>
+        <tbody>
           {
             course.map((obj, index) => {
               return (
@@ -151,7 +172,7 @@ function ViewCourse() {
             })
           }
 
-        </tbody> */}
+        </tbody>
       </table>
       <nav className="flex items-center justify-between p-3 mt-4" aria-label="Table navigation">
         <span className="text-sm font-normal text-gray-500 dark:text-gray-400">Showing <span className="font-semibold text-gray-900 dark:text-white">1-10</span> of <span className="font-semibold text-gray-900 dark:text-white">1000</span></span>
