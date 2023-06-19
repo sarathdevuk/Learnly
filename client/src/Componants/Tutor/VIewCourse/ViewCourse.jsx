@@ -5,6 +5,7 @@ import { ToastContainer , toast } from 'react-toastify'
 import { useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { getCourse } from '../../../services/tutorApi'
+import { setCourseDetails } from '../../../Redux/Features/courseSlice'
 
 
 
@@ -22,6 +23,9 @@ function ViewCourse() {
   } , [])
 
 
+  const handleDelete= () => {
+    
+  }
 
 
   return (
