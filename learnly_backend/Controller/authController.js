@@ -144,7 +144,7 @@ console.log("auth controller");
             const token = createToken(user._id);
             res.status(200).json({created:true , user , token , message:"Login Success " })
           }else {
-            res.status(404).json({message : "Sorry you are banned..!"})
+            res.status(200).json({ user ,  message : "Sorry you are banned..!"})
           }
         
 

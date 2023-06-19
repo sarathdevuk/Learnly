@@ -62,8 +62,10 @@ const login = useGoogleLogin({
       try {
           loginWithGoogle(codeResponse)
           .then((response) => {
-              if (response.data.status === "Blocked") {
-                  navigate('/account/suspended');
+         
+              if (!response.data.user.status) {
+                generateError("Sorry You are banned")
+                  // navigate('/account/suspended');
               }else{
                   localStorage.setItem('JwtToken', response.data.token);
                   dispatch(
