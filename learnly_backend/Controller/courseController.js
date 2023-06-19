@@ -51,3 +51,18 @@ export async function getCourse (req , res) {
   }
 }
 
+export async function deleteCourse (req , res) {
+  try {
+    // Find course by id and delete 
+  const deletedCourse = await Course.findByIdAndDelete(req.params.courseId) ;
+
+  if(deletedCourse) {
+    res.status(200).json({status : true , message : " Course deleted successfully" })
+  }else{
+    res.status(500).json({ status : false , message : "Internal Server Error" })
+  }
+  } catch (error) {
+    res.status(500).json({ status : false , message : "Internal server error" })
+  }
+
+}
