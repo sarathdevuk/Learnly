@@ -86,24 +86,29 @@ function Signup () {
       .then((response) => {
         // checking user status 
         console.log("res" , response);
-        if(response.data.status ==="Blocked") {
-          navigate('/account/suspended') ;
+        if(!response.data.user.status) {
+          toast.error("Sorry you are Banned ..!" , {
+            position: "top-center"
+          })
+          // navigate('/account/suspended') ;
+        }else{
+          localStorage.setItem('JwtToken' ,response.data.token )
+
+          dispatch(setUserDetails({
+            name : response.data.user.firstName,
+            id : response.data.user._id,
+            email : response.data.user.email,
+            image: response.data.user.picture,
+            token: response.data.token,
+  
+          })
+          );
+          // succes navigate to home page
+  
+          navigate("/");
         }
 
-        localStorage.setItem('JwtToken' ,response.data.token )
-
-        dispatch(setUserDetails({
-          name : response.data.user.firstName,
-          id : response.data.user._id,
-          email : response.data.user.email,
-          image: response.data.user.picture,
-          token: response.data.token,
-
-        })
-        );
-        // succes navigate to home page
-        console.log("navigate to home");
-        navigate("/");
+    
     }).catch((err) => {
       toast.error("Something went wrong please reload the page" , {
         position: "top-center",
