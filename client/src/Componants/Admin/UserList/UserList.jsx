@@ -308,7 +308,6 @@ function UserList() {
             </li>
           </ul>
         </nav>
-        {/* <ToastContainer/> */}
       </div>
     </div>
   );
@@ -316,12 +315,4 @@ function UserList() {
 
 export default UserList;
 
-// import React from 'react'
 
-// function UserList() {
-//   return (
-//     <div>UserList</div>
-//   )
-// }
-
-// export default UserList
