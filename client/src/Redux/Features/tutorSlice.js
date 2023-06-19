@@ -17,7 +17,7 @@ const tutorSlice = createSlice({
   reducers : {
     
     setTutorDetails : (state , action) =>{
-      state.id = action .payload.id
+      state.id = action.payload.id
       state.firstName = action.payload.firstName
       state.lastName = action.payload.lastName 
       state.email = action.payload.email
