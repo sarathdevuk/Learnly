@@ -24,3 +24,5 @@ export const getCourse =() => {
 export const deleteCourse = (courseId) => {
   return axiosInstance('tutorJwtToken').delete(`/tutor/delete-course/${courseId}`)
 }
+
+

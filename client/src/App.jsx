@@ -4,7 +4,7 @@ import UserRouter from './routes/UserRouter';
 import TutorRouter from './routes/TutorRouter';
 import AdminRouter from './routes/AdminRouter';
 import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer , toast } from 'react-toastify';
+import { ToastContainer} from 'react-toastify';
 
 
 function App() {

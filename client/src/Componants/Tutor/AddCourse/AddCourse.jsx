@@ -1,10 +1,11 @@
 import React, { useState, useRef } from "react";
 import LoadingButton from "../../User/LoadingButton/LoadingButton";
-import { useFormik, Formik } from "formik";
+import { useFormik } from "formik";
 import * as Yup from "yup";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "./AddCourse.scss";
 import { addCourse } from "../../../services/tutorApi";
+
 
 function AddCourse() {
   const fileInputRef = useRef();
@@ -45,7 +46,7 @@ function AddCourse() {
     validationSchema: validate,
     // handling The form submition
     onSubmit: async (values) => {
-      console.log(values, "img", image);
+      console.log( "course+++", course, ("+++++++++$##%#$%"));
       // Calling addCourse api and pass the required data as body
       addCourse(values, course, image)
         .then((response) => {
@@ -89,7 +90,9 @@ function AddCourse() {
     validationSchema: validateLesson,
     // Handling submition
     onSubmit: (values) => {
+      console.log("values" , values);
       setLesson([...lesson, values]);
+      console.log( "lesson Submit " , lesson);
       // After setting the lesson the lessoName field value will be cleared
       lessonFormik.setFieldValue("lessonName", "");
       // clearing the vedioUrl field
@@ -117,13 +120,29 @@ function AddCourse() {
     });
   };
 
-  //
+  
   const addChapter = () => {
-    setCourse([...course, { chapter, lesson: lesson }]);
+    console.log(lesson,"++LSDF");
+    setCourse([...course, { chapter, lessons: lesson }]);
+    console.log("course afeter chapter" ,course);
     setLesson([]);
     successMessage("Chapter Added successfully");
     setChapter("");
   };
+  // const addChapter = () => {
+  //   console.log(lesson, "++LSDF");
+  //   const newChapter = {
+  //     chapter: chapter,
+  //     lesson: [...lesson],
+  //   };
+  //   setCourse([...course, newChapter]);
+  //   console.log("course after chapter", course);
+  //   setLesson([]);
+  //   successMessage("Chapter Added successfully");
+  //   setChapter("");
+  // };
+  
+
 
   const generateErrror = (err) => {
     toast.error(err, {

@@ -4,7 +4,7 @@ import Course from '../models/courseModel.js';
 export async function addCourse (req , res) {
 
   try {
-    console.log("body" , req.body);
+    console.log("body" , req.body.course);
 
     const {name , price ,duration , language , category , description   } = req.body ;
 
@@ -14,6 +14,20 @@ export async function addCourse (req , res) {
     }
     
     req.files.image[0].path = req.files.image[0].path.replace('public/', "");
+
+
+    // const chapters = req.body.course.map((chapter) => {
+    //   const chapterName = chapter.chapter;
+    //   const lessons = chapter.lesson.map((lesson) => {
+    //     const chapterName = lesson.chapterName;
+    //     const lessonName = lesson.lessonName;
+    //     const videoUrl = lesson.videoUrl;
+    
+    //     return { chapterName, lessonName, videoUrl };
+    //   });
+    
+    //   return { chapterName, lessons };
+    // });
 
     const course = new Course({
       name,

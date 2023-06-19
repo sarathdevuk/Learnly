@@ -7,8 +7,10 @@ import { useNavigate } from 'react-router-dom'
 import { deleteCourse, getCourse } from '../../../services/tutorApi'
 import { setCourseDetails } from '../../../Redux/Features/courseSlice'
 import swal from 'sweetalert'
-import { error } from 'console'
 
+function classNames(...classes) {
+  return classes.filter(Boolean).join('')
+}
 
 
 function ViewCourse() {
@@ -19,7 +21,7 @@ function ViewCourse() {
 
   useEffect(() => {
     getCourse().then((response) => {
-      console.log(response.data.course);
+
       setCourse(response.data.course) ;
     })
   } , [])
