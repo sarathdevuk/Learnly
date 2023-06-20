@@ -9,6 +9,9 @@ import userRouter from './Routers/userRouter.js'
 import adminRouter from "./Routers/adminRouter.js"
 import tutorRouter from './Routers/tutorRouter.js'
 import multer from 'multer';
+import mongoSanitize from 'express-mongo-sanitize' ;
+import xss from 'xss-clean'
+
 
 const app = express();
 
@@ -23,6 +26,12 @@ app.use(
     credentials: true  
   })
 );
+
+// 
+app.use(mongoSanitize());
+
+// DATA SANITIZATION  against site script xss 
+app.use(xss());
 
 
 db();
