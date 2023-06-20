@@ -3,7 +3,7 @@ import { sendVerificationCode, verifyOtp } from "../helpers/otpVerification.js";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import axios from 'axios'
-import { response } from "express";
+
 
 const secret_key = process.env.JWT_SECRET_KEY;
 const maxAge = 3 * 24 * 60 * 60;

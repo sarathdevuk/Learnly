@@ -1,22 +1,27 @@
 import express from "express";
 import { AdminLogin, addTutor, authAdmin, blockTutor, blockUser, getAllTutors, getAllUsers, unBlockTutor, unBlockUser } from "../Controller/adminController.js";
 import {verifyAdmin} from '../middleware/AuthAdmin.js'
+import validate from "../middleware/validateBody.js";
+import { loginSchema } from "../utils/yupSchema.js";
+import { validateId } from "../middleware/validateParams.js";
 
 const router = express.Router();
 // Admin Auth routes
 router.get ("/auth"  , authAdmin ) ;
-router.post("/login" , AdminLogin); 
+router.post("/login", validate(loginSchema) , AdminLogin); 
+
+router.use(verifyAdmin)
 
 // Admin Tutor Management
-router.post("/add-tutor" , verifyAdmin , addTutor);
-router.get ("/tutors" , verifyAdmin , getAllTutors) ;
-router.get("/block-tutor/:id" ,verifyAdmin ,blockTutor);
-router.get("/unblock-tutor/:id" ,verifyAdmin , unBlockTutor);
+router.post("/add-tutor" , addTutor);
+router.get ("/tutors" , getAllTutors) ;
+router.get("/block-tutor/:id" , validateId ,blockTutor);
+router.get("/unblock-tutor/:id" ,validateId , unBlockTutor);
 
 // Admin User Management
-router.get("/users" ,verifyAdmin , getAllUsers);
-router.get("/block-user/:id" , verifyAdmin , blockUser);
-router.get("/unblock-user/:id" ,verifyAdmin , unBlockUser);
+router.get("/users", getAllUsers);
+router.get("/block-user/:id" , validateId , blockUser);
+router.get("/unblock-user/:id" , validateId , unBlockUser);
 
 
 
