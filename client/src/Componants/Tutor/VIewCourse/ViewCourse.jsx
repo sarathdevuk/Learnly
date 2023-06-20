@@ -9,7 +9,7 @@ import { setCourseDetails } from '../../../Redux/Features/courseSlice'
 import swal from 'sweetalert'
 
 function classNames(...classes) {
-  return classes.filter(Boolean).join('')
+  return classes.filter(Boolean).join(' ')
 }
 
 
@@ -166,7 +166,9 @@ function ViewCourse() {
         </thead>
         <tbody>
           {
-            course.map((obj, index) => {
+            course.map((obj, index) => { 
+              console.log("im" , import.meta.env.VITE_SERVER_URL);
+              console.log("obj.image" , obj.image);
               return (
                 <tr key={index} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
                   <td className="w-4 p-4">
@@ -176,7 +178,7 @@ function ViewCourse() {
                     </div>
                   </td>
                   <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <img src={import.meta.env.VITE_SERVER_URL +obj.image.path} width="80px" alt='Course Image' />
+                    <img src= {"http://localhost:5000/images/course/thumbnail/1687014158128-images.jpeg" } width="80px" alt='Course Image' />
                   </th>
                   <td className="px-6 py-4">
                     {obj.name}

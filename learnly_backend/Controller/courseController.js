@@ -13,8 +13,14 @@ export async function addCourse (req , res) {
       throw new Error("All fields are mandatory");
     }
     
-    req.files.image[0].path = req.files.image[0].path.replace('public/', "");
+    // req.files.image[0].path = req.files.image[0].path.replace('public/', "");
+    console.log('Original file path:', req.files.image[0].path);
+    req.files.image[0].path = req.files.image[0].path.substring('public/'.length);
 
+console.log('Modified file path:', req.files.image[0].path);
+
+
+    console.log(req.files.image[0]);
 
     // const chapters = req.body.course.map((chapter) => {
     //   const chapterName = chapter.chapter;
@@ -38,7 +44,7 @@ export async function addCourse (req , res) {
       language,
       about: 'About Java',
       description,
-      image: req.files.image[0].path, // Use req.files.image[0].path here
+      image: req.files.image[0], // Use req.files.image[0].path here
       tutorRevenue:(Number(price) * (80/100)),
       adminRevenue: (Number(price) * (20/100)),
       course: req.body.course,
