@@ -14,13 +14,7 @@ export async function addCourse (req , res) {
     }
     
     // req.files.image[0].path = req.files.image[0].path.replace('public/', "");
-    console.log('Original file path:', req.files.image[0].path);
-    req.files.image[0].path = req.files.image[0].path.substring('public/'.length);
-
-console.log('Modified file path:', req.files.image[0].path);
-
-
-    console.log(req.files.image[0]);
+    req.files.image[0].path = req.files.image[0].path.substring('public'.length);
 
     // const chapters = req.body.course.map((chapter) => {
     //   const chapterName = chapter.chapter;
@@ -85,4 +79,35 @@ export async function deleteCourse (req , res) {
     res.status(500).json({ status : false , message : "Internal server error" })
   }
 
+}
+
+export async function EditCourseDetails (req , res) {
+  try {
+    const course = await Course.findOne({ _id : req.body.courseId , tutor : res.tutorId})
+    if(req.files.image) {
+      req.files.image[0].path = req.files.image[0].path.substring('public'.length);
+      image = req.files.image[0] ;
+    }else {
+      image = course.image ;
+    }
+    if(course) {
+      Course.updateOne({ _id : req.body.courseId , tutor : res.tutorId } , {
+        $set : {
+          name : req.body.name,
+          about : req.body.about,
+          category: req.body.category,
+          duration : req.body.duration,
+          language: req.body.language,
+          description : req.body.description ,
+          course : req.body.course ,
+          image
+
+        }
+      }).then((response) => {
+        res.status(200).json({ status : true , message : " Course updated Successfully" })
+      })
+    }
+  } catch (error) {
+    res.json({ status : true , message : "Internal server Error "})
+  }
 }
