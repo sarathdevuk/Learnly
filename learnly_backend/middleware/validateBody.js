@@ -1,4 +1,4 @@
-import asyncHandler from 'express-async-handler' ;import { Schema } from 'mongoose';
+import asyncHandler from 'express-async-handler' 
 
 
 
