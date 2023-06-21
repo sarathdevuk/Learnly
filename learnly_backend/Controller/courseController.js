@@ -117,7 +117,8 @@ export async function EditCourseDetails (req , res) {
 export async function getAllCourse (req , res) {
   try {
     // finding All courses and find the tutor details also by populating
-    const course = await Course.find({status: true}).populate('tutor').lean()
+    const course = await Course.find().populate('tutor').lean()
+        console.log("Course" , course);
     if(course) {
       res.status(200).json({ status : true , course})
     }
