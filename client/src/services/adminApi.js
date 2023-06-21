@@ -31,6 +31,11 @@ export const getUsers = ()=>{
 export const blockUser = (userId) => {
   return axiosInstance("adminJwtToken").get(`/admin/block-user/${userId}`)
 }
+
 export const unBlockUser = (userId) => {
   return axiosInstance("adminJwtToken").get(`/admin/unblock-user/${userId}`)
+}
+
+export const getAllCourse = () => {
+  return axiosInstance('adminJwtToken').get('/admin/course')
 }
