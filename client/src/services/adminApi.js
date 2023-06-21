@@ -39,3 +39,8 @@ export const unBlockUser = (userId) => {
 export const getAllCourse = () => {
   return axiosInstance('adminJwtToken').get('/admin/course')
 }
+
+export const changeCourseStatus = ( courseId , status ) => {
+  return axiosInstance('adminJwtToken').put(`/admin/course/change-status/${courseId}/${status}`)
+}
+
