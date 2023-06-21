@@ -26,7 +26,7 @@ router.get("/unblock-user/:id" , validateId , unBlockUser);
 
 // Course Management 
 router.get('/course' , getAllCourse)
-router.get('/course/change-status/:courseId/:status' , changeCourseStatus)
+router.put('/course/change-status/:courseId/:status' , changeCourseStatus)
 
 
 

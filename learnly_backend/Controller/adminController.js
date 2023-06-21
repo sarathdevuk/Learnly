@@ -6,7 +6,6 @@ import User from '../models/userModel.js'
 import cryptoRandomSting from 'crypto-random-string'
 import { sendEmail } from "../helpers/sendEmail.js";
 import Course from '../models/courseModel.js'
-import { json } from "body-parser";
 
 
 const maxAge = 3 *24 * 60 * 60 ;
@@ -257,6 +256,7 @@ export async function unBlockUser (req, res) {
 
 
 export async function changeCourseStatus (req , res) {
+  
   try {
     
     const courseId = req.params.courseId
@@ -277,8 +277,7 @@ export async function changeCourseStatus (req , res) {
 
 
     const response = await Course.updateOne({ _id : courseId} , {$set : updatedData})
-
-    if(response.nModified ===1) {
+    if(response.modifiedCount ===1) {
       const message = status === 'block' ? 'Course Blocked Successfully' : 'Course Unblocked Successfully'
       return res.status(200).json({ status : true , message })
     }
