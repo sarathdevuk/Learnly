@@ -81,6 +81,7 @@ export async function deleteCourse (req , res) {
 
 }
 
+// Edit Course Details
 export async function EditCourseDetails (req , res) {
   try {
     const course = await Course.findOne({ _id : req.body.courseId , tutor : res.tutorId})
@@ -110,4 +111,18 @@ export async function EditCourseDetails (req , res) {
   } catch (error) {
     res.json({ status : true , message : "Internal server Error "})
   }
+}
+
+// Finding all The courses
+export async function getAllCourse (req , res) {
+  try {
+    // finding All courses and find the tutor details also by populating
+    const course = await Course.find({status: true}).populate('tutor').lean()
+    if(course) {
+      res.status(200).json({ status : true , course})
+    }
+  } catch (error) {
+    res.status(500).json({ status : false , message : " Internal Server Error "}) ;
+  }
+
 }
