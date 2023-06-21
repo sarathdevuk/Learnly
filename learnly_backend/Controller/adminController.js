@@ -5,6 +5,8 @@ import Tutor from '../models/tutorModel.js'
 import User from '../models/userModel.js'
 import cryptoRandomSting from 'crypto-random-string'
 import { sendEmail } from "../helpers/sendEmail.js";
+import Course from '../models/courseModel.js'
+import { json } from "body-parser";
 
 
 const maxAge = 3 *24 * 60 * 60 ;
@@ -253,3 +255,39 @@ export async function unBlockUser (req, res) {
 }
 
 
+
+export async function changeCourseStatus (req , res) {
+  try {
+    
+    const courseId = req.params.courseId
+    const { status } = req.params ;
+
+    let updatedData = {} ;
+
+    switch(status) {
+      case 'block' : 
+          updatedData.status = false;
+        break;
+      case 'unblock' : 
+          updatedData.status = true;
+      break ;
+      default : 
+      return res.status(400).json({status : false, message : 'Invalid status'})
+    }
+
+
+    const response = await Course.updateOne({ _id : courseId} , {$set : updatedData})
+
+    if(response.nModified ===1) {
+      const message = status === 'block' ? 'Course Blocked Successfully' : 'Course Unblocked Successfully'
+      return res.status(200).json({ status : true , message })
+    }
+
+    res.status(404).json({ status : false , message : 'Course not found'}) ;
+
+  } catch (error) {
+    res.status(500).json({ status : false , message : 'Internal Server Error'}) ;
+    
+  }
+
+}
