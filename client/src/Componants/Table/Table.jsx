@@ -1,6 +1,6 @@
 import React from "react";
 
-function Table({ tableHeader, type }) {
+function Table({ tableHeader, type , course }) {
   return (
     <>
       <div className="mb-4 pb-2 mt-7 ">
@@ -119,7 +119,7 @@ function Table({ tableHeader, type }) {
             </tr>
           </thead>
           <tbody>
-            {course.map((obj, index) => {
+          { course && course.map((obj, index) => {
               console.log("im");
               console.log("obj.image");
               return (
