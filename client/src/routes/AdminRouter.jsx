@@ -7,6 +7,7 @@ import TutorLIstPage from "../Pages/Admin/TutorLIstPage";
 import AddTutorPage from "../Pages/Admin/AddTutorPage";
 import PrivateRoutes from "../utils/PrivateRoutes";
 import ErrorPage from "../Componants/ErrorPage/ErrorPage";
+import CourseListPage from "../Pages/Admin/CourseListPage";
 
 function AdminRouter() {
   return (
@@ -15,7 +16,8 @@ function AdminRouter() {
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/users" element={<UserListPage />} />
         <Route path="/tutors" element={<TutorLIstPage />} />
-        <Route path="/add-tutor" element={<AddTutorPage />} />
+        <Route path="/add-tutor" element={<AddTutorPage />} /> 
+        <Route path="/course" element={<CourseListPage />} />
       </Route>
 
       <Route path="/*" element={<ErrorPage/>} />
