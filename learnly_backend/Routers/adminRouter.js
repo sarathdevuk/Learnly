@@ -4,6 +4,7 @@ import {verifyAdmin} from '../middleware/AuthAdmin.js'
 import validate from "../middleware/validateBody.js";
 import { loginSchema } from "../utils/yupSchema.js";
 import { validateId } from "../middleware/validateParams.js";
+import { getAllCourse } from "../Controller/courseController.js";
 
 const router = express.Router();
 // Admin Auth routes
@@ -22,6 +23,9 @@ router.get("/unblock-tutor/:id" ,validateId , unBlockTutor);
 router.get("/users", getAllUsers);
 router.get("/block-user/:id" , validateId , blockUser);
 router.get("/unblock-user/:id" , validateId , unBlockUser);
+
+// Course Management 
+router.get('/course' , getAllCourse)
 
 
 
