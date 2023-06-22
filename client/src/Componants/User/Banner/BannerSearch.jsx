@@ -7,9 +7,9 @@ function BannerWithSearch() {
     const navigate=useNavigate();
     return (
         <div className=' homepage-banner grid sm:grind-cols-3 md:grid-cols-3 ' style={{ backgroundImage: "url(/images/Edit-Banner.jpg" }}>
-            <div className='col-span-2 h-full flex flex-col justify-center m-5 md:ml-14'>
+            <div className='col-span-2 h- flex flex-col justify-center m-5 md:ml-14'>
                 <div>
-                    <h2 className="search-banner-title font-black text-3xl md:text-3xl mb-10  tracking-wide">
+                    <h2 className="search-banner-title font-black  md:text-3xl mb-10  tracking-wide">
                     The Premier Platform <br />
                     to Showcase Your Skills
 
