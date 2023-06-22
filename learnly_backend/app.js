@@ -9,6 +9,7 @@ import userRouter from './Routers/userRouter.js'
 import adminRouter from "./Routers/adminRouter.js"
 import tutorRouter from './Routers/tutorRouter.js'
 import multer from 'multer';
+import { errorHandler } from './middleware/ErrorHandler.js';
 import mongoSanitize from 'express-mongo-sanitize' ;
 import xss from 'xss-clean'
 
@@ -42,6 +43,9 @@ const PORT = process.env.PORT || 5000
 app.use("/" , userRouter)
 app.use("/admin" , adminRouter)
 app.use("/tutor" , tutorRouter)
+
+app.use(errorHandler)
+
 
 
 // multer Errror
