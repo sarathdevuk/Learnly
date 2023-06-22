@@ -22,7 +22,7 @@ function ErrorPage() {
 		</h3>
 		
 		<p>the page you are looking for not avaible!</p>
-		<Link to={'/'}>
+		<Link to={-1}>
 		<a href="#" className="link_404">Go to Home</a>
     </Link>
 	</div>
