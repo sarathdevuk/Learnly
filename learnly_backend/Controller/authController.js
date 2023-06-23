@@ -92,7 +92,7 @@ export async function login(req, res) {
       throw new Error("All fields are required");
     }
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email : {$gt:''} });
     if (user) {
       console.log(user.status);
       if(!user.status) {

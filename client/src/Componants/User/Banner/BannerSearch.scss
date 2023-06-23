@@ -1,9 +1,11 @@
 .homepage-banner{
   color: #4e4a66;
-      height: 550px;
-      background-size: cover;
+    margin-top: 6px;
+      height: 650px;
+      background-size: contain;
       background-repeat: no-repeat;
-      background-position: center;
+      background-position: right;
+      
 }
 
 @media screen and (max-width:768px) {
@@ -29,6 +31,7 @@
 
 @media screen and (max-width:768px) {
 .serach-banner-title {
+      height: 100px;
       line-height: 42px !important;
   }
 }
