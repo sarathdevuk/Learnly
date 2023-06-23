@@ -173,6 +173,16 @@ function EditCourse() {
       return formFields;
     });
   };
+  
+
+  const handleChapterDelete = (chapterId) => {
+    setCourse(course.filter((chapter) => chapter._id != chapterId ))
+  }
+
+  const handleDeleteLesson = (indexId)=> {
+      let updateLesson = chapterDetails.lessons.filter((obj , index) => indexId != index)
+      setChapterDetails({ chapter: chapterDetails.chapter , lessons: updateLesson})
+  }
 
   const generateErrror = (err) => {
     toast.error(err, {
@@ -269,7 +279,7 @@ function EditCourse() {
       <form className="w-full mt-10 p-1">
         <div>
           <label
-            className="block uppercase tracking-wide text-violet-700 text-sm font-bold mb-2 "
+            className="block uppercase tracking-wide  text-violet-700 text-sm font-bold mb-2 "
             htmlFor="name"
           >
             Name
@@ -716,7 +726,7 @@ function EditCourse() {
         >
           <div className=" relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none dark:bg-neutral-600">
             <div className="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
-              <h5 className="text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200">
+              <h5 className="  text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200">
                 Edit Chapter
               </h5>
               <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
@@ -747,7 +757,7 @@ function EditCourse() {
                     </p>
                   ) : null}
 
-                  <label
+                  {/* <label
                     htmlFor="chapterName"
                     className={`pointer-events-none absolute top-0 left-3 mb-0 max-w-[90%] origin-[0_0] truncate pt-[0.37rem] leading-[2.15] text-neutral-500 transition-all duration-200 ease-out ${
                       lessonFormik.values.chapterName
@@ -756,7 +766,7 @@ function EditCourse() {
                     } `}
                   >
                     Chapter Name
-                  </label>
+                  </label> */}
                 </div>
               </div>
               <div className="flex  md:ml-20  mt-5 ">
@@ -822,7 +832,7 @@ function EditCourse() {
                 <div className="relative mb-3 w-full md:w-1/3 m-3">
                   <button
                     type="button"
-                    className="focus:outline-none text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:ring-green-300 font-medium rounded text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-400 
+                    className=" focus:outline-none text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:ring-green-300 font-medium rounded text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-400 
                             md:ml-5  dark:hover:bg-green-500 dark:focus:ring-green-500"
                     onClick={EditLessonFormik.handleSubmit}
                   >
@@ -897,7 +907,7 @@ function EditCourse() {
                       type="button"
                       className="loading-btn form-btn mt-2 font-medium rounded"
                     >
-                      <span className="txt">Submit</span>
+                      <span className="txt ">Submit</span>
                     </button>
                   </div>
                 </div>
