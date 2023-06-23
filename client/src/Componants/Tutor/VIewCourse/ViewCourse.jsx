@@ -191,7 +191,7 @@ function ViewCourse() {
                   </td>
                   <td className="px-6 py-4 flex justify-center items-center">
                     <button type="button" onClick={() => {
-                      navigate(`/teacher/edit-course/${obj._id}`)
+                      navigate(`/tutor/edit-course/${obj._id}`)
                       dispatch(setCourseDetails(obj));
                     }} class="text-white bg-yellow-300 hover:bg-yellow-400 focus:outline-none focus:ring-4 focus:ring-yellow-200 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:focus:ring-yellow-800">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">

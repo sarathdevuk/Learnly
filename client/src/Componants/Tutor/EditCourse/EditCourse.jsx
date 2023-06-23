@@ -3,12 +3,13 @@ import LoadingButton from "../../User/LoadingButton/LoadingButton";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
-import "./AddCourse.scss";
-import { addCourse } from "../../../services/tutorApi"; 
+import "./EditCourse.scss";
+import { addCourse, updateCourse } from "../../../services/tutorApi"; 
 import { useSelector , useDispatch } from "react-redux";
-
+import { useNavigate , useParams } from "react-router-dom";
 
 function EditCourse() {
+  const {courseId} = useParams();
   const fileInputRef = useRef();
 
   // Get course details from redux
@@ -75,7 +76,7 @@ function EditCourse() {
     onSubmit: async (values) => {
       console.log( "course+++", course, ("+++++++++$##%#$%"));
       // Calling addCourse api and pass the required data as body
-      addCourse(values, course, image)
+      updateCourse(values , course , image , courseId)
         .then((response) => {
           console.log("res", response);
           if (response.data.status) {
@@ -156,20 +157,26 @@ function EditCourse() {
     successMessage("Chapter Added successfully");
     setChapter("");
   };
-  // const addChapter = () => {
-  //   console.log(lesson, "++LSDF");
-  //   const newChapter = {
-  //     chapter: chapter,
-  //     lesson: [...lesson],
-  //   };
-  //   setCourse([...course, newChapter]);
-  //   console.log("course after chapter", course);
-  //   setLesson([]);
-  //   successMessage("Chapter Added successfully");
-  //   setChapter("");
-  // };
-  
 
+   const EditLessonFormik = useFormik({
+    initialValues : {
+      chapterName: "" ,
+      lessonName: '',
+      videoUrl : "",
+    },
+    onSubmit: (values)=> {
+      setChapterDetails({ chapter : chapterDetails.chapter , lessons :[ ...chapterDetails.lessons , values ]})
+    }
+   })
+
+
+   const handleEditLessonChange = (e) => {
+    EditLessonFormik.setValues((prev) =>{
+      const formFields = {...prev} ;
+      formFields[e.target.name] = e.target.value ;
+      return formFields;
+    })
+   }
 
   const generateErrror = (err) => {
     toast.error(err, {
@@ -191,22 +198,22 @@ function EditCourse() {
         </span>
       </div>
       <div className="mt-10">
-        {image ? (
+        {image || courseDetailsRedux ? (
           <div className="flex items-center justify-center w-full ">
             <img
               class="h-auto max-w-lg rounded-lg w-full course-image"
               alt="image description"
-              src={image ? URL.createObjectURL(image) : ""}
+              src={image ? URL.createObjectURL(image) : `${import.meta.env.VITE_SERVER_URL + courseDetailsRedux.image.path}`}  
               onClick={handleClick}
-            ></img>
+          ></img>
           </div>
         ) : (
           ""
         )}
         <div>
           <div
-            class={
-              !image
+            className={
+              !image &&!courseDetailsRedux
                 ? "flex items-center justify-center w-full "
                 : "items-center justify-center w-full hidden"
             }
@@ -454,6 +461,17 @@ function EditCourse() {
                     </h5>
                   </div>
                 </a>
+                
+                <button type="button" className="ml-3 text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm p-2.5  text-center mr-2 mb-2 dark:bg-red-400 dark:hover:bg-red-500 dark:focus:ring-red-900"
+                     onClick={() => { handleChapterDelete(obj._id) }}>
+                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 h-4">
+                       <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                    </svg>
+                       <span className="sr-only">Icon description</span>
+                </button>
+
+
+
               </div>
             );
           })}

@@ -9,14 +9,14 @@ function BannerWithSearch() {
         <div className=' homepage-banner grid sm:grind-cols-3 md:grid-cols-3 ' style={{ backgroundImage: "url(/images/Edit-Banner.jpg" }}>
             <div className='col-span-2 h- flex flex-col justify-center m-5 md:ml-14'>
                 <div>
-                    <h2 className="search-banner-title font-black  md:text-3xl mb-10  tracking-wide">
+                    <h2 className="search-banner-title font-black  md:text-3xl md:mb-10   tracking-wide">
                     The Premier Platform <br />
                     to Showcase Your Skills
 
                     </h2>
                 </div>
                 <div className='mb-10 tracking-wide'>
-                    <p className='text-xs sm:text-base sm:leading-5 md:leading-6'>Learn the skills you need to take the next step and every step <br />
+                    <p className='text-xs hidden sm:text-xs sm:leading-5 md:leading-6'>Learn the skills you need to take the next step and every step <br />
                         after. Log in now to save on courses through March 1.</p>
                 </div>
                 <div onClick={() => { navigate('/courses')}} className='mb-10'>

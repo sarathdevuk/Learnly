@@ -10,7 +10,8 @@
 
 @media screen and (max-width:768px) {
   .homepage-banner {
-          height: 430px;
+          // height: 430px;
+          height: 250px;
       }
 }
 
@@ -32,6 +33,6 @@
 @media screen and (max-width:768px) {
 .serach-banner-title {
       height: 100px;
-      line-height: 42px !important;
+      line-height: 12px !important;
   }
 }

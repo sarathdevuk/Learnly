@@ -24,5 +24,11 @@ export const getCourse =() => {
 export const deleteCourse = (courseId) => {
   return axiosInstance('tutorJwtToken').delete(`/tutor/delete-course/${courseId}`)
 }
+export const updateCourse = (values , course , image , courseId) => {
+  return axiosInstance('tutorJwtToken').put('/tutor/update-course/' , {...values ,course , image , courseId}  , { headers: {"Content-Type" : "multipart/form-data" }  } )
+  
+}
+
+
 
 
