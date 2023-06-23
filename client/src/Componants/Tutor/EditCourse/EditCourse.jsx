@@ -1,20 +1,45 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import LoadingButton from "../../User/LoadingButton/LoadingButton";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import "./AddCourse.scss";
 import { addCourse } from "../../../services/tutorApi"; 
+import { useSelector , useDispatch } from "react-redux";
 
 
 function EditCourse() {
   const fileInputRef = useRef();
+
+  // Get course details from redux
+  const courseDetailsRedux = useSelector(state => state.course.value);
 
   const [lesson, setLesson] = useState([]);
   const [chapter, setChapter] = useState("");
   const [course, setCourse] = useState([]);
   const [image, setImage] = useState("");
   const [chapterDetails, setChapterDetails] = useState(null);
+
+
+  useEffect(() => {
+
+    try {
+      if(!courseDetailsRedux){
+        generateErrror("no course")
+      }
+
+
+
+      return () => {
+        console.log("Unmount");
+      }
+    } catch (error) {
+      
+    }
+    
+  
+  }, [third])
+  
 
   // handle image select
   const handleClick = () => {
@@ -33,14 +58,16 @@ function EditCourse() {
 
   // Used Formik form submition
   const formik = useFormik({
+   
     initialValues: {
-      name: "",
-      image: "",
-      category: "",
-      duration: "",
-      language: "",
-      price: "",
-      description: "",
+      name: courseDetailsRedux.name ? courseDetailsRedux.name :'' ,
+      image: courseDetailsRedux.image ? courseDetailsRedux.image : '',
+      category: courseDetailsRedux.category ? courseDetailsRedux.category : '',
+      duration: courseDetailsRedux.duration ? courseDetailsRedux.duration :'',
+      language: courseDetailsRedux.language ? courseDetailsRedux.language : '',
+      price: courseDetailsRedux.price ? courseDetailsRedux.price : '',
+      description: courseDetailsRedux.description ? courseDetailsRedux.description : '' ,
+
     },
     // validate using Yup
     validationSchema: validate,
