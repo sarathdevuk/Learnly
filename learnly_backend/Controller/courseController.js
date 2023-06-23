@@ -81,16 +81,30 @@ export async function deleteCourse (req , res) {
 
 }
 
+export async function upadate (req,res){
+  console.log(req.body);
+  res.json({
+    message : "hy "
+  })
+}
+
 // Edit Course Details
 export async function EditCourseDetails (req , res) {
   try {
+    console.log("Edit course body" , req.body.courseId);
+    
     const course = await Course.findOne({ _id : req.body.courseId , tutor : res.tutorId})
-    if(req.files.image) {
+
+   
+   
+    let image;
+    if(req.files?.image) {
       req.files.image[0].path = req.files.image[0].path.substring('public'.length);
       image = req.files.image[0] ;
     }else {
       image = course.image ;
     }
+
     if(course) {
       Course.updateOne({ _id : req.body.courseId , tutor : res.tutorId } , {
         $set : {
@@ -109,6 +123,8 @@ export async function EditCourseDetails (req , res) {
       })
     }
   } catch (error) {
+    console.log(error);
+
     res.json({ status : true , message : "Internal server Error "})
   }
 }
