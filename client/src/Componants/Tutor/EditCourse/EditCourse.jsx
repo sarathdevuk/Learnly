@@ -4,8 +4,8 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import "./EditCourse.scss";
-import { addCourse, updateCourse } from "../../../services/tutorApi";
-import { useSelector, useDispatch } from "react-redux";
+import { updateCourse } from "../../../services/tutorApi";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 
 function EditCourse() {
@@ -69,8 +69,9 @@ function EditCourse() {
     validationSchema: validate,
     // handling The form submition
     onSubmit: async (values) => {
-      console.log("course+++", course, "+++++++++$##%#$%");
+      console.log("course++", course, values , "+++++++++$##%#$%");
       // Calling addCourse api and pass the required data as body
+      
       updateCourse(values, course, image, courseId)
         .then((response) => {
           console.log("res", response);
