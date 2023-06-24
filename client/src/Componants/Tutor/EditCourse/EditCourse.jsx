@@ -77,8 +77,14 @@ function EditCourse() {
     validationSchema: validate,
     // handling The form submition
     onSubmit: async (values) => {
-      console.log("course++", course, "subit course");
-      // Calling addCourse api and pass the required data as body
+// Check if there is chapter exits 
+console.log( "submit Course",course[0]?.chapter );
+
+      if(!course[0]?.chapter) { 
+        generateErrror("Minimum 1 chapter Required");
+      }else{
+
+      // Calling EditCourse api and pass the required data as body
       
       updateCourse(values, course, image, courseId)
         .then((response) => {
@@ -94,6 +100,7 @@ function EditCourse() {
         .catch((err) => {
           generateErrror("Network error");
         });
+      }
     },
   });
 
