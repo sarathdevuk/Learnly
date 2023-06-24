@@ -31,8 +31,16 @@ function EditCourse() {
 
       setCourse(courseDetailsRedux.course);
 
+      function handleBeforeUnload(event) {
+        event.preventDefault() ; 
+        event.returnValue = '';
+      }
+      window.addEventListener('beforeunload' , handleBeforeUnload) ;
+
+
       return () => {
         console.log("Unmount");
+        window.removeEventListener('beforeunload' , handleBeforeUnload)
       };
     } catch (error) {
       generateErrror(error);
@@ -69,7 +77,7 @@ function EditCourse() {
     validationSchema: validate,
     // handling The form submition
     onSubmit: async (values) => {
-      console.log("course++", course, values , "+++++++++$##%#$%");
+      console.log("course++", course, "subit course");
       // Calling addCourse api and pass the required data as body
       
       updateCourse(values, course, image, courseId)
@@ -176,9 +184,25 @@ function EditCourse() {
   };
   
 
+  // const handleChapterDelete = (chapterId) => {
+  //   console.log("Course bfr %#$%%$" , course , chapterId);
+  //   setCourse(course.filter((chapter) => {
+  //     console.log( "chapter" ,chapter._id);
+  //     return chapter._id != chapterId
+  //   }  ))
+  //   console.log("Course after %#$%%$" , course);
+  // }
+
   const handleChapterDelete = (chapterId) => {
-    setCourse(course.filter((chapter) => chapter._id != chapterId ))
-  }
+    console.log("Course bfr %#$%%$", course, chapterId);
+    
+    const updatedCourse = course.filter((chapter) => chapter._id !== chapterId);
+    setCourse(updatedCourse);
+    
+    console.log("Course after %#$%%$", updatedCourse);
+  };
+  
+  
 
   const handleDeleteLesson = (indexId)=> {
       let updateLesson = chapterDetails.lessons.filter((obj , index) => indexId != index)
@@ -472,13 +496,14 @@ function EditCourse() {
                         </div>
                         <div
                           className="flex items-center ml-auto"
+                          // for edit modal chapter details
                           onClick={() => {
                             setChapterDetails(
                               course.find(
                                 (courses) => courses.chapter === obj.chapter
                               )
                             );
-                            console.log(chapterDetails, "chapter detajd");
+                            console.log(chapterDetails, "chapter detaisl %%$%#$%");
                           }}
                         >
                           <span
@@ -505,6 +530,7 @@ function EditCourse() {
                               type="button"
                               className=" text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm p-2.5  text-center mr-2  dark:bg-red-400 dark:hover:bg-red-500 dark:focus:ring-red-900"
                               onClick={() => {
+                                console.log(obj._id ,"idfsd");
                                 handleChapterDelete(obj._id);
                               }}
                             >

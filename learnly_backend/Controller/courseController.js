@@ -81,17 +81,11 @@ export async function deleteCourse (req , res) {
 
 }
 
-export async function upadate (req,res){
-  console.log(req.body);
-  res.json({
-    message : "hy "
-  })
-}
 
 // Edit Course Details
 export async function EditCourseDetails (req , res) {
   try {
-    console.log("Edit course body" , req.body.courseId);
+    console.log("Edit course body" , req.body.course);
     
     const course = await Course.findOne({ _id : req.body.courseId , tutor : res.tutorId})
 
@@ -119,6 +113,7 @@ export async function EditCourseDetails (req , res) {
 
         }
       }).then((response) => {
+        console.log(response);
         res.status(200).json({ status : true , message : " Course updated Successfully" })
       })
     }
