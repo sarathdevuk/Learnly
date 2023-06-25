@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import LoadingButton from "../../User/LoadingButton/LoadingButton";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "./EditCourse.scss";
 import { updateCourse } from "../../../services/tutorApi";
 import { useSelector } from "react-redux";
@@ -576,6 +576,8 @@ console.log( "submit Course",course[0]?.chapter );
           </div>
         </div>
       </form>
+      <ToastContainer />
+     
 
       {/*add course modal */}
       <dialog
@@ -747,6 +749,7 @@ console.log( "submit Course",course[0]?.chapter );
             </div>
           </div>
         </form>
+        <ToastContainer />
       </dialog>
 
       {/* Edit Course Modal */}
@@ -950,6 +953,7 @@ console.log( "submit Course",course[0]?.chapter );
             </div>
           </div>
         </form>
+        <ToastContainer />
       </dialog>
     </div>
   );
