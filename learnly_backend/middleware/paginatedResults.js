@@ -1,71 +1,76 @@
-import Tutor from '../models/tutorModel.js'
-import Course from '../models/courseModel.js';
+import Tutor from "../models/tutorModel.js";
+import Course from "../models/courseModel.js";
 
-
-const paginatedResults = () => async(req , res, next) => {
-
+const paginatedResults = () => async (req, res, next) => {
   // getting page and limit from query
   const page = parseInt(req.query.page) || 1;
-  const limit = parseInt(req.query.limit) || 10 ;
+  const limit = parseInt(req.query.limit) || 10;
 
-  const startIndex = (page - 1 ) * limit;
-  const endIndex = page *limit ;
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit;
 
   let model = null;
 
   // finding the Modal
 
-  switch (req.query.model){
-     
-    case 'tutor' : 
-      model = Tutor 
+  switch (req.query.model) {
+    case "tutor":
+      model = Tutor;
       break;
-    
-    case 'course' : 
-      model = Course ;
-      break ;
-       
-      default :
-        return res.status(404).json({ status : false , message :"Not proper syntax"});  
-    }
 
-    if(!model) {
-     return res.status(404).json({ status: false , message : "No Model Found"})
-    }
+    case "course":
+      model = Course;
+      break;
 
-    // Taking the total count of documents
-    const modelCount = await model.countDocuments();
-    const results  = {};
-    
-    // Next page
-    if(endIndex < modelCount ){
-      results.next= {
-        page: page + 1,
-        limit : limit
-      }
-    }
+    default:
+      return res
+        .status(404)
+        .json({ status: false, message: "Not proper syntax" });
+  }
 
-    // prevPage
-    if(startIndex > 0) {
-      results.previous = {
-        page: page -1,
-        limit : limit ,
-      }
-    }
+  if (!model) {
+    return res.status(404).json({ status: false, message: "No Model Found" });
+  }
 
-    // if both false 
-    results.limit = endIndex > modelCount ? modelCount : endIndex;
+  // Taking the total count of documents
+  const modelCount = await model.countDocuments();
+  const results = {};
+
+  // Next page
+  if (endIndex < modelCount) {
+    results.next = {
+      page: page + 1,
+      limit: limit,
+    };
+  }
+
+  // prevPage
+  if (startIndex > 0) {
+    results.previous = {
+      page: page - 1,
+      limit: limit,
+    };
+  }
 
 
-    results.current = parseInt(req.query.page);
-    results.count = modelCount;
-    results.endIndex = endIndex;
-    results.startIndex = startIndex ;
+  // if both false
+  if (endIndex > modelCount) {
+    results.limit = modelCount;
+  } else if (modelCount < modelCount) {
+    results.limit = endIndex;
+  } else {
+    results.limit = limit;
+  }
 
-    // Passing the results for next Function
-    req.paginatedResults = results ;
-    next();
+  console.log(results.limit, "limit");
+  results.current = parseInt(req.query.page);
+  results.count = modelCount;
+  results.endIndex = endIndex;
+  results.startIndex = startIndex;
 
-}
+  // Passing the results for next Function
+  req.paginatedResults = results;
+  next();
+};
 
-export default paginatedResults
+export default paginatedResults;
