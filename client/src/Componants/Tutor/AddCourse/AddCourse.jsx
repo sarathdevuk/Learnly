@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import LoadingButton from "../../User/LoadingButton/LoadingButton";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "./AddCourse.scss";
 import { addCourse } from "../../../services/tutorApi";
 
@@ -309,7 +309,7 @@ function AddCourse() {
               className="border-gray-300 appearance-none block w-full bg-white text-gray-700 border rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white"
               type="text"
               id="Language"
-              placeholder="Course Duration"
+              placeholder="Language"
               name="language"
               value={formik.values.language}
               onChange={(e) => {
@@ -440,6 +440,7 @@ function AddCourse() {
           </div>
         </div>
       </form>
+      <ToastContainer/>
 
       {/*add course modal */}
       <dialog
@@ -611,6 +612,7 @@ function AddCourse() {
             </div>
           </div>
         </form>
+        <ToastContainer/>
       </dialog>
     </div>
   );
