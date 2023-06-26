@@ -128,9 +128,10 @@ export async function EditCourseDetails (req , res) {
 // Finding all The courses
 export async function getAllCourse (req , res) {
   try {
+    console.log("Course" , req.paginatedResults.startIndex , "end ndex" , req.paginatedResults.endIndex);
     // finding All courses and find the tutor details also by populating
-    const course = await Course.find().skip(req.paginatedResults.startIndex).limit(req.paginatedResults.endIndex).populate('tutor').lean()
-        console.log("Course" , course);
+    const course = await Course.find().skip(req.paginatedResults.startIndex).limit(req.paginatedResults.limit).populate('tutor').lean()
+      
     if(course) {
       res.status(200).json({ status : true , course , pagination : req.paginatedResults})
     }

@@ -5,6 +5,7 @@ const paginatedResults = () => async (req, res, next) => {
   // getting page and limit from query
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
+  console.log("limit" , limit);
 
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
@@ -56,8 +57,6 @@ const paginatedResults = () => async (req, res, next) => {
   // if both false
   if (endIndex > modelCount) {
     results.limit = modelCount;
-  } else if (modelCount < modelCount) {
-    results.limit = endIndex;
   } else {
     results.limit = limit;
   }
