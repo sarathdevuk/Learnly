@@ -1,5 +1,5 @@
-import Tutor from '../models/tutorModel'
-import Course from '../models/courseModel';
+import Tutor from '../models/tutorModel.js'
+import Course from '../models/courseModel.js';
 
 
 const paginatedResults = () => async(req , res, next) => {
@@ -65,7 +65,7 @@ const paginatedResults = () => async(req , res, next) => {
     // Passing the results for next Function
     req.paginatedResults = results ;
     next();
-    
+
 }
 
-export default paginatedResults()
+export default paginatedResults

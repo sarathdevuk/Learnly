@@ -153,11 +153,12 @@ try {
 export async function getAllTutors(req, res) {
   
   try {
-    const tutors =  await Tutor.find({} ,{password: 0 })
+    // Finding all Tutors with paginated Results
+    const tutors =  await Tutor.find({} ,{password: 0 }).skip(req.paginatedResults.startIndex).limit(req.paginatedResults.endIndex)
     console.log("get tutors ,  " , tutors);
-     res.status(200).json({status : true , tutors})
+     res.status(200).json({status : true , tutors , pagination :req.paginatedResults})
   } catch (error) {
-    res.status(500).json({created : false , message:"" })
+    res.status(500).json({created : false , message:"Internal Server Error" })
   }
 }
 

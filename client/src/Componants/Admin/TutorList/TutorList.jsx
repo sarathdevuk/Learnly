@@ -12,13 +12,13 @@ function TutorList() {
 
   // initial load
   useEffect(()=> {
-    getTutorsDetails()
+    getTutorsDetails(1)
   },[])
   
   // // get teacher Details
    
-  const getTutorsDetails = () => {
-    getTutors().then((response => {
+  const getTutorsDetails = (page) => {
+    getTutors(page).then((response => {
         console.log("response" , response.data);
       setTutor(response.data.tutors)
       setpagination(res.data.pagination) 
@@ -194,6 +194,8 @@ function TutorList() {
 
                     </tbody>
                 </table>
+
+                {/* Pagination */}
                 <nav className="flex items-center justify-between p-3 mt-4" aria-label="Table navigation">
                     <span className="text-sm font-normal text-gray-500 dark:text-gray-400">Showing <span className="font-semibold text-gray-900 dark:text-white">{pagination?.current * pagination?.limit}</span> of <span className="font-semibold text-gray-900 dark:text-white">{pagination?.count}</span></span>
                     <ul className="inline-flex items-center -space-x-px">
