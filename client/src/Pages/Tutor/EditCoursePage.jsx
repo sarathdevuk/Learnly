@@ -9,7 +9,7 @@ function EditCoursePage() {
     <div>
       <Sidebar tutor={true}/>
       <Header role={'tutor'} /> 
-    <div className='admin-page pt-4'> 
+    <div className='admin-page pt-4 p-4 '> 
       <EditCourse/> 
     </div>
     </div>

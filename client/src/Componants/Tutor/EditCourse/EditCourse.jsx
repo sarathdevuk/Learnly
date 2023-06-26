@@ -523,7 +523,7 @@ console.log( "submit Course",course[0]?.chapter );
                               viewBox="0 0 24 24"
                               strokeWidth={1.5}
                               stroke="currentColor"
-                              className="w-4 h-4"
+                              className="w-3 h-3"
                             >
                               <path
                                 strokeLinecap="round"
@@ -547,7 +547,7 @@ console.log( "submit Course",course[0]?.chapter );
                                 viewBox="0 0 24 24"
                                 strokeWidth={1.5}
                                 stroke="currentColor"
-                                className="w-4 h-4"
+                                className="w-3 h-3"
                               >
                                 <path
                                   strokeLinecap="round"
@@ -889,18 +889,19 @@ console.log( "submit Course",course[0]?.chapter );
                           <div className="p-3 w-full md:w-1/2">
                             <a
                               href="#"
-                              className="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
+                              className="flex flex-col w-full items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700"
                             >
-                              <div className="flex flex-col justify-between p-4 leading-normal">
-                                <h5 className=" text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
+                              <div className="flex flex-col justify-between w-full p-4 leading-normal">
+                                <h5 className=" flex justify-between text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
+                                  <div className="f">
                                   <span className="mr-3">{index + 1}.</span>
                                   {obj.lessonName}
-                                </h5>
-                              </div>
-                            </a>
-                            <button
+
+                                  </div>
+                                  <div className=" ">
+                                  <button
                               type="button"
-                              className="ml-3 text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm p-2.5  text-center mr-2 mb-2 dark:bg-red-400 dark:hover:bg-red-500 dark:focus:ring-red-900"
+                              className=" text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm p-2.5  text-center  dark:bg-red-400 dark:hover:bg-red-500 dark:focus:ring-red-900"
                               onClick={() => {
                                 handleDeleteLesson(index);
                               }}
@@ -911,7 +912,7 @@ console.log( "submit Course",course[0]?.chapter );
                                 viewBox="0 0 24 24"
                                 strokeWidth={1.5}
                                 stroke="currentColor"
-                                className="w-4 h-4"
+                                className="w-3 h-3"
                               >
                                 <path
                                   strokeLinecap="round"
@@ -922,6 +923,12 @@ console.log( "submit Course",course[0]?.chapter );
 
                               <span className="sr-only">Icon description</span>
                             </button>
+                                  </div>
+
+                                </h5>
+                              </div>
+                            </a>
+                          
                           </div>
                         );
                       })
