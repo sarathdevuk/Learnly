@@ -4,7 +4,7 @@ import Course from '../models/courseModel';
 
 const paginatedResults = () => async(req , res, next) => {
 
-
+  // getting page and limit from query
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10 ;
 
@@ -13,7 +13,9 @@ const paginatedResults = () => async(req , res, next) => {
 
   let model = null;
 
-  switch ( req.query.model){
+  // finding the Modal
+
+  switch (req.query.model){
      
     case 'tutor' : 
       model = Tutor 
@@ -31,11 +33,11 @@ const paginatedResults = () => async(req , res, next) => {
      return res.status(404).json({ status: false , message : "No Model Found"})
     }
 
-
-
+    // Taking the total count of documents
     const modelCount = await model.countDocuments();
     const results  = {};
     
+    // Next page
     if(endIndex < modelCount ){
       results.next= {
         page: page + 1,
@@ -43,6 +45,7 @@ const paginatedResults = () => async(req , res, next) => {
       }
     }
 
+    // prevPage
     if(startIndex > 0) {
       results.previous = {
         page: page -1,
@@ -50,14 +53,19 @@ const paginatedResults = () => async(req , res, next) => {
       }
     }
 
+    // if both false 
     results.limit = endIndex > modelCount ? modelCount : endIndex;
+
+
     results.current = parseInt(req.query.page);
     results.count = modelCount;
     results.endIndex = endIndex;
     results.startIndex = startIndex ;
 
+    // Passing the results for next Function
     req.paginatedResults = results ;
     next();
+    
 }
 
 export default paginatedResults()
