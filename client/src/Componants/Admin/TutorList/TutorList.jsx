@@ -8,7 +8,7 @@ import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 function TutorList() {
 
   const [tutor , setTutor] = useState();
-  const [pagination , setpagination ] = useState();
+  const [pagination , setPagination ] = useState();
 
   // initial load
   useEffect(()=> {
@@ -19,9 +19,11 @@ function TutorList() {
    
   const getTutorsDetails = (page) => {
     getTutors(page).then((response => {
-        console.log("response" , response.data);
+        console.log("response" , response.data.pagination);
       setTutor(response.data.tutors)
-      setpagination(res.data.pagination) 
+      setPagination(response.data.pagination) 
+
+      
     }))
     .catch((error)=> {
       
