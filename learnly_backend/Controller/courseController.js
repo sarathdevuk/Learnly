@@ -129,10 +129,10 @@ export async function EditCourseDetails (req , res) {
 export async function getAllCourse (req , res) {
   try {
     // finding All courses and find the tutor details also by populating
-    const course = await Course.find().populate('tutor').lean()
+    const course = await Course.find().skip(req.paginatedResults.startIndex).limit(req.paginatedResults.endIndex).populate('tutor').lean()
         console.log("Course" , course);
     if(course) {
-      res.status(200).json({ status : true , course})
+      res.status(200).json({ status : true , course , pagination : req.paginatedResults})
     }
   } catch (error) {
     res.status(500).json({ status : false , message : " Internal Server Error "}) ;
