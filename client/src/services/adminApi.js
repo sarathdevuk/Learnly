@@ -12,8 +12,8 @@ export const addTutor = (values) => {
   return axiosInstance('adminJwtToken').post('/admin/add-tutor' , {...values})
 }
 
-export const getTutors = () => {
-  return axiosInstance('adminJwtToken').get('/admin/tutors')
+export const getTutors = (page) => {
+  return axiosInstance('adminJwtToken').get(`/admin/tutors?model=${"tutor"}&page=${page}&limit=${1}`)
 }
 
 export const blockTutor = (tutorId) =>{
@@ -36,8 +36,8 @@ export const unBlockUser = (userId) => {
   return axiosInstance("adminJwtToken").get(`/admin/unblock-user/${userId}`)
 }
 
-export const getAllCourse = () => {
-  return axiosInstance('adminJwtToken').get('/admin/course')
+export const getAllCourse = (page) => {
+  return axiosInstance('adminJwtToken').get(`/admin/course?model=${'course'}&page=${page}&limit=${1}`)
 }
 
 export const changeCourseStatus = ( courseId , status ) => {

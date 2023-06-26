@@ -21,9 +21,9 @@ function CourseListPage() {
     {title: "Action"},
   ]
 
-  const getCourseDetails = () => {
-    getAllCourse().then((response)=>{
-      console.log("course ");
+  const getCourseDetails = (page) => {
+    getAllCourse(page).then((response)=>{
+      console.log("pagination ", response.data.pagination);
         setCourse(response.data.course)
         setPagination(response.data.pagination)
     })
@@ -34,7 +34,7 @@ function CourseListPage() {
   }
   
   useEffect(()=> {
-    getCourseDetails();
+    getCourseDetails(1);
   },[])
 
 
