@@ -109,7 +109,8 @@ export async function EditCourseDetails (req , res) {
           language: req.body.language,
           description : req.body.description ,
           course : req.body.course ,
-          image
+          image ,
+          
 
         }
       }).then((response) => {
