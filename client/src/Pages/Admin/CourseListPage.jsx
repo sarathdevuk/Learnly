@@ -4,6 +4,7 @@ import Sidebar from '../../Componants/Sidebar/Sidebar'
 import Table from '../../Componants/Table/Table'
 import {toast} from 'react-toastify'
 import { changeCourseStatus, getAllCourse } from '../../services/adminApi';
+import swal from 'sweetalert'
 
 
 function CourseListPage() {
@@ -39,23 +40,65 @@ function CourseListPage() {
 
 
   const handleStatus = (id , status) => {
-    changeCourseStatus( id , status).then((response)=> {
-      console.log("success");
-      setCourse(course.map((obj)  => {
-        if(obj._id == id) {
-          obj.status = status =='block' ? false : true
-        }
-        return obj ;
-      }))
-      toast.success(response.data.message , { position : "top-center"})
-   
+
+    if(status ==='block') {
+    // Give alert when the status is Block
+      swal({
+      title : "Are you sure to Block ?",
+      text:" If You Blocked The Course, Users Cant access .!",
+      icon : "warning",
+      buttons : true ,
+      dangerMode : true
+    }).then((willChange) =>{
+      if(willChange){
+        // Change Course Api Call to the server with id and status
+        changeCourseStatus( id , status).then((response)=> {
+        //  Updating the Course
+          setCourse(course.map((obj)  => {
+            if(obj._id == id) {
+              obj.status = status =='block' ? false : true
+            }
+            return obj ;
+          }))
+
+          toast.success(response.data.message , { position : "top-center"})
+       
+        })
+        .catch((response) => {
+          toast.error(response.message , {
+            position : "top-center"
+          })
+        })
+
+      }
+
     })
-    .catch((response) => {
-      toast.error(response.message , {
-        position : "top-center"
+
+    }else{
+      // Else the status is unblock  here change status without alert 
+
+      changeCourseStatus( id , status).then((response)=> {
+        console.log("success");
+        setCourse(course.map((obj)  => {
+          if(obj._id == id) {
+            obj.status = status =='block' ? false : true
+          }
+          return obj ;
+        }))
+        toast.success(response.data.message , { position : "top-center"})
+     
       })
-    })
-  }
+      .catch((response) => {
+        toast.error(response.message , {
+          position : "top-center"
+        })
+      })
+
+    }
+
+   
+  } 
+
 
 
   return (

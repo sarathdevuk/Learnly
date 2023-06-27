@@ -3,9 +3,12 @@ import { useFormik, Formik } from "formik";
 import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import { changePassword } from "../../services/tutorApi";
+import { ClipLoader } from 'react-spinners';
+
 
 function ChangePassword() {
   const [passwordStrength, setPasswordStrength] = useState("");
+  const [loading , setLoding] = useState(false);
 
   const validate = Yup.object({
     oldpassword: Yup.string()
@@ -137,7 +140,7 @@ function ChangePassword() {
               ) : null}
 
               {passwordStrength && (
-                <div className="ml-auto text-sm mt-1 text-gray-600">
+                <div className="ml-auto text-sm mt-1 text-gray-500">
                   Password Strength: {" "}
                   <span
                     className={`font-medium ${
@@ -183,8 +186,14 @@ function ChangePassword() {
             <button
               type="submit"
               className="w-full mt-8 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-            >
-              Reset passwod
+            >                      
+              Reset passwod     <span className="mt-1" > <ClipLoader
+  color="#ffff"
+  cssOverride={{}}
+  loading
+  size={15}
+  speedMultiplier={1}
+/></span>
             </button>
           </form>
         </div>

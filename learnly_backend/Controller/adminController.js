@@ -260,7 +260,7 @@ export async function changeCourseStatus (req , res) {
   
   try {
     
-    const courseId = req.params.courseId
+    const courseId = req.params.id
     const { status } = req.params ;
 
     let updatedData = {} ;
