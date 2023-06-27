@@ -2,12 +2,12 @@ import express from "express";
 
 import { doSignup, generateOtp, googleAuth, login, userAuth } from "../Controller/authController.js";
 import validate from "../middleware/validateBody.js";
-import { loginSchema } from "../utils/yupSchema.js";
+import { loginSchema, signupSchema } from "../utils/yupSchema.js";
 const router = express.Router()
 
 
 
-router.post("/signup" , generateOtp   )
+router.post("/signup" , validate(signupSchema) , generateOtp   )
 
 router.post("/otp" , doSignup)
 
