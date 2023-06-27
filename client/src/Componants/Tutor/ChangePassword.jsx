@@ -1,11 +1,11 @@
-import React , {useState} from "react";
+import React, { useState } from "react";
 import { useFormik, Formik } from "formik";
 import * as Yup from "yup";
 import { ToastContainer, toast } from "react-toastify";
 import { changePassword } from "../../services/tutorApi";
 
 function ChangePassword() {
-  const [passwordStrength, setPasswordStrength] = useState('');
+  const [passwordStrength, setPasswordStrength] = useState("");
 
   const validate = Yup.object({
     oldpassword: Yup.string()
@@ -61,8 +61,8 @@ function ChangePassword() {
       formFields[event.target.name] = event.target.value;
 
       // Evaluate password strength using zxcvbn
-      const strength = evaluatePasswordStrength(formFields.password)
-      console.log("strength" , strength);
+      const strength = evaluatePasswordStrength(formFields.password);
+      console.log("strength", strength);
       setPasswordStrength(strength);
 
       return formFields;
@@ -72,11 +72,11 @@ function ChangePassword() {
   const evaluatePasswordStrength = (password) => {
     // Basic password strength evaluation logic
     if (password.length >= 8) {
-      return 'Strong';
+      return "Strong";
     } else if (password.length >= 6) {
-      return 'Moderate';
+      return "Moderate";
     } else {
-      return 'Weak';
+      return "Weak";
     }
   };
 
@@ -111,7 +111,7 @@ function ChangePassword() {
               />
 
               {formik.touched.oldpassword && formik.errors.oldpassword ? (
-                <div>{formik.errors.oldpassword}</div>
+                <div className="text-sm text-red-400">{formik.errors.oldpassword}</div>
               ) : null}
             </div>
 
@@ -133,12 +133,24 @@ function ChangePassword() {
                 }}
               />
               {formik.touched.password && formik.errors.password ? (
-                <div className="text-red-500">{formik.errors.password}</div>
+                <div className="text-sm text-red-500">{formik.errors.password}</div>
               ) : null}
 
-              {passwordStrength  && (
-                <div className="text-sm mt-1 text-gray-600">
-                  Password Strength:{passwordStrength}
+              {passwordStrength && (
+                <div className="ml-auto text-sm mt-1 text-gray-600">
+                  Password Strength: {" "}
+                  <span
+                    className={`font-medium ${
+                      passwordStrength === "Strong"
+                        ? "text-green-700" 
+                        : passwordStrength ==='Moderate' 
+                        ?  "text-yellow-400" 
+                        :  "text-red-600"
+                        
+                    }`}
+                  >
+                    {passwordStrength}
+                  </span>
                 </div>
               )}
             </div>
@@ -162,7 +174,7 @@ function ChangePassword() {
 
               {formik.touched.confirmpassword &&
               formik.errors.confirmpassword ? (
-                <div className="text-red-500">
+                <div className="text-sm text-red-500">
                   {formik.errors.confirmpassword}
                 </div>
               ) : null}
@@ -177,8 +189,7 @@ function ChangePassword() {
           </form>
         </div>
       </div>
-    <ToastContainer/>
-
+      <ToastContainer />
     </div>
   );
 }
