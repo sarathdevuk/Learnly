@@ -89,7 +89,9 @@ export async function EditCourseDetails (req , res) {
     
     const course = await Course.findOne({ _id : req.body.courseId , tutor : res.tutorId})
 
-   
+    if (!course) {
+      return res.status(404).json({ status: false, message: "Course not found" });
+    }
    
     let image;
     if(req.files?.image) {
@@ -99,7 +101,7 @@ export async function EditCourseDetails (req , res) {
       image = course.image ;
     }
 
-    if(course) {
+    
       Course.updateOne({ _id : req.body.courseId , tutor : res.tutorId } , {
         $set : {
           name : req.body.name,
@@ -116,7 +118,7 @@ export async function EditCourseDetails (req , res) {
         console.log(response);
         res.status(200).json({ status : true , message : " Course updated Successfully" })
       })
-    }
+    
   } catch (error) {
     console.log(error);
 
