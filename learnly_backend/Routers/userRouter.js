@@ -3,7 +3,7 @@ import express from "express";
 import { doSignup, generateOtp, googleAuth, login, userAuth } from "../Controller/authController.js";
 import validate from "../middleware/validateBody.js";
 import { loginSchema, signupSchema } from "../utils/yupSchema.js";
-import { getUserDetails } from "../Controller/userController.js";
+import { getUserDetails, updateUserProfile } from "../Controller/userController.js";
 const router = express.Router()
 
 
@@ -20,4 +20,5 @@ router.get("/user-authenticate" , userAuth )
 
 // Account
 router.get('/account', getUserDetails)
+router.patch('/update-profile' , updateUserProfile)
 export default router
