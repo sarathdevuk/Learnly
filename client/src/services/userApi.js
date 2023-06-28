@@ -27,3 +27,6 @@ export const loginWithGoogle = (data) => {
 export const getUserDetails = () => {
   return axiosInstance("JwtToken").get('/user/account' )
 }
+export const updateUserProfile = (values) => {
+  return axiosInstance("JwtToken").patch('/user/update-profile' ,{ ...values} )
+}
