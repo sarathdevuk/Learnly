@@ -1,6 +1,84 @@
-import React from "react";
+import React, { useState } from "react";
+import './UserProfile.scss'
 
-function UserProfile() {
+import {toast} from 'react-toastify';
+import {TiTick} from 'react-icons/ti'
+import { useFormik } from "formik";
+import * as Yup from 'yup';
+import { FiEdit2 } from "react-icons/fi";
+import { useDispatch } from "react-redux";
+import { setUserDetails } from "../../../Redux/Features/userSlice";
+import { getUserDetails } from "../../../../../learnly_backend/Controller/userController";
+import { error } from "console";
+import { updateUserProfile } from "../../../services/userApi";
+
+
+
+function UserProfile() { 
+
+  const [user , setUser] = useState('');
+  const [image , setImage] = useState(' ');
+  const dispatch = useDispatch();
+  const initialValues = {};
+
+   useEffect(() => {
+    // fetch User details from the server
+    getUserDetails()
+          .then((response)=>{
+              setUser(response.data.userDetails)
+              initialValues.firstName = response.data.userDetails?.firstName;
+              initialValues.lastName = response.data.userDetails?.lastName;
+
+          }).catch((error)=>{
+            toast(error.message , {position:"top-center"})
+          })
+    
+
+  }, [])
+
+
+  const vallidate = Yup.object({
+    firstName: Yup.string()
+        .max(15 , "Must be 15 Charecter or less")
+        .required('FirstName is Required'),
+        
+    lastName:Yup.string()
+        .max(15, 'Must be 15 Charecter or less')
+        .required("lastName is Required")
+        })
+  
+
+        const formik = useFormik({
+          initialValues : initialValues ,
+          validationSchema: vallidate,
+          onSubmit: async(values) => {
+            updateUserProfile(values)
+                  .then((response)=>{
+                    toast.success(response.data.message , {
+                      position: "top-center"
+                    })
+                    setUser({...user , firstName : values.firstName , lastName: values.lastName})
+                  })
+                  .catch((error)=>[
+                    toast.error(error.message , {
+                      position:"top-center"
+                    })
+                  ])
+
+                 }
+        })
+
+          //handling the input box changes
+    const handleChange = (event) => {
+      formik.setValues((prev) => {
+          const formFields = { ...prev };
+          formFields[event.target.name] = event.target.value;
+          return formFields
+      })
+  }
+
+
+
   return (
     <div>
       <div className="md:flex  no-wrap md:-mx-2 ">
@@ -20,7 +98,7 @@ function UserProfile() {
                   className="absolute inset-0  opacity-0 cursor-pointer"
                   // onChange={handleFileSelect}
                 />{" "}
-                {/* <FiEdit2 size={14} /> */}
+                <FiEdit2 size={14} />
               </div>
             </div>
             <h1 className="text-gray-900 font-bold text-xl leading-8 my-1">
@@ -121,9 +199,10 @@ function UserProfile() {
                 <div className="grid mt-4 ">
                   <div className=" py-2  font-semibold">Email</div>
                   <div className="flex justify-between ">
+                    sarathed@gmial
                     {/* <div>{user?.email}</div> */}
                     <div className="w-8 h-8 text-green-600 border-2 flex justify-center items-center rounded-full border-green-600">
-                      {/* <TiTick size={20} /> */}
+                      <TiTick size={20} />
                     </div>
                   </div>
                 </div>
