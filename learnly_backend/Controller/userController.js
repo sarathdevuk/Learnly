@@ -30,3 +30,22 @@ export async function updateUserProfile(req, res) {
     res.status(500).json({ status: false, message: "Internal server Error" });
   }
 }
+
+export async function updateUserAvatar (req , res) {
+  try {
+    // updating the image upload path 
+    const image = process.env.BASE_URL + req.files.image[0].path.substring('public'.length);
+
+    // updating the data 
+    const updateUser = await  User.updateOne({_id: req.userId}, {
+      $set: { picture : image}
+    })
+    console.log("updated seersaf" , updateUser);
+    res.status(200).json({status : true, message : "Profile updated successfully"})
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({status : false, message : "Internal Server Error"})
+  }
+
+}
