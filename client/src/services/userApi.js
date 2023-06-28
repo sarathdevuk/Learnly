@@ -19,6 +19,11 @@ export const userLogin = (values) =>{
 }
 
 export const loginWithGoogle = (data) => {
-  console.log("login with google" , {data});
   return axiosInstance("JwtToken").post('/auth/login/google',{...data} )
+}
+
+// Account 
+
+export const getUserDetails = () => {
+  return axiosInstance("JwtToken").get('/user/account' )
 }
