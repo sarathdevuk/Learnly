@@ -16,7 +16,7 @@ function BannerWithSearch() {
                     </h2>
                 </div>
                 <div className='mb-10 tracking-wide'>
-                    <p className='text-xs hidden sm:text-xs sm:leading-5 md:leading-6'>Learn the skills you need to take the next step and every step <br />
+                    <p className='text-xs  sm:text-xs sm:leading-5 md:leading-6'>Learn the skills you need to take the next step and every step <br />
                         after. Log in now to save on courses through March 1.</p>
                 </div>
                 <div onClick={() => { navigate('/courses')}} className='mb-10'>

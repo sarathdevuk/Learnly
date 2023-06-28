@@ -85,7 +85,7 @@ function CourseListPage() {
           }
           return obj ;
         }))
-        toast.success(response.data.message , { position : "top-center"})
+        // toast.success(response.data.message , { position : "top-center"})
      
       })
       .catch((response) => {

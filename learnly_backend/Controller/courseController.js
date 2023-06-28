@@ -110,8 +110,7 @@ export async function EditCourseDetails (req , res) {
           description : req.body.description ,
           course : req.body.course ,
           image ,
-          
-
+      
         }
       }).then((response) => {
         console.log(response);
