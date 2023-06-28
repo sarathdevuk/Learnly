@@ -21,5 +21,5 @@ router.get("/user-authenticate" , userAuth )
 
 // Account
 router.get('/account', verifyUser ,  getUserDetails)
-router.patch('/update-profile' , updateUserProfile)
+router.patch('/update-profile' ,verifyUser , updateUserProfile)
 export default router

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState , useEffect } from "react";
 import './UserProfile.scss'
 
 import {toast} from 'react-toastify';
@@ -8,9 +8,7 @@ import * as Yup from 'yup';
 import { FiEdit2 } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import { setUserDetails } from "../../../Redux/Features/userSlice";
-import { getUserDetails } from "../../../../../learnly_backend/Controller/userController";
-import { error } from "console";
-import { updateUserProfile } from "../../../services/userApi";
+import { getUserDetails, updateUserProfile } from "../../../services/userApi";
 
 
 
@@ -25,6 +23,7 @@ function UserProfile() {
     // fetch User details from the server
     getUserDetails()
           .then((response)=>{
+            console.log("userDetails" , response.data);
               setUser(response.data.userDetails)
               initialValues.firstName = response.data.userDetails?.firstName;
               initialValues.lastName = response.data.userDetails?.lastName;
@@ -52,6 +51,7 @@ function UserProfile() {
           initialValues : initialValues ,
           validationSchema: vallidate,
           onSubmit: async(values) => {
+            console.log("submit valuse" , values);
             updateUserProfile(values)
                   .then((response)=>{
                     toast.success(response.data.message , {
@@ -102,31 +102,31 @@ function UserProfile() {
               </div>
             </div>
             <h1 className="text-gray-900 font-bold text-xl leading-8 my-1">
-              {/* {user?.firstName} */}
+              {user?.firstName}
             </h1>
             <ul className="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
               <li className="flex items-center py-3">
                 <span>Status</span>
-                {/* {user?.status ? ( */}
+                {user?.status ? (
                   <span className="ml-auto">
                     <span className="bg-green-500 py-1 px-2 rounded text-white text-sm">
                       Active
                     </span>
                   </span>
-                {/* ) : ( */}
+                ): ( 
                   <span className="ml-auto">
                     <span className="bg-red-500 py-1 px-2 rounded text-white text-sm">
                       Blocked
                     </span>
                   </span>
-                {/* )} */}
+                 )} 
               </li>
             </ul>
             <ul className="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
               <li className="flex items-center py-3">
                 <span>Member since</span>
                 <span className="ml-auto">
-                  {/* {new Date(user?.createdAt).toString().slice(0, 16)} */}
+                  {new Date(user?.createdAt).toString().slice(0, 16)}
                 </span>
               </li>
             </ul>
@@ -165,17 +165,17 @@ function UserProfile() {
                   <input
                     className="mt-2 border-2 border-gray-200   block w-full rounded-lg text-base text-gray-900 focus:outline-none focus:border-indigo-500"
                     type="text"
-                    // value={formik.values.firstName}
+                    value={formik.values.firstName}
                     name="firstName"
-                    // onChange={(event) => {
-                    //   handleChange(event);
-                    // }}
+                    onChange={(event) => {
+                      handleChange(event);
+                    }}
                   />
-                  {/* {formik.touched.firstName && formik.errors.firstName ? (
+                  {formik.touched.firstName && formik.errors.firstName ? (
                     <div className="text-red-500 mt-1">
                       {formik.errors.firstName}
                     </div>
-                  ) : null} */}
+                  ) : null}
                 </div>
 
                 <div className="grid ">
@@ -183,47 +183,46 @@ function UserProfile() {
                   <input
                     className="mt-2 border-2 border-gray-200   block w-full rounded-lg text-base text-gray-900 focus:outline-none focus:border-indigo-500"
                     type="text"
-                    // value={formik.values.lastName}
+                    value={formik.values.lastName}
                     name="lastName"
-                    // onChange={(event) => {
-                    //   handleChange(event);
-                    // }}
+                    onChange={(event) => {
+                      handleChange(event);
+                    }}
                   />
-                  {/* {formik.touched.lastName && formik.errors.lastName ? (
+                  {formik.touched.lastName && formik.errors.lastName ? (
                     <div className="text-red-500 mt-1">
                       {formik.errors.lastName}
                     </div>
-                  ) : null} */}
+                  ) : null}
                 </div>
 
                 <div className="grid mt-4 ">
                   <div className=" py-2  font-semibold">Email</div>
                   <div className="flex justify-between ">
-                    sarathed@gmial
-                    {/* <div>{user?.email}</div> */}
+                    <div>{user?.email}</div>
                     <div className="w-8 h-8 text-green-600 border-2 flex justify-center items-center rounded-full border-green-600">
                       <TiTick size={20} />
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="grid md:grid-cols-2 mt-8">
+              {/* <div className="grid md:grid-cols-2 mt-8">
                 <div className="grid grid-cols-2">
                   <div className=" py-2 font-semibold">No. Groups</div>
-                  {/* <div className="md:px-4 py-2">{user?.group.length}</div> */}
+                  <div className="md:px-4 py-2">{user?.group.length}</div>
                 </div>
                 <div className="grid grid-cols-2">
                   <div className="md:px-4 md:py-2 font-semibold">
                     No. Community
                   </div>
-                  {/* <div className="px-4 py-2">{user?.community.length}</div> */}
+                  <div className="px-4 py-2">{user?.community.length}</div>
                 </div>
-              </div>
+              </div> */}
               <div className="flex justify-end mt-16">
                 <button
                   type="button"
                   className="w-full md:w-32 text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-purple-300 dark:focus:ring-purple-800 shadow-lg shadow-purple-500/50 dark:shadow-lg dark:shadow-purple-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-                  // onClick={() => formik.handleSubmit()}
+                  onClick={() => formik.handleSubmit()}
                 >
                   Update
                 </button>

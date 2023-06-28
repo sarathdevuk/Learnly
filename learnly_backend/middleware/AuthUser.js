@@ -9,7 +9,7 @@ export async function verifyUser (req , res , next) {
     console.log("verify User");
     // getting the token from request headers
     const authHeader = req.headers.authorization ;
-    console.log("authheader",authHeader);
+
     if(authHeader){
       const token = authHeader.split(' ')[1]
 

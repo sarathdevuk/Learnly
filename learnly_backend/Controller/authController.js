@@ -194,10 +194,11 @@ export async function userAuth (req, res){
         })
       }else {
         // fetch user details 
-        console.log(decoded);
         const user = await User.findOne({ _id : decoded.id ,status:true });
       
         if(user){
+        console.log("user verified");
+
           res.status(200).json({status : true , user , message: "Authorized"})
         }else{
           res.json({status : false , message : "User not exists"})
