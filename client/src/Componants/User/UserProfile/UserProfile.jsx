@@ -1,84 +1,107 @@
-import React, { useState , useEffect } from "react";
-import './UserProfile.scss'
+import React, { useState, useEffect } from "react";
+import "./UserProfile.scss";
 
-import {toast} from 'react-toastify';
-import {TiTick} from 'react-icons/ti'
+import { toast } from "react-toastify";
+import { TiTick } from "react-icons/ti";
 import { useFormik } from "formik";
-import * as Yup from 'yup';
+import * as Yup from "yup";
 import { FiEdit2 } from "react-icons/fi";
 import { useDispatch } from "react-redux";
 import { setUserDetails } from "../../../Redux/Features/userSlice";
-import { getUserDetails, updateUserProfile } from "../../../services/userApi";
+import {
+  getUserDetails,
+  updateUserAvatar,
+  updateUserProfile,
+} from "../../../services/userApi";
 
-
-
-function UserProfile() { 
-
-  const [user , setUser] = useState('');
-  const [image , setImage] = useState(' ');
+function UserProfile() {
+  const [user, setUser] = useState("");
+  const [image, setImage] = useState("");
   const dispatch = useDispatch();
   const initialValues = {};
 
-   useEffect(() => {
+  useEffect(() => {
     // fetch User details from the server
     getUserDetails()
-          .then((response)=>{
-            console.log("userDetails" , response.data);
-              setUser(response.data.userDetails)
-              initialValues.firstName = response.data.userDetails?.firstName;
-              initialValues.lastName = response.data.userDetails?.lastName;
+      .then((response) => {
+        console.log("userDetails", response.data);
+        setUser(response.data.userDetails);
+        initialValues.firstName = response.data.userDetails?.firstName;
+        initialValues.lastName = response.data.userDetails?.lastName;
+      })
+      .catch((error) => {
+        toast(error.message, { position: "top-center" });
+      });
 
-          }).catch((error)=>{
-            toast(error.message , {position:"top-center"})
-          })
-    
-
-  }, [])
-
+  }, []);
 
   const vallidate = Yup.object({
     firstName: Yup.string()
-        .max(15 , "Must be 15 Charecter or less")
-        .required('FirstName is Required'),
-        
-    lastName:Yup.string()
-        .max(15, 'Must be 15 Charecter or less')
-        .required("lastName is Required")
+      .max(15, "Must be 15 Charecter or less")
+      .required("FirstName is Required"),
+
+    lastName: Yup.string()
+      .max(15, "Must be 15 Charecter or less")
+      .required("lastName is Required"),
+  });
+
+  const formik = useFormik({
+    initialValues: initialValues,
+    validationSchema: vallidate,
+    onSubmit: async (values) => {
+      console.log("submit valuse", values);
+      updateUserProfile(values)
+        .then((response) => {
+          toast.success(response.data.message, {
+            position: "top-center",
+          });
+          setUser({
+            ...user,
+            firstName: values.firstName,
+            lastName: values.lastName,
+          });
         })
-  
+        .catch((error) => [
+          toast.error(error.message, {
+            position: "top-center",
+          }),
+        ]);
+    },
+  });
 
-        const formik = useFormik({
-          initialValues : initialValues ,
-          validationSchema: vallidate,
-          onSubmit: async(values) => {
-            console.log("submit valuse" , values);
-            updateUserProfile(values)
-                  .then((response)=>{
-                    toast.success(response.data.message , {
-                      position: "top-center"
-                    })
-                    setUser({...user , firstName : values.firstName , lastName: values.lastName})
-                  })
-                  .catch((error)=>[
-                    toast.error(error.message , {
-                      position:"top-center"
-                    })
-                  ])
+  //handling the input box changes
+  const handleChange = (event) => {
+    formik.setValues((prev) => {
+      const formFields = { ...prev };
+      formFields[event.target.name] = event.target.value;
+      return formFields;
+    });
+  };
 
-                 }
-        })
+  const handleFileSelect = (event) => {
+    // console.log("handleselect files",event.target.files[0]);
+    setImage(event.target.files[0]);
 
-          //handling the input box changes
-    const handleChange = (event) => {
-      formik.setValues((prev) => {
-          const formFields = { ...prev };
-          formFields[event.target.name] = event.target.value;
-          return formFields
+    updateUserAvatar({ image: event.target.files[0] })
+      .then((response) => {
+        dispatch(
+          setUserDetails({
+            name: user.firstName,
+            id: user._id,
+            email: user.email,
+            image: URL.createObjectURL(event.target.files[0]),
+          })
+        );
       })
-  }
+      .catch((error) => {
+        console.log("err" , error);
+        toast.error(error.message, {
+          position: "top-center",
+        });
+      });
+  };
 
-
-
+  console.log("image"  , image);
   return (
     <div>
       <div className="md:flex  no-wrap md:-mx-2 ">
@@ -89,14 +112,14 @@ function UserProfile() {
             <div className="image overflow-hidden relative">
               <img
                 className="h-48 w-48 object-cover mx-auto rounded-full"
-                // src={!image ? user?.picture : URL.createObjectURL(image)}
+                src={ !image ?  user?.picture : URL.createObjectURL(image) }
               />
               <div className="ab bg-green-500 text-xs absolute bottom-1 right-4 font-bold  rounded-full w-10 h-10  text-white flex justify-center items-center   float-left hover:bg-gray-300 hover:text-gray-600  overflow-hidden cursor-pointer">
                 <input
                   type="file"
                   name="photo"
                   className="absolute inset-0  opacity-0 cursor-pointer"
-                  // onChange={handleFileSelect}
+                  onChange={handleFileSelect}
                 />{" "}
                 <FiEdit2 size={14} />
               </div>
@@ -113,13 +136,13 @@ function UserProfile() {
                       Active
                     </span>
                   </span>
-                ): ( 
+                ) : (
                   <span className="ml-auto">
                     <span className="bg-red-500 py-1 px-2 rounded text-white text-sm">
                       Blocked
                     </span>
                   </span>
-                 )} 
+                )}
               </li>
             </ul>
             <ul className="bg-gray-100 text-gray-600 hover:text-gray-700 hover:shadow py-2 px-3 mt-3 divide-y rounded shadow-sm">
