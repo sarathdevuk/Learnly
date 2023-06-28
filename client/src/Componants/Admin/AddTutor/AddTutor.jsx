@@ -57,10 +57,10 @@ function AddTutor() {
     validationSchema : validate ,
     onSubmit : async(values) =>{
       console.log("onSubmit");
-      setLoading(!loading) ;
+      // setLoading(!loading) ;
       const{ data } = await addTutor(values) ;
 
-      setLoading(false) 
+      // setLoading(loading) 
 
       if( data.created ) {
         console.log(data);
