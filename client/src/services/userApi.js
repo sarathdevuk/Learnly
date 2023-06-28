@@ -27,6 +27,10 @@ export const loginWithGoogle = (data) => {
 export const getUserDetails = () => {
   return axiosInstance("JwtToken").get('/account' )
 }
+
 export const updateUserProfile = (values) => {
   return axiosInstance("JwtToken").patch('/update-profile' ,{ ...values} )
+}
+export const updateUserAvatar = (image) => {
+  return axiosInstance("JwtToken").patch('/update-avatar', { ...image }, { headers: { "Content-Type": "multipart/form-data" } })
 }

@@ -23,6 +23,6 @@ router.get("/user-authenticate" , userAuth )
 // Account
 router.get('/account', verifyUser ,  getUserDetails)
 router.patch('/update-profile' ,verifyUser , updateUserProfile)
-router.patch('/update-profile' ,verifyUser , uploadImage("./public/images/user") , updateUserAvatar)
+router.patch('/update-avatar' ,verifyUser , uploadImage("./public/images/user") , updateUserAvatar)
 
 export default router

@@ -33,6 +33,7 @@ export async function updateUserProfile(req, res) {
 
 export async function updateUserAvatar (req , res) {
   try {
+    console.log("req.filses" );
     // updating the image upload path 
     const image = process.env.BASE_URL + req.files.image[0].path.substring('public'.length);
 

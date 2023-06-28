@@ -10,6 +10,8 @@ const fileFilter = (req, file, cb) => {
       file.mimetype == 'image/webp' ||
       file.mimetype == 'image/avif'
   ) {
+    console.log("fileFilter");
+    
       cb(null, true)
   }
   else {
@@ -22,6 +24,7 @@ const fileFilter = (req, file, cb) => {
 
 //image upload
 const uploadImage = (path) => {
+    console.log("imageupload");
   const storage = multer.diskStorage({
       destination: function (req, file, cb) {
           cb(null, path);
