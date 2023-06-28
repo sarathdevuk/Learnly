@@ -6,8 +6,10 @@ const secret_key = process.env.JWT_SECRET_KEY ;
 // check user logged in 
 export async function verifyUser (req , res , next) {
   try {
+    console.log("verify User");
     // getting the token from request headers
-    const authHeader = req.headers.authourization ;
+    const authHeader = req.headers.authorization ;
+    console.log("authheader",authHeader);
     if(authHeader){
       const token = authHeader.split(' ')[1]
 
@@ -21,7 +23,7 @@ export async function verifyUser (req , res , next) {
 
           if(user) {
             // if user exist then pass the user id with the response
-            res.userId = decoded.id 
+            req.userId = decoded.id 
             // after transfer the request to the next function
             next()
           }else {
