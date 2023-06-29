@@ -34,3 +34,8 @@ export const updateUserProfile = (values) => {
 export const updateUserAvatar = (image) => {
   return axiosInstance("JwtToken").patch('/update-avatar', { ...image }, { headers: { "Content-Type": "multipart/form-data" } })
 }
+
+// Course 
+export const viewAllCourse = () =>{
+  return axiosInstance('JwtToken').get('/course')
+}
