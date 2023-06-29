@@ -6,6 +6,7 @@ import SignupPage from "../Pages/User/SignupPage";
 import OtpPage from "../Pages/User/OtpPage";
 import PrivateRoutes from "../utils/PrivateRoutes";
 import AccountPage from "../Pages/User/AccountPage";
+import AllCoursePage from "../Pages/User/AllCoursePage";
 
 function UserRouter() {
   return (
@@ -13,6 +14,8 @@ function UserRouter() {
       <Route element={<PrivateRoutes role={"user"} route={"/login"} />}> 
         <Route path="/profile"  element={<AccountPage />} />
       </Route>
+
+        <Route path="/courses" element={<AllCoursePage />}/>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
