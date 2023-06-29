@@ -142,4 +142,20 @@ export async function getAllCourse (req , res) {
 
 }
 
+export async function viewAllCourse (req , res) {
+  try {
+    // finding All courses and find the tutor details also by populating
+    const course = await Course.find({status:true}).populate('tutor').lean()
+      console.log(course);
+    if(course) {
+      res.status(200).json({ status : true , course })
+    }
+  } catch (error) {
+    res.status(500).json({ status : false , message : " Internal Server Error "}) ;
+  }
+
+}
+
+
+
 
