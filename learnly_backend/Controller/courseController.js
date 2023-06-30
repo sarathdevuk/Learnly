@@ -1,4 +1,6 @@
 import Course from '../models/courseModel.js';
+import Order from '../models/orderModel.js';
+
 
 
 export async function addCourse (req , res) {
@@ -15,19 +17,6 @@ export async function addCourse (req , res) {
     
     // req.files.image[0].path = req.files.image[0].path.replace('public/', "");
     req.files.image[0].path = req.files.image[0].path.substring('public'.length);
-
-    // const chapters = req.body.course.map((chapter) => {
-    //   const chapterName = chapter.chapter;
-    //   const lessons = chapter.lesson.map((lesson) => {
-    //     const chapterName = lesson.chapterName;
-    //     const lessonName = lesson.lessonName;
-    //     const videoUrl = lesson.videoUrl;
-    
-    //     return { chapterName, lessonName, videoUrl };
-    //   });
-    
-    //   return { chapterName, lessons };
-    // });
 
     const course = new Course({
       name,
@@ -175,7 +164,20 @@ export async function getCourseDetails ( req , res) {
   }
 }
 
+// Check is Course Enrolled or Not
+export async function isCourseEnrolled(req , res) {
+  try { 
+    // finding the course from orderModel based on Course id and userId
+    const enrolledCourse = await Order.findOne({ user : req.userId , course : req.params.id })
+      if( enrolledCourse) {
+        res.status(200).json({ enrolled : true ,  message : "Course already exist"}) ;
+      }else{
+        res.status(200).json({ enrolled : false , message : "Course not Exist"}) 
+      }
 
-
+  } catch (error) {
+    res.status(500).json({ status: false, message: "Internal server error" });
+  }
+}
 
 
