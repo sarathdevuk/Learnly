@@ -156,6 +156,25 @@ export async function viewAllCourse (req , res) {
 
 }
 
+export async function getCourseDetails ( req , res) {
+  try {
+    // find course course details with course id 
+   const course = await  Course.findOne({_id: req.params.id} , 
+                {'course.lessons._id' : 0}).populate('tutor').lean()
+
+   if(course) {
+    res.status(200).json({ stats : true , course })
+   }else {
+    res.status(404).json({ status : false , message : " Course not found"})
+   }
+
+  } catch (error) {
+    console.log("error" , error);
+    res.status(500).json({ status : false , message : " Internal server Error "})
+  }
+}
+
+
 
 
 
