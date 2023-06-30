@@ -39,3 +39,7 @@ export const updateUserAvatar = (image) => {
 export const viewAllCourse = () =>{
   return axiosInstance('JwtToken').get('/course')
 }
+
+export const getCourseDetails = (courseId) =>{
+  return axiosInstance('JwtToken').get(`/course/${courseId}`)
+}
