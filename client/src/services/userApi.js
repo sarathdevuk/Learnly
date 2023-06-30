@@ -40,6 +40,12 @@ export const viewAllCourse = () =>{
   return axiosInstance('JwtToken').get('/course')
 }
 
+// get Course details 
 export const getCourseDetails = (courseId) =>{
   return axiosInstance('JwtToken').get(`/course/${courseId}`)
+}
+
+//check whether user alread enrolled the couser
+export const isCourseEnrolled = (courseId) =>{
+  return axiosInstance('JwtToken').get(`/is-course-enrolled/${courseId}`)
 }
