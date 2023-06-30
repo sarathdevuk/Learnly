@@ -6,7 +6,7 @@ import { loginSchema, signupSchema } from "../utils/yupSchema.js";
 import { getUserDetails, updateUserAvatar, updateUserProfile } from "../Controller/userController.js";
 import { verifyUser } from "../middleware/AuthUser.js";
 import uploadImage from "../middleware/image-upload.js";
-import { viewAllCourse } from "../Controller/courseController.js";
+import { getCourseDetails, viewAllCourse } from "../Controller/courseController.js";
 const router = express.Router()
 
 
@@ -26,7 +26,8 @@ router.get('/account', verifyUser ,  getUserDetails)
 router.patch('/update-profile' ,verifyUser , updateUserProfile)
 router.patch('/update-avatar' ,verifyUser , uploadImage("./public/images/user") , updateUserAvatar)
 
-// 
+// Course
 router.get('/course' , viewAllCourse)
+router.get('/course/:id' , getCourseDetails)
 
 export default router
