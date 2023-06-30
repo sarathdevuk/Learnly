@@ -36,9 +36,9 @@ function UserHeader() {
     const [sidebar, setSidebar] = useState(false);
     const [profileBox, setProfileBox] = useState(false);
     return (
-        <div className='shadow-md z-10'>
-            <nav className="relative px-2 py-2 flex justify-between items-center bg-white">
-                <div className="lg:hidden"
+        <div className='shadow-md '>
+            <nav className="relative px-2  flex justify-between items-center bg-white">
+                <div className="md:hidden"
                     onClick={() => {
                         setSidebar(!sidebar)
                     }}
@@ -57,7 +57,12 @@ function UserHeader() {
                 </Link>
 
                 <div className="  items-center md:order-2 cursor-pointer">
-                    {user.id ? <img className="w-9 h-9 rounded-full object-cover hidden md:flex" src= 'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png' alt="user photo"
+                    {user.id ? <img className="w-12 h-12 rounded-full object-cover hidden md:flex"
+                    //  src= 'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png' 
+                    //  src='https://img.freepik.com/free-psd/young-businessman-3d-cartoon-avatar-portrhttps://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?t=st=1688028626~exp=1688029226~hmac=628e182074c5fc37d7d466a06a03c431be584428cd20bac522e6a9f5c59a74faait_627936-22.jpg?w=740&t=st=1688028453~exp=1688029053~hmac=c5b8ed9fbf613817fb5c90de9eabc52897aff159853c70535fb13b235afce337'
+                    src='https://img.freepik.com/premium-vector/young-smiling-man-avatar-man-with-brown-beard-mustache-hair-wearing-yellow-sweater-sweatshirt-3d-vector-people-character-illustration-cartoon-minimal-style_365941-860.jpg'
+                    // src='https://img.freepik.com/premium-vector/brunette-man-avatar-portrait-young-guy-vector-illustration-face_217290-1549.jpg?w=740'
+                    alt="user photo"
                         onClick={() => {
                             setProfileBox(!profileBox);
                         }} />
@@ -164,7 +169,7 @@ function UserHeader() {
                 <nav className="fixed top-0 left-0 bottom-0 flex flex-col w-4/6 max-w-xs py-6 px-6 bg-white border-r overflow-y-auto">
                     <div className="flex items-center mb-8">
                         <span className="mr-auto text-3xl font-bold leading-none">
-                            <img className='w-32' src="/images/LearnWise-logo.png" />
+                            <img className='w-32' src="/images/learnly-logo.png" />
                         </span>
                         <button className="navbar-close"
                             onClick={() => {
@@ -198,11 +203,11 @@ function UserHeader() {
                                     <a className="block p-4 text-sm  text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded">Account</a>
                                 </Link>
                             </li>
-                            <li className="mb-1">
+                            {/* <li className="mb-1">
                                 <Link to={'/community'}>
                                 <a className="block p-4 text-sm  text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded">Community</a>
                                 </Link>
-                            </li>
+                            </li> */}
                             <li className="mb-1">
                                 <a className="block p-4 text-sm  text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded">Challenges</a>
                             </li>
