@@ -71,7 +71,7 @@ function Signup () {
   const handleChange = (event) =>{
     formik.setValues((prev) => {
       const formFields = {...prev};
-      console.log(formFields[event.target.name] , " name =>" , event.target.name);
+      console.log(formFields[event.target.name] , event.target.name);
       formFields[event.target.name] = event.target.value;
       return formFields
     })
@@ -140,7 +140,7 @@ function Signup () {
           style={{ color: "black" }}
           id="firstName"
           name='firstName'
-          onChange={() => { handleChange(event) }}
+          onChange={(e) => { handleChange(e) }}
           placeholder="First Name" />
            {
             formik.touched.firstName && formik.errors.firstName ? (
