@@ -158,12 +158,13 @@ export async function viewAllCourse (req , res) {
 
 export async function getCourseDetails ( req , res) {
   try {
+    console.log("get courseId" , req.params);
     // find course course details with course id 
    const course = await  Course.findOne({_id: req.params.id} , 
                 {'course.lessons._id' : 0}).populate('tutor').lean()
-
+    console.log(course);
    if(course) {
-    res.status(200).json({ stats : true , course })
+    res.status(200).json({ status : true , courseDetails : course })
    }else {
     res.status(404).json({ status : false , message : " Course not found"})
    }
