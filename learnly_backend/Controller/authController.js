@@ -87,12 +87,12 @@ export async function login(req, res) {
 
   try {
     const { email, password } = req.body;
-
+    console.log(req.body);
     if (!email || !password) {
       throw new Error("All fields are required");
     }
 
-    const user = await User.findOne({ email : {$gt:''} });
+    const user = await User.findOne({ email });
     if (user) {
       console.log(user.status);
       if(!user.status) {
