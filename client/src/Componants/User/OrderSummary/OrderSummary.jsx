@@ -2,12 +2,31 @@ import React , { useState , useEffect } from 'react'
 import LoadingButton from '../LoadingButton/LoadingButton'
 import {useParams} from 'react-router-dom'
 import Loader from '../Loader/Loader'
+import * as Yup from 'yup' ;
+import { useFormik , Formik } from 'formik'
+import { getCourseDetails } from '../../../services/userApi';
+import { toast } from 'react-toastify';
 
 
 function OrderSummary() {
   const { courseId } = useParams() ;
   const [courseDetails , setCourseDetails] = useState({});
   const [loading , setLoading] = useState(true) ; 
+  const [btnloading , setBtnLoading] = useState(false);
+
+   
+  useEffect(() => {
+    // fetch course Details from server
+    getCourseDetails(courseId).then((response) => {
+      if(response.data.status) {
+        // Seting CourseDetails 
+        setCourseDetails(response.data.courseDetails)
+        setLoading(false)
+      }
+    }).catch((error) => {
+      toast.error( "Something Went wrong " , { position :"top-center"})
+    })
+  })
 
   return (
     <section>
@@ -23,16 +42,16 @@ function OrderSummary() {
               <div className="flex justify-center shadow-sm sm:mx-10 m-3">
                 <a href="#" className="flex w-full flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
                   <img className="object-cover m-8 lg:m-4  ml-4 rounded h-40 md:96 md:h-auto w-100 md:w-48" 
-                  // src={import.meta.env.VITE_SERVER_URL +courseDetails.image.path}
+                  src={import.meta.env.VITE_SERVER_URL +courseDetails.image.path}
                    alt />
                   <div className="flex flex-col w-full ml-6 sm:ml-0 justify-between p-4 leading-normal">
                     <h5 className="mb-2 text-xl font-bold tracking-tight text-gray-900 dark:text-white">
-                      {/* {courseDetails.name}  */} 
-                      Full Stack WEB DEV Course
+                      {courseDetails.name}  
+            
                       </h5>
                     <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
-                      {/* {courseDetails.course.length}  */}
-                     12 Chapter</p>
+                      {courseDetails.course.length + " "} 
+                        Chapter</p>
                   </div>
                 </a>
               </div>
@@ -91,8 +110,8 @@ function OrderSummary() {
                   </a>
                   <div className='flex justify-between mt-5'>
                     <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">Price</p>
-                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">₹ 499
-                    {/* {courseDetails.price} */}
+                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">₹ 
+                    {courseDetails.price}
                     </p>
                   </div>
 
@@ -105,8 +124,8 @@ function OrderSummary() {
 
                   <div className='flex justify-between mt-7'>
                     <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">TOTAL (INR)</p>
-                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">₹ 499
-                    {/* {courseDetails.price} */}
+                    <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">₹ 
+                    {courseDetails.price}
                     </p>
                   </div>
 
