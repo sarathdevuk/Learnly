@@ -14,6 +14,31 @@ function OrderSummary() {
   const [loading , setLoading] = useState(true) ; 
   const [btnloading , setBtnLoading] = useState(false);
 
+
+
+  const validate = Yup.object({
+    address : Yup.string().max(30 , "Must be 30 charecter or less")
+    .required('Address is Required')  ,
+    pincode : Yup.number()
+    .min(6 , " Must be 6 charecters") 
+    .required("Pincode is Required ")
+
+  })
+
+  const formik = useFormik({
+    initialValues:{
+      address : '',
+      pincode: ''
+    },
+    validationSchema : validate,
+    
+    onSubmit: async ( values) =>  {
+      setBtnLoading(true) ;
+      
+
+    }
+
+  })
    
   useEffect(() => {
     // fetch course Details from server
