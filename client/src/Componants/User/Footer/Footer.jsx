@@ -8,7 +8,7 @@ function Footer() {
         <div className="md:flex md:justify-between">
           <div className="mb-6 md:mb-0">
               <a href="/" className="flex items-center">
-                  <img src="/images/learnly-logo.png" className="h-8 mr-3" alt="Learnly™ Logo" />
+                  <img src="/images/learnly-croped-logo.png" className="h-8 w-full mr-3" alt="Learnly™ Logo" />
                 
               </a>
           </div>

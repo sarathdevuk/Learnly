@@ -129,7 +129,7 @@ function Signup () {
   return (
     <Formik>
     <section className="section-box">
-      <form >
+      <form  >
         <div className="grid-cols-1 shadow-none sm:shadow-xl form-box p-10 ">
           <h2 className="text-center text-2xl font-medium pb-8 "> Signup </h2>
          {errorMessage ?  <div className="text-red-500 pb-6 text-center ">{errorMessage }</div>  : "" }
