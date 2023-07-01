@@ -60,3 +60,31 @@ export async function doPayment (req , res) {
 
 
 }
+
+
+export async function verifyPayment (req , res ) {
+
+try {
+  const order = await Order.findById({ _id: req.params.orderId})
+    if(order) {
+      Order.findByIdAndUpdate({ _id: req.params.orderId} , {
+        $set: { 
+          status: true
+        }
+      }).then((response)=> {
+          res.status(200).json({ status: true , message:"OrderSucces" })
+      }).catch((err)=> {
+        console.log(err);
+      })
+    }else{
+
+      res.redirect(`${process.env.CLIENT_URL}/course-payment/${order.courseId}`);
+
+    }
+                           
+} catch (error) {
+  res.redirect(`${process.env.CLIENT_URL}/course-payment/${order.courseId}`);
+
+}
+
+}

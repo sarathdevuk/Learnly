@@ -7,6 +7,7 @@ import { getUserDetails, updateUserAvatar, updateUserProfile } from "../Controll
 import { verifyUser } from "../middleware/AuthUser.js";
 import uploadImage from "../middleware/image-upload.js";
 import { getCourseDetails, isCourseEnrolled, viewAllCourse } from "../Controller/courseController.js";
+import { doPayment, verifyPayment,  } from "../Controller/orderController.js";
 const router = express.Router()
 
 
@@ -30,5 +31,10 @@ router.patch('/update-avatar' ,verifyUser , uploadImage("./public/images/user") 
 router.get('/course' , viewAllCourse)
 router.get('/course/:id' , getCourseDetails)
 router.get('is-course-enrolled/:id' ,verifyUser , isCourseEnrolled )
+
+// payment 
+router.post('/create-checkout-session', verifyUser , doPayment)
+router.get('/verifyPayment/:orderId', verifyPayment)
+
 
 export default router
