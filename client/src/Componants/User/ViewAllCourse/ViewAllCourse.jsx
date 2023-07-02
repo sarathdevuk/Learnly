@@ -18,7 +18,10 @@ function ViewAllCourse() {
   }, []);
 
   return (
-    <div className="m-7 mt-10 mb-14">
+    <div className="m-7 mt-10 mb-14
+
+
+    ">
       { loading ? 
       <Loader/>
       :

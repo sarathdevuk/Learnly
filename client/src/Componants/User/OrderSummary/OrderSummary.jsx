@@ -4,8 +4,9 @@ import {useParams} from 'react-router-dom'
 import Loader from '../Loader/Loader'
 import * as Yup from 'yup' ;
 import { useFormik , Formik } from 'formik'
-import { getCourseDetails } from '../../../services/userApi';
+import { getCourseDetails, handleCheckout } from '../../../services/userApi';
 import { toast } from 'react-toastify';
+
 
 
 function OrderSummary() {
@@ -34,11 +35,30 @@ function OrderSummary() {
     
     onSubmit: async ( values) =>  {
       setBtnLoading(true) ;
-      
 
+      handleCheckout( values , courseId).then((response) => {
+            console.log("response" , response);
+        if(response.data.url) {
+          window.location.href = response.data.url 
+        } 
+
+        setBtnLoading(false)
+
+      }).catch((error)=> {
+        console.log(error);
+      })
+      
     }
 
-  })
+  })  
+
+  const handleChange = (event) => {
+    formik.setValues((prev) => {
+      const formFields = {...prev} ;
+      formFields[event.target.name] = event.target.value;
+      return formFields
+    })
+  }
    
   useEffect(() => {
     // fetch course Details from server
@@ -51,7 +71,7 @@ function OrderSummary() {
     }).catch((error) => {
       toast.error( "Something Went wrong " , { position :"top-center"})
     })
-  })
+  },[])
 
   return (
     <section>
@@ -90,21 +110,21 @@ function OrderSummary() {
                     <div className="mb-6">
                       <label htmlFor="address" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Address Line 1</label>
                       <input
-                      //  onChange={() => { handleChange(event) }} value={formik.values.address} 
+                       onChange={() => { handleChange(event) }} value={formik.values.address} 
                       type="text" name='address' id="address" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Address" required />
-{/* 
+
                       {formik.touched.address && formik.errors.address ? (
                         <div className='text-red-500 mt-1'>{formik.errors.address}</div>
-                      ) : null} */}
+                      ) : null}
                     </div>
                     <div className="mb-6">
                       <label htmlFor="pincode" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pin Code</label>
                       <input 
-                      // onChange={() => { handleChange(event) }} value={formik.values.pincode} 
+                      onChange={() => { handleChange(event) }} value={formik.values.pincode} 
                       type="text" name='pincode' id="pincode" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder='Pin Code' required />
-                      {/* {formik.touched.pincode && formik.errors.pincode ? (
+                      {formik.touched.pincode && formik.errors.pincode ? (
                         <div className='text-red-500 mt-1'>{formik.errors.pincode}</div>
-                      ) : null} */}
+                      ) : null}
                     </div>
                   </form>
                 </div>
@@ -118,7 +138,7 @@ function OrderSummary() {
                     Pay Securely
                   </Button> */}
                   <LoadingButton 
-                  // onClick={formik.handleSubmit} loading={btnloading}
+                  onClick={formik.handleSubmit} loading={btnloading}
                   >
                     Pay Securely
                   </LoadingButton>
@@ -169,7 +189,7 @@ function OrderSummary() {
                 <p className="mb-3 text-sm text-gray-700 dark:text-gray-400">Make payment for the product here</p>
                 <div className='mt-8'>
                    <LoadingButton 
-                  //  onClick={formik.handleSubmit} loading={btnloading}
+                   onClick={formik.handleSubmit} loading={btnloading}
                    >
                     Pay Securely
                   </LoadingButton>

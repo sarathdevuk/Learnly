@@ -8,16 +8,20 @@ import PrivateRoutes from "../utils/PrivateRoutes";
 import AccountPage from "../Pages/User/AccountPage";
 import AllCoursePage from "../Pages/User/AllCoursePage";
 import CourseDetailsPage from "../Pages/User/CourseDetailsPage";
+import OrderSummaryPage from "../Pages/User/OrderSummaryPage";
 
 function UserRouter() {
   return (
     <Routes>
       <Route element={<PrivateRoutes role={"user"} route={"/login"} />}> 
         <Route path="/profile"  element={<AccountPage />} />
+        <Route path="/course-payment/:courseId"  element={ <OrderSummaryPage />} />
+
       </Route>
 
         <Route path="/courses" element={<AllCoursePage />}/>
         <Route path="/course/:courseId" element={<CourseDetailsPage />}/>
+
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
