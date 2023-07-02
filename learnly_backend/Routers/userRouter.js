@@ -7,7 +7,7 @@ import { getUserDetails, updateUserAvatar, updateUserProfile } from "../Controll
 import { verifyUser } from "../middleware/AuthUser.js";
 import uploadImage from "../middleware/image-upload.js";
 import { getCourseDetails, isCourseEnrolled, viewAllCourse } from "../Controller/courseController.js";
-import { doPayment, verifyPayment,  } from "../Controller/orderController.js";
+import { cancelOrder, doPayment, verifyPayment,  } from "../Controller/orderController.js";
 const router = express.Router()
 
 
@@ -35,6 +35,7 @@ router.get('is-course-enrolled/:id' ,verifyUser , isCourseEnrolled )
 // payment 
 router.post('/create-checkout-session', verifyUser , doPayment)
 router.get('/verifyPayment/:orderId', verifyPayment)
+router.get('/cancel-payment/:orderId', cancelOrder)
 
 
 export default router
