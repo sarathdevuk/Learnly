@@ -10,6 +10,7 @@ import AllCoursePage from "../Pages/User/AllCoursePage";
 import CourseDetailsPage from "../Pages/User/CourseDetailsPage";
 import OrderSummaryPage from "../Pages/User/OrderSummaryPage";
 import OrderSuccessPage from "../Pages/User/OrderSuccessPage";
+import OrderFailedPage from "../Pages/User/OrderFailedPage";
 
 function UserRouter() {
   return (
@@ -18,6 +19,7 @@ function UserRouter() {
         <Route path="/profile"  element={<AccountPage />} />
         <Route path="/course-payment/:courseId"  element={ <OrderSummaryPage />} />
         <Route path="/order-success"  element={ <OrderSuccessPage />} />
+        <Route path="/order-failed"  element={ <OrderFailedPage />} />
 
       </Route>
 
