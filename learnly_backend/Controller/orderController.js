@@ -10,6 +10,7 @@ export async function doPayment (req , res) {
     const courseId  = req.body.courseId ; 
 
     try {
+
       const user = await User.findById({ _id  : userId}) 
 
       if(user.status) {
@@ -24,26 +25,44 @@ export async function doPayment (req , res) {
             purchase_date  :Date.now() 
     
           })
-          newOrder.save().then(async( orderResponse ) =>{
+          newOrder.save().then(async( orderResponse ) =>{  
              const session = await stripe.checkout.sessions.create({
-              line_items : [
-               {
-                currency : "inr",
-                name:course.name ,
-                images: [`${process.env.BASE_URL+course.image.path}`],
-                amount: course.price * 100,
-                quantity: 1,
+              // line_items : [
+              //  {
+              //   currency : "inr",
+              //   name:course.name ,
+              //   images: [`${process.env.BASE_URL+course.image.path}`],
+              //   amount: course.price * 100,
+              //   quantity: 1,
     
-               } 
-              ], 
+              //  } 
+              // ], 
+              line_items: [
+                {
+                  price_data: {
+                    currency: "inr",
+                    product_data: {
+                      name: course.name,
+                      // images: [
+                      //   "http://localhost:5000/images/course/thumbnail/1687932320627-2776760_f176_10.jpg"
+                      // ],
+                      images: [`${process.env.BASE_URL + course.image.path.replace(/\\/g, '/')}`],
+                    },
+                    unit_amount: course.price * 100,
+                  },
+                  quantity: 1,
+                },
+              ],
               mode : "payment" ,
               customer_email: user.email ,
-              success_url: `${proccess.env.BASE_URL}/verifyPayment/${orderResponse._id}` ,
-              cancel_url: ` ${process.env.BASE_URL}/cancel-payment/${orderResponse._id}` , 
+              success_url: `${process.env.BASE_URL}/verifyPayment/${orderResponse._id}` ,
+              cancel_url: `${process.env.BASE_URL}/cancel-payment/${orderResponse._id}` , 
      
           })
+          console.log("session created" , session);
           res.json({ url: session.url })
           }).catch((err) => {
+            console.log(err);
             res.status(500).json({ status: false, message: "Internal server error" });
           })
     
@@ -52,9 +71,9 @@ export async function doPayment (req , res) {
     
          }
     
-    
       }
     } catch (error) {
+      console.log(error);
          res.status(500).json({ status: false, message: "Internal server error" });
     }
 
@@ -63,7 +82,7 @@ export async function doPayment (req , res) {
 
 
 export async function verifyPayment (req , res ) {
-
+console.log("veriofyPayment");
 try {
   const order = await Order.findById({ _id: req.params.orderId})
     if(order) {
@@ -77,7 +96,6 @@ try {
         console.log(err);
       })
     }else{
-
       res.redirect(`${process.env.CLIENT_URL}/course-payment/${order.courseId}`);
 
     }
@@ -87,4 +105,22 @@ try {
 
 }
 
+} 
+
+
+export async function cancelOrder (req , res) {
+   console.log("cancel order");
+  try {
+    Order.findByIdAndDelete({ _id : req.params.orderId}).then((response)=> {
+      console.log(response);
+      if(response) {
+        res.redirect(`${process.env.CLIENT_URL}/course-payment/${response.course}`)
+      }else{
+        res.redirect(`${process.env.CLIENT_URL}/course-payment/${response.course}`);
+      }
+    })
+  } catch (error) {
+    console.log(error);
+    res.redirect(`${process.env.CLIENT_URL}/course-payment/${response.course}`);
+  }
 }
