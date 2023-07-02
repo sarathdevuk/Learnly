@@ -165,6 +165,7 @@ export async function getCourseDetails ( req , res) {
 
 // Check is Course Enrolled or Not
 export async function isCourseEnrolled(req , res) {
+  console.log("is isCourseEnrolled ",req.userId , req.params.id);
   try { 
     // finding the course from orderModel based on Course id and userId
     const enrolledCourse = await Order.findOne({ user : req.userId , course : req.params.id })

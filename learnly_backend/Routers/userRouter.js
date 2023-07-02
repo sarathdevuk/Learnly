@@ -30,7 +30,7 @@ router.patch('/update-avatar' ,verifyUser , uploadImage("./public/images/user") 
 // Course
 router.get('/course' , viewAllCourse)
 router.get('/course/:id' , getCourseDetails)
-router.get('is-course-enrolled/:id' ,verifyUser , isCourseEnrolled )
+router.get('/is-course-enrolled/:id' ,verifyUser , isCourseEnrolled )
 
 // payment 
 router.post('/create-checkout-session', verifyUser , doPayment)

@@ -2,14 +2,17 @@ import React , {useEffect , useState} from 'react'
 import { Link } from 'react-router-dom'
 import Button from '../Button/Button'
 import { useSelector } from 'react-redux'
+import { isCourseEnrolled } from '../../../services/userApi';
 
 
 function BuyNowCard({courseDetails}) {
   const user = useSelector((state) => state.user);
   const [isEnrolled , setIsEnrolled] = useState(false)
     useEffect(() => {
+        console.log('user->' , user);
       if(user.firstName ) {
         isCourseEnrolled(courseDetails._id).then((response) => {
+          console.log("isCourseEnrolled" , response);
           if(response.data.enrolled) {
             setIsEnrolled(true)
           }
