@@ -3,19 +3,21 @@ import Order from '../models/orderModel.js' ;
 import User from '../models/userModel.js' ;
 import Stripe from 'stripe';
 
-const stripe = Stripe("sk_test_51NP0HpSJ1eocLkA8KOoWu4r7r5x1DitO7th92UwQgAEzxNmJIhiaWJagEJlNm3oVBEGRhf3ZRv86FyjY3Cl73k9K00ssw4dvYE")
+// Created stripe with secrete key
+const stripe = Stripe(process.env.STRIPE_SECRET_KEY)
 
 export async function doPayment (req , res) {
     const userId = req.userId ;
     const courseId  = req.body.courseId ; 
 
     try {
-
+// finding the user details
       const user = await User.findById({ _id  : userId}) 
-
+// checking the user status ban or not
       if(user.status) {
         const course = await Course.findById({ _id : courseId}) 
          if(course) {
+// Creating New Order with user , tutor , and course Details
           const newOrder = new Order({ 
             total : course.price , 
             course : courseId,
@@ -26,21 +28,14 @@ export async function doPayment (req , res) {
     
           })
           newOrder.save().then(async( orderResponse ) =>{  
+            //Creating stripe checkout session with payment details
              const session = await stripe.checkout.sessions.create({
-              // line_items : [
-              //  {
-              //   currency : "inr",
-              //   name:course.name ,
-              //   images: [`${process.env.BASE_URL+course.image.path}`],
-              //   amount: course.price * 100,
-              //   quantity: 1,
-    
-              //  } 
-              // ], 
+
               line_items: [
                 {
                   price_data: {
                     currency: "inr",
+                    // providing course details with amount
                     product_data: {
                       name: course.name,
                       // images: [
@@ -54,12 +49,15 @@ export async function doPayment (req , res) {
                 },
               ],
               mode : "payment" ,
+              // setting customer email with user email
               customer_email: user.email ,
+              // Setting The payment success routes and cancel routes
               success_url: `${process.env.BASE_URL}/verifyPayment/${orderResponse._id}` ,
               cancel_url: `${process.env.BASE_URL}/cancel-payment/${orderResponse._id}` , 
      
           })
           console.log("session created" , session);
+          // Passing the session url to the client 
           res.json({ url: session.url })
           }).catch((err) => {
             console.log(err);
@@ -80,10 +78,10 @@ export async function doPayment (req , res) {
 
 }
 
-
+// Payment verification 
 export async function verifyPayment (req , res ) {
-console.log("veriofyPayment");
 try {
+  // findinf the order  and updating the order status
   const order = await Order.findById({ _id: req.params.orderId})
     if(order) {
       Order.findByIdAndUpdate({ _id: req.params.orderId} , {
@@ -107,13 +105,15 @@ try {
 
 } 
 
-
+// if Patment cancel 
 export async function cancelOrder (req , res) {
    console.log("cancel order");
   try {
+    // Deleting the Order if the payment is cancelled
     Order.findByIdAndDelete({ _id : req.params.orderId}).then((response)=> {
       console.log(response);
       if(response) {
+        // After deleting Order redirect to the payment page
         res.redirect(`${process.env.CLIENT_URL}/course-payment/${response.course}`)
       }else{
         res.redirect(`${process.env.CLIENT_URL}/course-payment/${response.course}`);
