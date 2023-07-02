@@ -61,7 +61,8 @@ export async function doPayment (req , res) {
           res.json({ url: session.url })
           }).catch((err) => {
             console.log(err);
-            res.status(500).json({ status: false, message: "Internal server error" });
+            // res.status(500).json({ status: false, message: "Internal server error" });
+            res.redirect(`${process.env.CLIENT_URL}/course-payment/${courseId}`)
           })
     
          } else {
@@ -72,7 +73,9 @@ export async function doPayment (req , res) {
       }
     } catch (error) {
       console.log(error);
-         res.status(500).json({ status: false, message: "Internal server error" });
+        //  res.status(500).json({ status: false, message: "Internal server error" });
+         res.redirect(`${process.env.CLIENT_URL}/course-payment/${courseId}`);
+
     }
 
 
@@ -89,7 +92,9 @@ try {
           status: true
         }
       }).then((response)=> {
-          res.status(200).json({ status: true , message:"OrderSucces" })
+
+          // res.status(200).json({ status: true , message:"OrderSucces" })
+          res.redirect(`${process.env.CLIENT_URL}/order-success`);
       }).catch((err)=> {
         console.log(err);
       })
@@ -114,9 +119,9 @@ export async function cancelOrder (req , res) {
       console.log(response);
       if(response) {
         // After deleting Order redirect to the payment page
-        res.redirect(`${process.env.CLIENT_URL}/course-payment/${response.course}`)
+        res.redirect(`${process.env.CLIENT_URL}/order-failed`)
       }else{
-        res.redirect(`${process.env.CLIENT_URL}/course-payment/${response.course}`);
+        res.redirect(`${process.env.CLIENT_URL}/order-failed`)
       }
     })
   } catch (error) {
