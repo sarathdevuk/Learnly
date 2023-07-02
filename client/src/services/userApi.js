@@ -20,7 +20,7 @@ export const userLogin = (values) =>{
 
 export const loginWithGoogle = (data) => {
   return axiosInstance("JwtToken").post('/auth/login/google',{...data} )
-}
+} 
 
 // Account 
 
@@ -48,4 +48,10 @@ export const getCourseDetails = (courseId) =>{
 //check whether user alread enrolled the couser
 export const isCourseEnrolled = (courseId) =>{
   return axiosInstance('JwtToken').get(`/is-course-enrolled/${courseId}`)
+}
+
+
+// Checkout payment 
+export const handleCheckout = ( values , courseId ) =>  {
+  return axiosInstance('JwtToken').post('create-checkout-session', {...values , courseId})
 }
