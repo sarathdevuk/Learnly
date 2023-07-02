@@ -9,6 +9,7 @@ import AccountPage from "../Pages/User/AccountPage";
 import AllCoursePage from "../Pages/User/AllCoursePage";
 import CourseDetailsPage from "../Pages/User/CourseDetailsPage";
 import OrderSummaryPage from "../Pages/User/OrderSummaryPage";
+import OrderSuccessPage from "../Pages/User/OrderSuccessPage";
 
 function UserRouter() {
   return (
@@ -16,6 +17,7 @@ function UserRouter() {
       <Route element={<PrivateRoutes role={"user"} route={"/login"} />}> 
         <Route path="/profile"  element={<AccountPage />} />
         <Route path="/course-payment/:courseId"  element={ <OrderSummaryPage />} />
+        <Route path="/order-success"  element={ <OrderSuccessPage />} />
 
       </Route>
 
