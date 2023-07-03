@@ -24,7 +24,7 @@ function EnrolledCoursePage() {
           position: "top-center",
         });
       });
-  });
+  },[]);
 
   return (
     <>

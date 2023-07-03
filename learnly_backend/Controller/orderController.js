@@ -28,6 +28,7 @@ export async function doPayment (req , res) {
     
           })
           newOrder.save().then(async( orderResponse ) =>{  
+            console.log("orderResp id",orderResponse._id);
             //Creating stripe checkout session with payment details
              const session = await stripe.checkout.sessions.create({
 
@@ -58,7 +59,7 @@ export async function doPayment (req , res) {
           })
           console.log("session created" , session);
           // Passing the session url to the client 
-          res.json({ url: session.url })
+          res.json({ url: session.url , orderId: orderResponse._id })
           }).catch((err) => {
             console.log(err);
             // res.status(500).json({ status: false, message: "Internal server error" });
@@ -83,6 +84,7 @@ export async function doPayment (req , res) {
 
 // Payment verification 
 export async function verifyPayment (req , res ) {
+  console.log("orderSucces verify payment");
 try {
   // findinf the order  and updating the order status
   const order = await Order.findById({ _id: req.params.orderId})
@@ -112,7 +114,7 @@ try {
 
 // if Patment cancel 
 export async function cancelOrder (req , res) {
-   console.log("cancel order");
+   console.log("cancel order @$#@$#@$#@$#@$#@$#@$");
   try {
     // Deleting the Order if the payment is cancelled
     Order.findByIdAndDelete({ _id : req.params.orderId}).then((response)=> {

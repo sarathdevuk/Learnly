@@ -60,3 +60,9 @@ export const getEnrolledCourse = () =>{
 export const handleCheckout = ( values , courseId ) =>  {
   return axiosInstance('JwtToken').post('create-checkout-session', {...values , courseId})
 }
+
+// Delete Order api
+export const deleteOrder = ( orderId ) =>  {
+  console.log("DElete order api @#$#@!$#@$@#$23");
+  return axiosInstance('JwtToken').get(`/cancel-payment/${orderId}`)
+}

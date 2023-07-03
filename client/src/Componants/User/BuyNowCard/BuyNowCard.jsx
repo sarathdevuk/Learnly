@@ -12,7 +12,8 @@ function BuyNowCard({courseDetails}) {
         console.log('user->' , user);
       if(user.firstName ) {
         isCourseEnrolled(courseDetails._id).then((response) => {
-          console.log("isCourseEnrolled" , response);
+          console.log("isCourseEnrolled" , response.data
+          );
           if(response.data.enrolled) {
             setIsEnrolled(true)
           }

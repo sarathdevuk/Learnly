@@ -4,7 +4,7 @@ import {useParams} from 'react-router-dom'
 import Loader from '../Loader/Loader'
 import * as Yup from 'yup' ;
 import { useFormik , Formik } from 'formik'
-import { getCourseDetails, handleCheckout } from '../../../services/userApi';
+import { deleteOrder, getCourseDetails, handleCheckout } from '../../../services/userApi';
 import { toast } from 'react-toastify';
 
 
@@ -39,18 +39,46 @@ function OrderSummary() {
       handleCheckout( values , courseId).then((response) => {
             console.log("response" , response);
         if(response.data.url) {
+
+          console.log("orderID" , response.data.orderId);
+          localStorage.setItem('orderId' , response.data.orderId)
+       
           window.location.href = response.data.url 
         } 
 
         setBtnLoading(false)
 
       }).catch((error)=> {
-        console.log(error);
+
+        toast.error("Something went wrong" , { position: "top-center"})
       })
       
     }
 
   })  
+
+// // Function to handle deletion of the order
+// const handleOrderDeletion = () => {
+//   console.log("Handleback@@@@@@@@@@@@@@@@@@@@@@@@@@@@@", );
+//   const orderID = sessionStorage.getItem('orderID');
+//   if (orderID) {
+//     // Delete the order using an API endpoint or perform necessary cleanup
+//     deleteOrder(orderID).catch((error) => {
+//       console.error("Failed to delete the order:", error);
+//     });
+//     sessionStorage.removeItem('orderID');
+//   }
+// };
+
+// // Handle the popstate event
+// window.onpopstate = function(event) {
+//   handleOrderDeletion();
+// };
+
+// // Handle the back button or navigating away from the page
+// window.onbeforeunload = function() {
+//   handleOrderDeletion();
+// };
 
   const handleChange = (event) => {
     formik.setValues((prev) => {
@@ -72,6 +100,21 @@ function OrderSummary() {
       toast.error( "Something Went wrong " , { position :"top-center"})
     })
   },[])
+
+  useEffect(() => {
+    console.log("@@@@@@@@@@@@@@@@ delete order func");
+    const ID =  localStorage.getItem('orderId');
+    console.log("orderID from sessionStorage" , ID);
+    if (ID) {
+      // Delete the order using an API endpoint or perform necessary cleanup
+      deleteOrder(ID).catch((error) => {
+        console.error("Failed to delete the order:", error);
+      });
+      // sessionStorage.removeItem('orderID');
+    }
+  }, []);
+
+  
 
   return (
     <section>
