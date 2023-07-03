@@ -181,3 +181,19 @@ export async function isCourseEnrolled(req , res) {
 }
 
 
+// get Enrolled Course 
+ export async function getEnrolledCourse (req , res) {
+  try {
+    const enrolledCourse = await Order.find({ user: req.userId }).populate('tutor').populate('course')
+    if(enrolledCourse) {
+      res.status(200).json({  status : true ,   enrolledCourse  })
+    }else{
+      res.status(200).json({ status: false , message : "No Course found"}) 
+
+    }
+  } catch (error) {
+    res.status(500).json({ status: false, message: "Internal server error" });
+
+  }
+
+ }

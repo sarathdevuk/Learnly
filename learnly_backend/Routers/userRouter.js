@@ -6,7 +6,7 @@ import { loginSchema, signupSchema } from "../utils/yupSchema.js";
 import { getUserDetails, updateUserAvatar, updateUserProfile } from "../Controller/userController.js";
 import { verifyUser } from "../middleware/AuthUser.js";
 import uploadImage from "../middleware/image-upload.js";
-import { getCourseDetails, isCourseEnrolled, viewAllCourse } from "../Controller/courseController.js";
+import { getCourseDetails, getEnrolledCourse, isCourseEnrolled, viewAllCourse } from "../Controller/courseController.js";
 import { cancelOrder, doPayment, verifyPayment,  } from "../Controller/orderController.js";
 const router = express.Router()
 
@@ -31,6 +31,7 @@ router.patch('/update-avatar' ,verifyUser , uploadImage("./public/images/user") 
 router.get('/course' , viewAllCourse)
 router.get('/course/:id' , getCourseDetails)
 router.get('/is-course-enrolled/:id' ,verifyUser , isCourseEnrolled )
+router.get('/enrolled-course' , verifyUser,  getEnrolledCourse)
 
 // payment 
 router.post('/create-checkout-session', verifyUser , doPayment)
