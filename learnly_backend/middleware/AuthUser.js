@@ -15,7 +15,7 @@ export async function verifyUser (req , res , next) {
 
       jwt.verify(token , secret_key , async(err , decoded) =>{
         if(err) {
-          res.json({status : fasle , message : "Permission not allowed"})
+          res.json({status : false , message : "Permission not allowed"})
         }else{
 
           // finding the user with the decoded id
