@@ -50,6 +50,11 @@ export const isCourseEnrolled = (courseId) =>{
   return axiosInstance('JwtToken').get(`/is-course-enrolled/${courseId}`)
 }
 
+// get Enrolled Course
+export const getEnrolledCourse = () =>{
+  return axiosInstance('JwtToken').get('/enrolled-course')
+}
+
 
 // Checkout payment 
 export const handleCheckout = ( values , courseId ) =>  {
