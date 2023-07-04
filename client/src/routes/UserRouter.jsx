@@ -12,6 +12,7 @@ import OrderSummaryPage from "../Pages/User/OrderSummaryPage";
 import OrderSuccessPage from "../Pages/User/OrderSuccessPage";
 import OrderFailedPage from "../Pages/User/OrderFailedPage";
 import EnrolledCoursePage from "../Pages/User/EnrolledCoursePage";
+import LearnPage from "../Pages/User/LearnPage";
 
 function UserRouter() {
   return (
@@ -22,7 +23,7 @@ function UserRouter() {
         <Route path="/order-success"  element={ <OrderSuccessPage />} />
         <Route path="/order-failed"  element={ <OrderFailedPage />} />
         <Route path="/my-enrollments" element={<EnrolledCoursePage/>} />
-
+        <Route path="/course/learn/:courseId" element={<LearnPage/>} />
 
       </Route>
 
