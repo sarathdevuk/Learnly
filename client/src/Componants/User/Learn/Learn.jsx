@@ -2,17 +2,27 @@ import React  ,{useState , useEffect } from 'react'
 import { Link , useNavigate , useParams } from 'react-router-dom'
 import Footer from '../Footer/Footer'
 import SyllabusDropdown from '../SyllabusDropdown/SyllabusDropdown'
-import { getCourseDetails } from '../../../services/userApi'
+import { getCourseFullDetails } from '.././../../services/userApi'
+import {toast} from 'react-toastify'
+ 
+
 function Learn() {
   
   const [courseDetails , setCourseDetails ] = useState([])
 
-
   const {courseId} = useParams()
 
   useEffect(()=> {
+  // fetch CourseFull details
+    getCourseFullDetails(courseId).then((response) => {
+        console.log("response" , response);
+        if(response.data.status) {
+            setCourseDetails(response.data.courseDetails)
+        }
+    }).catch((error)=> {
+        toast.error("Oops Something went wrong" , { position: "top-center" })
+    })
 
-    getCourseDetails
 
   }, [])
 
