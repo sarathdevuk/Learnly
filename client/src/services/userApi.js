@@ -55,6 +55,9 @@ export const getEnrolledCourse = () =>{
   return axiosInstance('JwtToken').get('/enrolled-course')
 }
 
+export const getCourseFullDetails = (courseId) =>{
+  return axiosInstance('JwtToken').get(`/course/learn/${courseId}`)
+}
 
 // Checkout payment 
 export const handleCheckout = ( values , courseId ) =>  {
