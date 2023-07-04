@@ -47,7 +47,6 @@ app.use("/tutor" , tutorRouter)
 app.use(errorHandler)
 
 
-
 // multer Errror
 app.use(( err ,req , res , next) => {
  if(err instanceof multer.MulterError) {

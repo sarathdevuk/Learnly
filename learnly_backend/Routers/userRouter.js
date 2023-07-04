@@ -8,6 +8,7 @@ import { verifyUser } from "../middleware/AuthUser.js";
 import uploadImage from "../middleware/image-upload.js";
 import { getCourseDetails, getEnrolledCourse, isCourseEnrolled, viewAllCourse } from "../Controller/courseController.js";
 import { cancelOrder, doPayment, verifyPayment,  } from "../Controller/orderController.js";
+import { validateId } from "../middleware/validateParams.js";
 const router = express.Router()
 
 
@@ -29,8 +30,8 @@ router.patch('/update-avatar' ,verifyUser , uploadImage("./public/images/user") 
 
 // Course
 router.get('/course' , viewAllCourse)
-router.get('/course/:id' , getCourseDetails)
-router.get('/is-course-enrolled/:id' ,verifyUser , isCourseEnrolled )
+router.get('/course/:id' ,validateId , getCourseDetails)
+router.get('/is-course-enrolled/:id' , validateId , verifyUser , isCourseEnrolled )
 router.get('/enrolled-course' , verifyUser,  getEnrolledCourse)
 
 // payment 
