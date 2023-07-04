@@ -37,12 +37,9 @@ function OrderSummary() {
       setBtnLoading(true) ;
 
       handleCheckout( values , courseId).then((response) => {
-            console.log("response" , response);
-        if(response.data.url) {
 
-          console.log("orderID" , response.data.orderId);
-          localStorage.setItem('orderId' , response.data.orderId)
-       
+        if(response.data.url) {
+          // localStorage.setItem('orderId' , response.data.orderId)
           window.location.href = response.data.url 
         } 
 
@@ -88,6 +85,7 @@ function OrderSummary() {
     })
   }
    
+  
   useEffect(() => {
     // fetch course Details from server
     getCourseDetails(courseId).then((response) => {
@@ -101,18 +99,19 @@ function OrderSummary() {
     })
   },[])
 
-  useEffect(() => {
-    console.log("@@@@@@@@@@@@@@@@ delete order func");
-    const ID =  localStorage.getItem('orderId');
-    console.log("orderID from sessionStorage" , ID);
-    if (ID) {
-      // Delete the order using an API endpoint or perform necessary cleanup
-      deleteOrder(ID).catch((error) => {
-        console.error("Failed to delete the order:", error);
-      });
-      // sessionStorage.removeItem('orderID');
-    }
-  }, []);
+
+  // useEffect(() => {
+  //   console.log("@@@@@@@@@@@@@@@@ delete order func");
+  //   const ID =  localStorage.getItem('orderId');
+  //   console.log("orderID from sessionStorage" , ID);
+  //   if (ID) {
+  //     // Delete the order using an API endpoint or perform necessary cleanup
+  //     deleteOrder(ID).catch((error) => {
+  //       console.error("Failed to delete the order:", error);
+  //     });
+  //     // sessionStorage.removeItem('orderID');
+  //   }
+  // }, []);
 
   
 
