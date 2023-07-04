@@ -168,7 +168,7 @@ export async function isCourseEnrolled(req , res) {
   console.log("is isCourseEnrolled ",req.userId , req.params.id);
   try { 
     // finding the course from orderModel based on Course id and userId
-    const enrolledCourse = await Order.findOne({ user : req.userId , course : req.params.id })
+    const enrolledCourse = await Order.findOne({ user : req.userId , course : req.params.id , status:true })
       if( enrolledCourse) {
         res.status(200).json({ enrolled : true ,  message : "Course already exist"}) ;
       }else{
@@ -184,7 +184,7 @@ export async function isCourseEnrolled(req , res) {
 // get Enrolled Course 
  export async function getEnrolledCourse (req , res) {
   try {
-    const enrolledCourse = await Order.find({ user: req.userId }).populate('tutor').populate('course')
+    const enrolledCourse = await Order.find({ user: req.userId , status:true }).populate('tutor').populate('course')
     if(enrolledCourse) {
       res.status(200).json({  status : true ,   enrolledCourse  })
     }else{
@@ -197,3 +197,20 @@ export async function isCourseEnrolled(req , res) {
   }
 
  }
+
+export async function getCourseFullDetails (req , res) {
+  try {
+    const courseId = req.params.id  
+    // geting course details by id 
+    const course =  await Course.findOne({_id:courseId}).populate('tutor').lean()
+      console.log("cousefull details" , course);
+    if(course) {
+      res.status(200).json({ status : true , courseDetails : course})
+    }else{
+      res.status(404).json({ status: false , message : "Course Not Found " })
+    }
+  } catch (error) {
+    res.status(500).json({ status: false , message : "Internal Server Error" })
+  }
+
+}

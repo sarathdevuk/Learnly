@@ -6,9 +6,10 @@ import { loginSchema, signupSchema } from "../utils/yupSchema.js";
 import { getUserDetails, updateUserAvatar, updateUserProfile } from "../Controller/userController.js";
 import { verifyUser } from "../middleware/AuthUser.js";
 import uploadImage from "../middleware/image-upload.js";
-import { getCourseDetails, getEnrolledCourse, isCourseEnrolled, viewAllCourse } from "../Controller/courseController.js";
+import { getCourseDetails, getCourseFullDetails, getEnrolledCourse, isCourseEnrolled, viewAllCourse } from "../Controller/courseController.js";
 import { cancelOrder, doPayment, verifyPayment,  } from "../Controller/orderController.js";
 import { validateId } from "../middleware/validateParams.js";
+import { CheckCourseEnrolled } from "../middleware/CheckCourseEnrolled.js";
 const router = express.Router()
 
 
@@ -33,6 +34,7 @@ router.get('/course' , viewAllCourse)
 router.get('/course/:id' ,validateId , getCourseDetails)
 router.get('/is-course-enrolled/:id' , validateId , verifyUser , isCourseEnrolled )
 router.get('/enrolled-course' , verifyUser,  getEnrolledCourse)
+router.get('/course/learn/:id' ,validateId ,  verifyUser, CheckCourseEnrolled , getCourseFullDetails)
 
 // payment 
 router.post('/create-checkout-session', verifyUser , doPayment)
