@@ -13,7 +13,7 @@ function HorizontalCourseCard({ courseDetails }) {
                 const course = courseDetails.course.course.map(obj => {
                     return { ...obj, open: false };
                 });
-                dispatch(setCourseDetails({ ...courseDetails,courseInfo:{...courseDetails.course}, course }))
+                dispatch(setCourseDetails({ ...courseDetails,courseInfo:{...courseDetails}, course }))
                 navigate(`/course/learn/${courseDetails.course._id}`)
             }} className="flex justify-center mt-4 sm:mx-10 m-3">
                 <div className="flex p-4 w-full max-w-screen-lg hover:bg-violet-50 flex-col items-center bg-white border border-gray-200 rounded-lg shadow-md md:flex-row  dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
