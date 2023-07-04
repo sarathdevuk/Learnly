@@ -53,11 +53,11 @@ function EnrolledCoursePage() {
                     />
                   );
                 })}
-            </>
+            </> 
           ) : (
-            <div className="flex justify-center flex-col items-center mb-10">
-              <img src="/images/noCourse.svg" alt="" />
-              <p>No enrolled courses</p>
+            <div className="flex justify-center flex-col items-center mb-10 ">
+              <img src="/images/noCourse.svg" alt="" className="w-2/4 " />
+              <p className="text-xl font-semibold" >No enrolled courses</p>
             </div>
           )}
         </div>
