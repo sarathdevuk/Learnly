@@ -99,13 +99,13 @@ function CourseDetails() {
                     <div>
                       <p className="mt-1 text-lg font-medium text-gray-700">
                         {courseDetails.tutor &&
-                          courseDetails.tutor.firstName}
+                          courseDetails.tutor.firstName + courseDetails.tutor?.lastName}
                       </p>
                     </div>
                   </div>
 
                   <p className="line-clamp-2 sm:line-clamp-none mt-4 text-gray-500">
-                    {courseDetails.teacher && courseDetails.teacher.about}
+                    {courseDetails.tutor && courseDetails.tutor?.about}
                   </p>
                 </blockquote>
               </div>
