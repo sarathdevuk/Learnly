@@ -2,6 +2,7 @@ import React  from 'react';
 import './SyllabusDropdown.scss'
 
 function SyllabusDropdown({ course, index, toggleDropdown, getYoutubeVideoId }) {
+    console.log("course from SyllabusDropdown " , course);
     return (
         <div
             className={"syllabus   " + (course.open ? "open" : "")}
@@ -26,6 +27,7 @@ function SyllabusDropdown({ course, index, toggleDropdown, getYoutubeVideoId }) 
             </div>
             {
                 course.lessons.map((lesson, index) => {
+                    console.log("lesson vdedioUrl" , lesson.videoUrl);
                     return (
                         <div onClick={() => { getYoutubeVideoId(lesson.videoUrl)}} key={index} className={"lessons-title cursor-pointer  hover:bg-violet-50 " + (course.open ? "p-4" : "")}>
                             <p className='lesson-title'>{lesson.lessonName}</p>

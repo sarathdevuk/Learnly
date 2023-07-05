@@ -7,15 +7,24 @@ import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
 import { setCourseDetails } from "../../../Redux/Features/courseSlice";
 import Loader from "../Loader/Loader";
+import YouTube from 'react-youtube' 
+import getYouTubeID from 'get-youtube-id' ;
+
 
 function Learn() {
 
-  const [loading , setLoading] = useState(false)  
-  const courseDetails = useSelector((state) => state.course.value);
-  const { courseId } = useParams();
-  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { courseId } = useParams();
 
+  
+  const [loading , setLoading] = useState(false)  
+  const [playerHeight , setPlayerHeight] = useState('')
+  const [ vedioId  , setVedioId] = useState();
+  const courseDetails = useSelector((state) => state.course.value);
+
+
+// Toggle syllubus dropdown
   const toggleDropdown = (toggleIndex) => {
     let course = courseDetails.course.map((course, index) => {
       if (toggleIndex == index) {
@@ -33,10 +42,23 @@ function Learn() {
     dispatch(setCourseDetails({ ...courseDetails, course }));
   };
 
+
+  // youtube window opts
+  const opts = {
+    height : playerHeight ,
+    width : '100%',
+    playerVars: {
+      autoplay : 1
+    }
+  }
+
+  // youtube vedio id generator 
+  const getYoutubeVideoId = ( vedioUrl ) => {
+    setVedioId(getYouTubeID(vedioUrl))
+  }
+
+
   useEffect(() => {
-
-    console.log("mounting");
-
     //scroll to top
     window.scrollTo(0, 0);
  
@@ -45,7 +67,6 @@ function Learn() {
       // fetch CourseFull details
       getCourseFullDetails(courseId)
         .then((response) => {
-          console.log("response", response.data);
           if (response.data.status) {
             const course = response.data.courseDetails.course.map((obj) => {
               return { ...obj, open: false };
@@ -67,9 +88,37 @@ function Learn() {
           toast.error("Oops Something went wrong", { position: "top-center" });
           navigate("/");
         });
+
+        // Setting first video to the vedio Controller 
+        if(courseDetails) {
+          console.log("course details" , courseDetails.course[0]);
+          getYoutubeVideoId(courseDetails.course[0].lessons[0].vedioUrl)
+        }
+
+        // screen size 
+        function handleResize() {
+          const windowWidth = window.innerWidth ;
+          if(windowWidth >= 1080) {
+            setPlayerHeight('589');
+          }else if ( windowWidth >= 720) {
+            setPlayerHeight('380');
+          } else {
+            setPlayerHeight('240');
+          }
+        }
+        handleResize() ;
+        window.addEventListener('resize' , handleResize);
+        return()=> {
+         window.removeEventListener('resize'  , handleResize) ;
+        }
+
+
+
+
   }, []);
 
-
+  console.log("!#@$@!$!$" , courseDetails?.image);
+  console.log("VEdioidddd$" , vedioId);
   return (
     <section>
          { loading ? 
@@ -96,40 +145,30 @@ function Learn() {
                 </svg>
               </Link>
 
-              <h1 className="ml-3 text-md ">Python Django Course</h1>
+              <h1 className="ml-3 text-md "> { courseDetails && courseDetails.courseInfo.name} </h1>
             </div>
 
             <div>
-              <div className="cursor-pointer relative flex justify-center items-center">
-                <div className="absolute text-white">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                    stroke="currentColor"
-                    className="w-16 h-16"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z"
-                    />
-                  </svg>
-                </div>
-                <img
-                  src={
-                    courseDetails &&
-                    "http://localhost:5000/" +courseDetails?.image?.path
-                  }
-                  alt=""
-                />
-              </div>
+            {vedioId ?
+                 <div>
+                 <YouTube videoId={vedioId} opts={opts} />
+                  </div>
+                  :
+                                
+                  <div
+                   onClick={() => { getYoutubeVideoId(courseDetails.course[0].lessons[0].videoUrl); }}
+                   className='cursor-pointer relative flex justify-center items-center'>
+                     <div className='absolute text-white'>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-16 h-16">
+                           <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                           <path strokeLinecap="round" strokeLinejoin="round" d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z" />
+                        </svg>
+
+                      </div>
+                   <img 
+                       src={courseDetails && 'http://localhost:5000/'+courseDetails?.image?.path} alt="" />
+                    </div>
+              }
 
               <div className="course-info-wrap p-5">
                 {/* //author section */}
@@ -189,19 +228,12 @@ function Learn() {
               <div>
                 <div className=" mt-14">
                   <div className="syllabus syllabus-wrap    rounded-lg">
-                    {courseDetails &&
-                      courseDetails.course.map((course, index) => {
-                        <SyllabusDropdown
-                          course={course}
-                          index={index}
-                          key={index}
-                          toggleDropdown={toggleDropdown}
-                        />;
-                      })}
 
-                    {/* {courseDetails && courseDetails.course.map((course, index) => (
-                                    <SyllabusDropdown course={course} index={index} key={index} toggleDropdown={toggleDropdown} getYoutubeVideoId={getYoutubeVideoId} />
-                                ))} */}
+                    {courseDetails && courseDetails.course.map((course, index) => (
+                                    <SyllabusDropdown course={course} index={index} key={index} toggleDropdown={toggleDropdown}
+                                     getYoutubeVideoId={getYoutubeVideoId}
+                                      />
+                                ))}
                   </div>
                 </div>
               </div>
