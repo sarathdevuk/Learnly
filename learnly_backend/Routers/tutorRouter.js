@@ -1,5 +1,5 @@
 import express from "express";
-import {  changePassword, tutorAuth, tutorLogin } from "../Controller/tutorController.js";
+import {  changePassword, getDashboardDetails, tutorAuth, tutorLogin } from "../Controller/tutorController.js";
 import { verifyTutorLogin } from "../middleware/AuthTutor.js";
 import { EditCourseDetails, addCourse, deleteCourse, getCourse } from "../Controller/courseController.js";
 import  uploadImage  from "../middleware/image-upload.js";
@@ -9,6 +9,8 @@ import { loginSchema } from "../utils/yupSchema.js";
 
 
 const router = express.Router()
+
+
 
 // Auth
 router.get("/auth" , tutorAuth);
@@ -25,5 +27,8 @@ router.post('/add-course' , uploadImage('./public/images/course/thumbnail') , ad
 router.get('/course' ,getCourse)
 router.delete('/delete-course/:courseId' , deleteCourse) ;
 router.put('/update-course' ,  uploadImage('./public/images/course/thumbnail') ,EditCourseDetails)
+
+// Dashboard
+router.get('/dashboard' , getDashboardDetails)
 
 export default router

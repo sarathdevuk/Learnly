@@ -87,7 +87,7 @@ export async function login(req, res) {
 
   try {
     const { email, password } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
     if (!email || !password) {
       throw new Error("All fields are required");
     }
