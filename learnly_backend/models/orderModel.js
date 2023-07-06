@@ -34,6 +34,8 @@ const OrderSchema = new mongoose.Schema({
     default: false ,
     required: true 
   },
+},{
+  timestamps:true
 })
 
 const OrderModel = mongoose.model("Order", OrderSchema)
