@@ -2,7 +2,7 @@ import React from 'react'
 
 function NumberCard({ icon,data,color,title}) {
   return (
-      <div className="flex items-center p-8 bg-white shadow rounded-lg shadow-lg ">
+      <div className="flex items-center p-8 bg-white  rounded-lg shadow-lg ">
           <div className={`${color} inline-flex flex-shrink-0 items-center justify-center h-16 w-16  rounded-full mr-6`}>
               {icon}
           </div>
