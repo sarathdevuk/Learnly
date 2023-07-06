@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import  { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Footer from "../Footer/Footer";
 import SyllabusDropdown from "../SyllabusDropdown/SyllabusDropdown";
@@ -84,14 +84,14 @@ function Learn() {
 
 
         })
-        .catch((error) => {
+        .catch(() => {
           toast.error("Oops Something went wrong", { position: "top-center" });
           navigate("/");
         });
 
         // Setting first video to the vedio Controller 
         if(courseDetails) {
-          console.log("course details" , courseDetails.course[0]);
+          console.log("Setting vedio url if course  Details is there");
           getYoutubeVideoId(courseDetails.course[0].lessons[0].vedioUrl)
         }
 
@@ -99,7 +99,7 @@ function Learn() {
         function handleResize() {
           const windowWidth = window.innerWidth ;
           if(windowWidth >= 1080) {
-            setPlayerHeight('589');
+            setPlayerHeight('540');
           }else if ( windowWidth >= 720) {
             setPlayerHeight('380');
           } else {
@@ -113,11 +113,10 @@ function Learn() {
         }
 
 
+  },[]);
 
 
-  }, []);
-
-  console.log("!#@$@!$!$" , courseDetails?.image);
+  
   console.log("VEdioidddd$" , vedioId);
   return (
     <section>
