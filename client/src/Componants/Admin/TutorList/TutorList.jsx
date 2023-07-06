@@ -37,13 +37,15 @@ function TutorList() {
   const successMessage = (message) => {
     toast.success(message, {
       position: "top-center",
-    });
+      toastId : "success"
+    } , );
   };
 
   // toast error message
   const generateError = (error) => {
     toast.error(error, {
       position: "top-center",
+      toastId:"error"
     });
   };
 
