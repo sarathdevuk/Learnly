@@ -1,5 +1,8 @@
 import jwt from 'jsonwebtoken' 
 import Tutor from '../models/tutorModel.js'
+import User from '../models/userModel.js'
+import Order from '../models/orderModel.js'
+import Course from '../models/courseModel.js'
 import bcrypt from 'bcrypt'
 
 const secret_key = process.env.JWT_SECRET_KEY
@@ -43,6 +46,7 @@ try {
   
   tutor.password = "empty"
   res.status(200).json({ login : true , token , tutor })
+  
 } catch (error) {
  console.log(error);
   res.json({login : false , message : "Internal serverError"})
@@ -117,6 +121,53 @@ export async function changePassword (req , res ) {
 
 }
 
-export async function addCours (req ,res) {
+export async function getDashboardDetails (req ,res) {
+  try {
   
+    // Finding the total User count 
+  let studentCount = await User.find().count()
+  // find the total orders course of that particular tutor
+  let orderCount = await Order.find({tutor:res.tutorId}).count()
+  // finding the total course count of that tutor
+  let courseCount= await Course.find({ tutor: res.tutorId}).count();
+
+    let revanueDetails = await Order.aggregate([
+      {
+        $group: {
+          _id : {$month : "$purchase_date"},
+          total : {$sum : "$total"}
+        }
+      },
+      {
+        $project :{
+          _id :0 ,
+           month :"$_id",
+           total: 1
+
+        }
+      },
+      {
+        $sort : {
+          month:1
+        }
+      },
+      {
+        $group:{
+          _id:null,
+          data: { $push : "$total"}
+        }
+      },
+      {
+        $project: {
+          _id : 0,
+          data : 1 ,
+        }
+      }
+
+    ])
+    res.status(200).json({status: true ,  studentCount , orderCount , courseCount , revanueDetails: revanueDetails[0].data })
+
+  } catch (err) {
+    res.status(404).json({ status: false, message: err.message });
+  }
 }
