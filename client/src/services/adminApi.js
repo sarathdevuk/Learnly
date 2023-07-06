@@ -40,6 +40,8 @@ export const getAllCourse = (page) => {
   return axiosInstance('adminJwtToken').get(`/admin/course?model=${'course'}&page=${page}&limit=${2}`)
 }
 
+
+
 export const changeCourseStatus = ( courseId , status ) => {
   return axiosInstance('adminJwtToken').put(`/admin/course/change-status/${courseId}/${status}`)
 }

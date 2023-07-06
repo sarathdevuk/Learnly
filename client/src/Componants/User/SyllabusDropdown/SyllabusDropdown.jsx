@@ -1,4 +1,4 @@
-import React  from 'react';
+
 import './SyllabusDropdown.scss'
 
 function SyllabusDropdown({ course, index, toggleDropdown, getYoutubeVideoId }) {
