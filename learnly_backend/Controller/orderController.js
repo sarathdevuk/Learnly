@@ -94,7 +94,6 @@ try {
           status: true
         }
       }).then((response)=> {
-          console.log("order Success",response);
           // res.status(200).json({ status: true , message:"OrderSucces" })
           res.redirect(`${process.env.CLIENT_URL}/order-success`);
       }).catch((err)=> {

@@ -18,10 +18,11 @@ const createToken = (id)=> {
 
 
 export async function tutorLogin (req, res) {
-
 try {
+  // getting the credentials from the request body
   const { email , password } = req.body ;
 
+  // Checking in the database with the email of the tutor 
   const tutor = await Tutor.findOne ({email : email })
   
   if(!tutor) {
@@ -54,23 +55,31 @@ try {
 
 }
 
+// Function for checking the Authorization
 export function tutorAuth (req , res) {
-  console.log("tutor auth ro");
+
 try {
+  // getting the token from the headers
   const authHeader = req.headers.authorization ;
   if (!authHeader) {
+    // return if there is no token in headers
     return res.json({status : false , message : "Not Authorized" })
   }
 
+  //spliting the  Bearer token  and then selecting the token 
   const token = authHeader.split(' ')[1];
 
+  // verifying the jwt token with secret key 
   jwt.verify(token , secret_key , async(err , decoded) => {
     if(err) {
       res.json({ status : false , message : "Permission not allowed"})
-    }else {
+    }else { 
+
+      // finding the tutor with the decoded id
       const tutor =await Tutor.findOne({_id :decoded.id , status:true})
 
-      if (tutor){
+      if (tutor){ 
+        // if tutor found then return a success response
         res.json({status : true , message : " Authorized"})
       }else {
         res.json({status : false , message : "tutor not exists"})
@@ -84,6 +93,8 @@ try {
 }
 
 
+
+// Change Tutor Password 
 export async function changePassword (req , res ) {
     
  try {
@@ -121,6 +132,8 @@ export async function changePassword (req , res ) {
 
 }
 
+
+// getting dashboard details
 export async function getDashboardDetails (req ,res) {
   try {
   
@@ -132,7 +145,7 @@ export async function getDashboardDetails (req ,res) {
   let courseCount= await Course.find({ tutor: res.tutorId}).count();
 
     let revanueDetails = await Order.aggregate([
-      {
+      { 
         $group: {
           _id : {$month : "$purchase_date"},
           total : {$sum : "$total"}
@@ -164,7 +177,7 @@ export async function getDashboardDetails (req ,res) {
         }
       }
 
-    ])
+    ]) 
     res.status(200).json({status: true ,  studentCount , orderCount , courseCount , revanueDetails: revanueDetails[0].data })
 
   } catch (err) {
