@@ -1,3 +1,4 @@
+import { sendCourseNotification } from '../helpers/NewCourseAddedEmail.js';
 import Course from '../models/courseModel.js';
 import Order from '../models/orderModel.js';
 
@@ -34,8 +35,18 @@ export async function addCourse (req , res) {
     });
 
     await course.save();
-    res.status(200).json({ status: true, message: "Course has been added successfully" });
+    await Course.populate(course, { path: 'tutor' });
+    
+    
+   const message = {
+     tutorName : course?.tutor?.firstName + course?.tutor?.lastName ,
+      course : name
+   }
 
+   res.status(200).json({ status: true, message: "Course has been added successfully" });
+   
+   await sendCourseNotification( process.env.ADMIN_EMAIL , message ) 
+   
   } catch (error) {
     console.log( error );
     res.status(500).json({status : false , message : "Internal Server Error"})
