@@ -3,6 +3,7 @@ import jwt from "jsonwebtoken" ;
 import bcrypt from "bcrypt";
 import Tutor from '../models/tutorModel.js'
 import User from '../models/userModel.js'
+import Order from '../models/orderModel.js'
 import cryptoRandomSting from 'crypto-random-string'
 import { sendEmail } from "../helpers/sendEmail.js";
 import Course from '../models/courseModel.js'
@@ -290,4 +291,155 @@ export async function changeCourseStatus (req , res) {
     
   }
 
+}
+
+export async function getAdminDashboard (req , res) {
+  console.log("et adminfsdf");
+  try {
+    const [
+      studentCount,
+      tutorCount,
+      courseCount,
+    
+    ] = await Promise.all([
+      User.countDocuments().exec(),
+      Tutor.countDocuments().exec(),
+      Course.countDocuments().exec(),
+      
+    ]);
+
+  //   let studentJoinedDetails = await User.aggregate([
+  //     {
+  //       $group: {
+  //         _id:{ $month : "$createdAt"},
+  //         count:{$sum: 1}
+  //       }
+  //     },
+  //     {
+  //       $project:{
+  //         _id:0,
+  //         month:"$_id",
+  //         count:1
+  //       }
+  //     },
+  //     {
+  //       $sort: {month : 1} 
+  //     },
+  //     {
+  //       $group:{
+  //         _id: null,
+  //         data: {$push: "$count"}
+  //       }
+  //     },
+  //     {
+  //       $project: {
+  //         _id: 0 ,
+  //         data:1 
+  //       }
+  //     }
+  //   ])
+  // ;
+
+  // let studentJoinedDetails = await User.aggregate([
+  //   {
+  //     $group: {
+  //       _id: { $month: "$createdAt" },
+  //       count: { $sum: 1 }
+  //     }
+  //   },
+  //   {
+  //     $group: {
+  //       _id: null,
+  //       data: {
+  //         $push: {
+  //           $cond: [
+  //             { $ifNull: ["$count", false] },
+  //             "$count",
+  //             0
+  //           ]
+  //         }
+  //       },
+  //       months: {
+  //         $push: "$_id"
+  //       }
+  //     }
+  //   },
+  //   {
+  //     $project: {
+  //       _id: 0,
+  //       data: {
+  //         $map: {
+  //           input: { $range: [1, 13] },
+  //           as: "m",
+  //           in: {
+  //             $cond: [
+  //               { $in: ["$$m", "$months"] },
+  //               { $arrayElemAt: ["$data", { $indexOfArray: ["$months", "$$m"] }] },
+  //               0
+  //             ]
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // ]);
+  
+  let studentJoinedDetails = await User.aggregate([
+    {
+      $group: {
+        _id: { $month: "$createdAt" },
+        count: { $sum: 1 }
+      }
+    },
+    {
+      $group: {
+        _id: null,
+        data: {
+          $push: { $ifNull: ["$count", 0] }
+        },
+        months: {
+          $push: "$_id"
+        }
+      }
+    },
+    {
+      $project: {
+        _id: 0,
+        data: {
+          $map: {
+            input: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
+            as: "m",
+            in: {
+              $cond: {
+                if: { $in: ["$$m", "$months"] },
+                then: { $arrayElemAt: ["$data", { $indexOfArray: ["$months", "$$m"] }] },
+                else: 0
+              }
+            }
+          }
+        }
+      }
+    }
+  ]);
+    
+    
+    console.log("studentJoinedDetails" , studentJoinedDetails);
+
+  
+
+    const totalOrders = await Order.aggregate([
+      {
+        $group: {
+          _id: { $month: "$course"},
+          count:{$sum: 1}
+        }
+      }
+    ]);
+
+    res.status(200).json({ studentCount , tutorCount , courseCount , studentJoinedDetails: studentJoinedDetails[0].data , orderCount: totalOrders[0].count })
+
+
+  } catch (error) {
+    console.log(error)
+  }
 }
