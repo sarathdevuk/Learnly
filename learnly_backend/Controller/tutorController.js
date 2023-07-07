@@ -4,6 +4,8 @@ import User from '../models/userModel.js'
 import Order from '../models/orderModel.js'
 import Course from '../models/courseModel.js'
 import bcrypt from 'bcrypt'
+import { sendCourseNotification } from '../helpers/NewCourseAddedEmail.js'
+
 
 const secret_key = process.env.JWT_SECRET_KEY
 const maxAge = 3* 24 * 60 * 60; 
@@ -144,40 +146,95 @@ export async function getDashboardDetails (req ,res) {
   // finding the total course count of that tutor
   let courseCount= await Course.find({ tutor: res.tutorId}).count();
 
-    let revanueDetails = await Order.aggregate([
-      { 
-        $group: {
-          _id : {$month : "$purchase_date"},
-          total : {$sum : "$total"}
-        }
-      },
-      {
-        $project :{
-          _id :0 ,
-           month :"$_id",
-           total: 1
+    // let revanueDetails = await Order.aggregate([
+    //   { 
+    //     $group: {
+    //       _id : {$month : "$purchase_date"},
+    //       total : {$sum : "$total"}
+    //     }
+    //   },
+    //   {
+    //     $project :{
+    //       _id :0 ,
+    //        month :"$_id",
+    //        total: 1
 
-        }
-      },
+    //     }
+    //   },
+    //   {
+    //     $sort : {
+    //       month:1
+    //     }
+    //   },
+    //   {
+    //     $group:{
+    //       _id:null,
+    //       data: { $push : "$total"}
+    //     }
+    //   },
+    //   {
+    //     $project: {
+    //       _id : 0,
+    //       data : 1 ,
+    //     }
+    //   }
+
+    // ]) 
+
+    let  revanueDetails = await Order.aggregate([
       {
-        $sort : {
-          month:1
-        }
-      },
-      {
-        $group:{
-          _id:null,
-          data: { $push : "$total"}
+        $group: {
+          _id: { $month: "$purchase_date" },
+          total: { $sum: "$total" }
         }
       },
       {
         $project: {
-          _id : 0,
-          data : 1 ,
+          _id: 0,
+          month: "$_id",
+          total: 1
+        }
+      },
+      {
+        $group: {
+          _id: null,
+          data: {
+            $push: {
+              $cond: [
+                { $ifNull: ["$total", false] },
+                "$total",
+                0
+              ]
+            }
+          },
+          months: {
+            $push: "$month"
+          }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          data: {
+            $map: {
+              input: { $range: [1, 13] },
+              as: "m",
+              in: {
+                $cond: [
+                  { $in: ["$$m", "$months"] },
+                  { $arrayElemAt: ["$data", { $indexOfArray: ["$months", "$$m"] }] },
+                  0
+                ]
+              }
+            }
+          }
         }
       }
+    ]);
+    
 
-    ]) 
+    console.log("studentJoinedDetails" , revanueDetails);
+
     res.status(200).json({status: true ,  studentCount , orderCount , courseCount , revanueDetails: revanueDetails[0].data })
 
   } catch (err) {
