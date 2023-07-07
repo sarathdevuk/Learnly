@@ -1,5 +1,5 @@
 import express from "express";
-import { AdminLogin, addTutor, authAdmin, blockTutor, blockUser, changeCourseStatus, getAllTutors, getAllUsers, unBlockTutor, unBlockUser } from "../Controller/adminController.js";
+import { AdminLogin, addTutor, authAdmin, blockTutor, blockUser, changeCourseStatus, getAdminDashboard, getAllTutors, getAllUsers, unBlockTutor, unBlockUser } from "../Controller/adminController.js";
 import {verifyAdmin} from '../middleware/AuthAdmin.js'
 import validate from "../middleware/validateBody.js";
 import { loginSchema } from "../utils/yupSchema.js";
@@ -27,7 +27,10 @@ router.get("/unblock-user/:id" , validateId , unBlockUser);
 
 // Course Management 
 router.get('/course' ,paginatedResults() ,  getAllCourse)
-router.put('/course/change-status/:id/:status' , validateId , changeCourseStatus)
+router.put('/course/change-status/:id/:status' , validateId , changeCourseStatus) 
+
+// get Dashboard Details 
+router.get('/dashboard' , getAdminDashboard )
 
 
 
