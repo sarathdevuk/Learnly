@@ -24,18 +24,18 @@ function DashboardPage() {
             setDashboardDetails(response.data)
           })
   },[admin]) 
-  console.log("#@@@@323243244 studentJoinedDetails" , dashboardDetails?.studentJoinedDetails,);
+
 
   ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend, PointElement, LineElement, ArcElement)
 
   const lineChartData = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-    type:'bar',
+  
     datasets: [
       {
         label: 'Number of users joined based on month',
-        // data: dashboardDetails?.studentJoinedDetails,
-        data:[10] ,
+        data: dashboardDetails?.studentJoinedDetails,
+        // data: [10, 20, 15, 30, 25, 4],
         backgroundColor: 'rgb(81,118,224)',
         borderColor: 'rgb(81,118,224)',
         borderWidth: 1,
@@ -75,11 +75,11 @@ function DashboardPage() {
 
           <NumberCard icon={<MdGroup />} data={dashboardDetails?.studentCount} color={"text-purple-600 bg-purple-100"} title={'Students'} />
 
-          <NumberCard icon={<FaChalkboardTeacher />} data={dashboardDetails?.teacherCount} color={"text-green-600 bg-green-100"} title={'Teachers'} />
+          <NumberCard icon={<FaChalkboardTeacher />} data={dashboardDetails?.tutorCount} color={"text-green-600 bg-green-100"} title={'Teachers'} />
 
           <NumberCard icon={<GiBookshelf />} data={dashboardDetails?.courseCount} color={"text-blue-600 bg-blue-100"} title={'Courses'} />
 
-          <NumberCard icon={<CgCommunity />} data={dashboardDetails?.communityCount} color={"text-red-600 bg-red-100"} title={'Community'} />
+          <NumberCard icon={<CgCommunity />} data={''} color={"text-red-600 bg-red-100"} title={'Community'} />
 
         </section>
 

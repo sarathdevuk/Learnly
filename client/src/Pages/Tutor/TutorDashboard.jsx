@@ -32,7 +32,6 @@ function TutorDashboard() {
     });
   }, [admin]);
 
-
   // chart js
   ChartJS.register(
     BarElement,
@@ -52,7 +51,7 @@ function TutorDashboard() {
       datasets: [
           {
               label: 'Revenue based on month',
-              data: dashboardDetails?.revenueDetails,
+              data: dashboardDetails?.revanueDetails,
               backgroundColor: 'rgb(81,118,224)',
               borderColor: 'rgb(81,118,224)',
               borderWidth: 1,
