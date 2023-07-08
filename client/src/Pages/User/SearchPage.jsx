@@ -6,11 +6,11 @@ import Search from '../../Componants/User/Search/Search'
 
 function SearchPage() {
   return (
-    <div> 
+    <>
       <UserHeader/> 
       <Search/>
       <Footer/> 
-    </div >
+      </>
   )
 }
 
