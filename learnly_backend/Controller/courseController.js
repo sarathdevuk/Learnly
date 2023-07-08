@@ -7,14 +7,22 @@ import Order from '../models/orderModel.js';
 export async function addCourse (req , res) {
 
   try {
-    console.log("body" , req.body.course);
+    console.log("body" , req.body);
 
-    const {name , price ,duration , language , category , description   } = req.body ;
+    const {name ,duration , language , category , description ,isFree  } = req.body ;
 
-    if (!name || !price || !duration || !language || !category || !description) {
+    if (!name  || !duration || !language || !category || !description) {
       res.status(404);
       throw new Error("All fields are mandatory");
     }
+    
+    let coursePrice ; 
+    if(req.body.isFree) {
+      coursePrice = 0; 
+
+    }
+      coursePrice = req.body?.price ? req.body.price :  0 ;
+  
     
     // req.files.image[0].path = req.files.image[0].path.replace('public/', "");
     req.files.image[0].path = req.files.image[0].path.substring('public'.length);
@@ -22,15 +30,16 @@ export async function addCourse (req , res) {
     const course = new Course({
       name,
       category,
-      price,
+      isFree,
+      price : coursePrice ,
       tutor: res.tutorId,
       duration,
       language,
       about: 'About Java',
       description,
       image: req.files.image[0], // Use req.files.image[0].path here
-      tutorRevenue:(Number(price) * (80/100)),
-      adminRevenue: (Number(price) * (20/100)),
+      tutorRevenue:(Number(coursePrice) * (80/100)),
+      adminRevenue: (Number(coursePrice) * (20/100)),
       course: req.body.course,
     });
 
@@ -222,6 +231,31 @@ export async function getCourseFullDetails (req , res) {
     }
   } catch (error) {
     res.status(500).json({ status: false , message : "Internal Server Error" })
+  }
+
+}
+
+export async function search (req , res) {
+  console.log(req.query);
+  try {
+    const key = req.query.q.replace(/[^a-zA-Z ]/g, ""); // Sanitize the search query to remove special characters
+
+    const course = await Course.find({
+      $or: [
+        { name: { $regex: key, $options: 'i' } }, // Perform a case-insensitive search on the 'name' field
+        { tags: { $regex: key, $options: 'i' } } // Perform a case-insensitive search on the 'tags' field
+      ]
+    });
+    if(course) {
+       res.status(200).json({ status: true , result : course})
+    }else{
+      res.status(404).json({ status: false , message: "Course not Found" })
+    }
+
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ status: false , message : "internal server Error"})
   }
 
 }
