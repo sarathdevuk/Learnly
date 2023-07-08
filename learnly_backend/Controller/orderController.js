@@ -16,7 +16,27 @@ export async function doPayment (req , res) {
 // checking the user status ban or not
       if(user.status) {
         const course = await Course.findById({ _id : courseId}) 
-         if(course) {
+         if(course) { 
+          // if Its Free Course directly creating the Order 
+           console.log(course.isFree ," free coourse");
+             if(course?.isFree){
+                const order = await Order.create({
+                  total : course.price , 
+                  course : courseId,
+                  user : userId,
+                  tutor : course.tutor,
+                  address : {line : req.body.address , pincode : req.body.pincode } ,
+                  purchase_date  :Date.now() 
+                })
+                if(order) {
+
+                  res.status(200).json({status:true , message : 'order placed successfully'})
+                }else {
+                  res.status(500).json({ status : false ,  message : "Order Failed"})
+                }
+              
+           }else {
+
 // Creating New Order with user , tutor , and course Details
           const newOrder = new Order({ 
             total : course.price , 
@@ -65,7 +85,7 @@ export async function doPayment (req , res) {
             // res.status(500).json({ status: false, message: "Internal server error" });
             res.redirect(`${process.env.CLIENT_URL}/course-payment/${courseId}`)
           })
-    
+        }
          } else {
           res.redirect(`${process.env.CLIENT_URL}/course-payment/${courseId}`);
     
