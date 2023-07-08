@@ -13,8 +13,7 @@ import OrderSuccessPage from "../Pages/User/OrderSuccessPage";
 import OrderFailedPage from "../Pages/User/OrderFailedPage";
 import EnrolledCoursePage from "../Pages/User/EnrolledCoursePage";
 import LearnPage from "../Pages/User/LearnPage";
-import Search from "../Componants/User/Search/Search";
-
+import SearchPage from "../Pages/User/SearchPage";
 function UserRouter() {
   return (
     <Routes>
@@ -35,7 +34,7 @@ function UserRouter() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/otp" element={<OtpPage />} />
-        <Route path="/search" element={<Search />} />
+        <Route path="/search" element={<SearchPage />} />
       
     </Routes>
   );
