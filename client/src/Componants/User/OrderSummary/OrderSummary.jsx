@@ -1,6 +1,6 @@
 import React , { useState , useEffect } from 'react'
 import LoadingButton from '../LoadingButton/LoadingButton'
-import {useParams} from 'react-router-dom'
+import {useParams ,useNavigate} from 'react-router-dom'
 import Loader from '../Loader/Loader'
 import * as Yup from 'yup' ;
 import { useFormik , Formik } from 'formik'
@@ -15,7 +15,7 @@ function OrderSummary() {
   const [loading , setLoading] = useState(true) ; 
   const [btnloading , setBtnLoading] = useState(false);
 
-
+const navigate = useNavigate();
 
   const validate = Yup.object({
     address : Yup.string().max(30 , "Must be 30 charecter or less")
@@ -41,6 +41,8 @@ function OrderSummary() {
         if(response.data.url) {
           // localStorage.setItem('orderId' , response.data.orderId)
           window.location.href = response.data.url 
+        } else if(response.data.status){
+          navigate('/order-success')
         } 
 
         setBtnLoading(false)
@@ -181,8 +183,8 @@ function OrderSummary() {
                   </Button> */}
                   <LoadingButton 
                   onClick={formik.handleSubmit} loading={btnloading}
-                  >
-                    Pay Securely
+                  >  { courseDetails?.isFree ? "Enroll Now" :  "Pay Securely" }
+                   
                   </LoadingButton>
                   {/* <PayButton/> */}
                 </div>

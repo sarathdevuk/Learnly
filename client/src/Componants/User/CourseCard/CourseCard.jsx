@@ -9,8 +9,9 @@ function CourseCard( {course }) {
         <div className="p-4 ">
             <h5 className="mb-2 text-lg font-bold tracking-tigsht text-theme-color dark:text-white">{course.name}</h5>
             <p className="mb-2 font-normal text-gray-700 dark:text-gray-400">{course.tutor.firstName}</p>
-            <div>
-                <h5 className='text-base font-semibold mt-3'>₹ {course.price}</h5>
+            <div> 
+
+                <h5 className='text-base font-semibold mt-3'>₹ {course?.isFree ? "Free" : course?.price }</h5>
             </div>
         </div>
     </Link>
