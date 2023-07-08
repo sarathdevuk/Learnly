@@ -59,6 +59,11 @@ export const getCourseFullDetails = (courseId) =>{
   return axiosInstance('JwtToken').get(`/course/learn/${courseId}`)
 }
 
+// search course
+export const searchCourse = (query) => { 
+  return axiosInstance('JwtToken').get(`/search?q=${query}`)
+}
+
 // Checkout payment 
 export const handleCheckout = ( values , courseId ) =>  {
   return axiosInstance('JwtToken').post('create-checkout-session', {...values , courseId})
