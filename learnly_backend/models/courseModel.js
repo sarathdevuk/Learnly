@@ -22,9 +22,15 @@ const courseSchema = new mongoose.Schema({
     type : String ,
     required : true
   },
+  
+  isFree: {
+      type: Boolean , 
+      default: false ,   
+  },
+
   price  : {
     type : Number,
-    required: true
+    // required: true
   },
   language : {
     type : String ,
