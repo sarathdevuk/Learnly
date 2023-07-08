@@ -27,8 +27,17 @@ function AddCourse() {
     category: Yup.string().required("Category Required"),
     duration: Yup.string().required("Duration Required"),
     language: Yup.string().required("Language Required"),
-    price: Yup.string().required("Price Required"),
     description: Yup.string().required("Description Required"),
+    // price: Yup.string().required("Price Required"),
+    // price: Yup.string().when("isFree", {
+    // is: false,
+    // then: Yup.string().required("Price Required"),
+  // }),
+  // price: Yup.mixed().when(['isFree', 'duration'], {
+  //   is: (isFree) => !isFree,
+  //   then: Yup.number().required("Price Required").typeError("Price must be a number"),
+  //   otherwise: Yup.mixed().nullable(),
+  // }),
   });
 
   // Used Formik form submition
@@ -39,6 +48,7 @@ function AddCourse() {
       category: "",
       duration: "",
       language: "",
+      isFree: false,
       price: "",
       description: "",
     },
@@ -323,7 +333,7 @@ function AddCourse() {
         </div>
 
         <div className="flex flex-wrap -mx-3  mb-3">
-          <div className="w-full md:w-1/2 px-3">
+          {/* <div className="w-full md:w-1/2 px-3">
             <label
               className="block uppercase tracking-wide text-violet-700 text-sm font-bold mb-2"
               htmlFor="price"
@@ -344,7 +354,46 @@ function AddCourse() {
             {formik.touched.price && formik.errors.price ? (
               <p className="text-red-500 text-xs ">{formik.errors.price}</p>
             ) : null}
+          </div> */}
+          <div className="w-full md:w-1/2 px-4 mb-3">
+        <input
+          id="isFree"
+          name="isFree"
+          type="checkbox"
+          className="checkbox checkbox-primary mr-3"
+          checked={formik.values.isFree}
+          onChange={formik.handleChange}
+        />
+        <label htmlFor="isFree" className="text-sm">
+          Free Course
+        </label>
+      </div>
+
+      {!formik.values.isFree && (
+      
+          <div className="w-full md:w-1/2 px-3">
+            <label
+              className="block uppercase tracking-wide text-violet-700 text-sm font-bold mb-2"
+              htmlFor="price"
+            >
+              Price
+            </label>
+            <input
+              className="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              id="price"
+              name="price"
+              type="text"
+              placeholder="Price"
+              value={formik.values.price}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.price && formik.errors.price ? (
+              <p className="text-red-500 text-xs">{formik.errors.price}</p>
+            ) : null}
           </div>
+       
+      )}
         </div>
 
         <div className="mb-4">
@@ -435,7 +484,7 @@ function AddCourse() {
         <div className="flex flex-wrap -mx-3 mb-2">
           <div className="mt-8 w-full  flex justify-end mr-3">
             <LoadingButton onClick={formik.handleSubmit}>
-              <button>Submit</button>
+              <button type="button" >Submit</button>
             </LoadingButton>
           </div>
         </div>
