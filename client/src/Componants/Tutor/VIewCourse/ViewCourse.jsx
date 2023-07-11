@@ -39,7 +39,7 @@ function ViewCourse() {
       if(willDelete) {
         deleteCourse(courseId).then((response) => {
           if(response.data.status){
-            successMessage(response.data.message)
+            successMessage(response.data.message , "delete")
             setCourse(course.filter(obj => obj._id != courseId))
           }else{
             generateError(response.data.message)
@@ -59,9 +59,10 @@ function ViewCourse() {
     })
   }
 
-  const successMessage = (message)=> {
+  const successMessage = (message , id)=> {
     toast.success(message , {
-      position : "top-center" 
+      position : "top-center" ,
+      toastId: id ,
     })
   }
 
