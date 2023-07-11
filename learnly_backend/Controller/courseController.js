@@ -1,13 +1,12 @@
 import { sendCourseNotification } from '../helpers/NewCourseAddedEmail.js';
 import Course from '../models/courseModel.js';
 import Order from '../models/orderModel.js';
-
+import cloudinary from '../config/cloudinary.js';
 
 
 export async function addCourse (req , res) {
-
+          console.log("addCourse Router");
   try {
-    console.log("body" , req.body);
 
     const {name ,duration , language , category , description ,isFree  } = req.body ;
 
@@ -16,13 +15,25 @@ export async function addCourse (req , res) {
       throw new Error("All fields are mandatory");
     }
     
-    let coursePrice ; 
-    if(req.body.isFree) {
-      coursePrice = 0; 
+    //Handling the Course Price Based on IsFree 
+    const coursePrice = isFree ? 0 : price || 0;
 
-    }
-      coursePrice = req.body?.price ? req.body.price :  0 ;
+    console.log(req.body.course);
+
+      const updatedCourse = await Promise.all(
+        req.body.course.map(async (chapter) => {
   
+          const assignment = await cloudinary.uploader.upload(chapter?.assignment, {
+            folder: 'learnly',
+          });
+  
+          return {
+            chapter: chapter.chapter,
+            assignments: assignment ,
+            lessons: chapter.lessons,
+          };
+        })
+      );
     
     // req.files.image[0].path = req.files.image[0].path.replace('public/', "");
     req.files.image[0].path = req.files.image[0].path.substring('public'.length);
@@ -40,7 +51,7 @@ export async function addCourse (req , res) {
       image: req.files.image[0], // Use req.files.image[0].path here
       tutorRevenue:(Number(coursePrice) * (80/100)),
       adminRevenue: (Number(coursePrice) * (20/100)),
-      course: req.body.course,
+      course: updatedCourse
     });
 
     await course.save();
@@ -61,6 +72,7 @@ export async function addCourse (req , res) {
     res.status(500).json({status : false , message : "Internal Server Error"})
   }
 }
+
 
 export async function getCourse (req , res) {
   try {
