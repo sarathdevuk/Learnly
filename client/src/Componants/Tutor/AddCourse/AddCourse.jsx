@@ -10,10 +10,12 @@ import { addCourse } from "../../../services/tutorApi";
 function AddCourse() {
   const fileInputRef = useRef();
 
+
   const [lesson, setLesson] = useState([]);
   const [chapter, setChapter] = useState("");
   const [course, setCourse] = useState([]);
   const [image, setImage] = useState("");
+  const [assignment , setAssignment] = useState(null)
   const [chapterDetails, setChapterDetails] = useState(null);
 
   // handle image select
@@ -56,9 +58,9 @@ function AddCourse() {
     validationSchema: validate,
     // handling The form submition
     onSubmit: async (values) => {
-      console.log( "course+++", course, ("+++++++++$##%#$%"));
+      console.log( "course+++", course, ("+++++++++$##%#$%" ));
       // Calling addCourse api and pass the required data as body
-      addCourse(values, course, image)
+      addCourse(values, course, image , )
         .then((response) => {
           console.log("res", response);
           if (response.data.status) {
@@ -70,10 +72,12 @@ function AddCourse() {
           }
         })
         .catch((err) => {
+          console.log(err);
           generateErrror("Network error");
         });
     },
   });
+
 
   // Validating Chapter Lessons using Yup Library
 
@@ -133,25 +137,12 @@ function AddCourse() {
   
   const addChapter = () => {
     console.log(lesson,"++LSDF");
-    setCourse([...course, { chapter, lessons: lesson }]);
-    console.log("course afeter chapter" ,course);
+    setCourse([...course, { chapter  , assignment , lessons: lesson }]);
+    setChapter("")
+    setAssignment(null)
     setLesson([]);
     successMessage("Chapter Added successfully");
-    setChapter("");
   };
-  // const addChapter = () => {
-  //   console.log(lesson, "++LSDF");
-  //   const newChapter = {
-  //     chapter: chapter,
-  //     lesson: [...lesson],
-  //   };
-  //   setCourse([...course, newChapter]);
-  //   console.log("course after chapter", course);
-  //   setLesson([]);
-  //   successMessage("Chapter Added successfully");
-  //   setChapter("");
-  // };
-  
 
 
   const generateErrror = (err) => {
@@ -166,6 +157,7 @@ function AddCourse() {
     });
   };
 
+  console.log("Assignment" ,assignment);
   return (
     <div className="form-wrap w-3/3 mr-md-4 mt-7">
       <div className="mb-4 pb-4 form-title-box ">
@@ -606,6 +598,7 @@ function AddCourse() {
                   </label>
                 </div>
                 <div className="relative mb-3 w-full md:w-1/3 m-3">
+                  
                   <button
                     type="button"
                     className="focus:outline-none text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:ring-green-300 font-medium rounded text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-400 
@@ -615,7 +608,34 @@ function AddCourse() {
                     Add
                   </button>
                 </div>
+                
+              </div>  
+
+              <div className="mx-4 mt-3   md:mx-20">
+           
+               {/* <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload Assignment</label>
+                <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400  focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                 aria-describedby="file_input_help" id="file_input" 
+                 type="file" name="zipFile" accept=".zip"  
+                 
+                 ref={fileInputRef}
+                 onChange={(e) => setAssignment(e.target.files[0])}
+                 /> */}
+                 <input
+                 className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400  focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+               aria-describedby="file_input_help"
+               id="file_input"
+                type="file"
+                name="assignment" // Add the name attribute for the assignment file
+              //  accept=".z"
+                // ref={zipInputRef}
+                onChange={(e) => setAssignment(e.target.files[0])}
+               />
+
+
               </div>
+
+              
 
               {lesson[0] ? (
                 <div>
