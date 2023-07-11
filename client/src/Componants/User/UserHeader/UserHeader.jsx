@@ -57,12 +57,8 @@ function UserHeader() {
                 </Link>
 
                 <div className="  items-center md:order-2 cursor-pointer">
-                    {user.id ? <img className="w-12 h-12 rounded-full object-cover hidden md:flex"
-                    //  src= 'https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper.png' 
-                    //  src='https://img.freepik.com/free-psd/young-businessman-3d-cartoon-avatar-portrhttps://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?t=st=1688028626~exp=1688029226~hmac=628e182074c5fc37d7d466a06a03c431be584428cd20bac522e6a9f5c59a74faait_627936-22.jpg?w=740&t=st=1688028453~exp=1688029053~hmac=c5b8ed9fbf613817fb5c90de9eabc52897aff159853c70535fb13b235afce337'
-                    src='https://img.freepik.com/premium-vector/young-smiling-man-avatar-man-with-brown-beard-mustache-hair-wearing-yellow-sweater-sweatshirt-3d-vector-people-character-illustration-cartoon-minimal-style_365941-860.jpg'
-                    // src='https://img.freepik.com/premium-vector/brunette-man-avatar-portrait-young-guy-vector-illustration-face_217290-1549.jpg?w=740'
-                    alt="user photo"
+                    {user.firstName ? <img className="w-9 h-9 rounded-full object-cover hidden md:flex" src={user.id ? user.image :'https://img.freepik.com/premium-vector/young-smiling-man-avatar-man-with-brown-beard-mustache-hair-wearing-yellow-sweater-sweatshirt-3d-vector-people-character-illustration-cartoon-minimal-style_365941-860.jpg'} alt="user photo"
+                   
                         onClick={() => {
                             setProfileBox(!profileBox);
                         }} />
