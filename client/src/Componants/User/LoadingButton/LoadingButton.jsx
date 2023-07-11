@@ -109,7 +109,7 @@ const LoadingButton = (props) => {
       disabled={props.loading}
     >
       {props.loading ? (
-        <span className="spinner">
+        <span className="spinner ">
           <i className="bx bx-loader-alt bx-spin" style={{width:'10px'}} ></i>
         </span>
       ) : (

@@ -14,6 +14,7 @@ function AddCourse() {
   const [lesson, setLesson] = useState([]);
   const [chapter, setChapter] = useState("");
   const [course, setCourse] = useState([]);
+  const [loading , setLoading] = useState(false) ; 
   const [image, setImage] = useState("");
   const [assignment , setAssignment] = useState(null)
   const [finalAssignment , setFinalAssignment] = useState(null)
@@ -59,11 +60,14 @@ function AddCourse() {
     validationSchema: validate,
     // handling The form submition
     onSubmit: async (values) => {
-      console.log( "course+++", course, ("+++++++++$##%#$%" , finalAssignment ));
+      console.log( "course+++", course, ("+++++++++$##%#$%"));
       // Calling addCourse api and pass the required data as body
-      addCourse(values, course, image ,  )
+
+      setLoading(!loading)
+      addCourse(values, course, image )
         .then((response) => {
-          console.log("res", response);
+          setLoading(loading)
+        
           if (response.data.status) {
             // Passing the success message to toast
             successMessage(response.data.message);
@@ -73,6 +77,8 @@ function AddCourse() {
           }
         })
         .catch((err) => {
+          setLoading(loading)
+
           console.log(err);
           generateErrror("Network error");
         });
@@ -138,9 +144,9 @@ function AddCourse() {
   
   const addChapter = () => {
     console.log(lesson,"++LSDF");
-    setCourse([...course, { chapter  , lessons: lesson }]);
+    setCourse([...course, { chapter , assignment:finalAssignment , lessons: lesson }]);
     setChapter("")
-    setAssignment(null)
+    setFinalAssignment(null)
     setLesson([]);
     successMessage("Chapter Added successfully");
   };
@@ -504,7 +510,7 @@ function AddCourse() {
 
         <div className="flex flex-wrap -mx-3 mb-2">
           <div className="mt-8 w-full  flex justify-end mr-3">
-            <LoadingButton onClick={formik.handleSubmit}>
+            <LoadingButton loading={loading}  onClick={formik.handleSubmit}>
               <button type="button" >Submit</button>
             </LoadingButton>
           </div>
