@@ -112,7 +112,7 @@ function UserProfile() {
             <div className="image overflow-hidden relative">
               <img
                 className="h-48 w-48 object-cover mx-auto rounded-full"
-                src={ !image ?  user?.picture : URL.createObjectURL(image) }
+                src={ !image ? "https://img.freepik.com/premium-vector/brunette-man-avatar-portrait-young-guy-vector-illustration-face_217290-1549.jpg?w=740" : URL.createObjectURL(image) }
               />
               <div className="ab bg-green-500 text-xs absolute bottom-1 right-4 font-bold  rounded-full w-10 h-10  text-white flex justify-center items-center   float-left hover:bg-gray-300 hover:text-gray-600  overflow-hidden cursor-pointer">
                 <input
