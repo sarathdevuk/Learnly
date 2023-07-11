@@ -37,3 +37,6 @@ const uploadImage = (path) => {
 }
 
 export default uploadImage
+
+
+

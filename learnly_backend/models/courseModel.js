@@ -52,14 +52,17 @@ const courseSchema = new mongoose.Schema({
     {
       chapter : String ,
       image : String ,
+      assignments: {
+        type:Object
+      },
+
       lessons : [
             {
               chapterName : String,
               lessonName : String ,
               videoUrl : String ,
-
             }
-      ]
+      ],
     }
   ],
   image : {

@@ -50,7 +50,8 @@ app.use(errorHandler)
 // multer Errror
 app.use(( err ,req , res , next) => {
  if(err instanceof multer.MulterError) {
-
+   
+   console.log(err);
   // A multer error occured when uploading image
   if(err.code == 'LIMIT_FILE_TYPE') {
     res.json({ message : err.message });
