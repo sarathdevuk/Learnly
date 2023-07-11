@@ -16,6 +16,7 @@ function AddCourse() {
   const [course, setCourse] = useState([]);
   const [image, setImage] = useState("");
   const [assignment , setAssignment] = useState(null)
+  const [finalAssignment , setFinalAssignment] = useState(null)
   const [chapterDetails, setChapterDetails] = useState(null);
 
   // handle image select
@@ -58,9 +59,9 @@ function AddCourse() {
     validationSchema: validate,
     // handling The form submition
     onSubmit: async (values) => {
-      console.log( "course+++", course, ("+++++++++$##%#$%" ));
+      console.log( "course+++", course, ("+++++++++$##%#$%" , finalAssignment ));
       // Calling addCourse api and pass the required data as body
-      addCourse(values, course, image , )
+      addCourse(values, course, image ,  )
         .then((response) => {
           console.log("res", response);
           if (response.data.status) {
@@ -137,12 +138,40 @@ function AddCourse() {
   
   const addChapter = () => {
     console.log(lesson,"++LSDF");
-    setCourse([...course, { chapter  , assignment , lessons: lesson }]);
+    setCourse([...course, { chapter  , lessons: lesson }]);
     setChapter("")
     setAssignment(null)
     setLesson([]);
     successMessage("Chapter Added successfully");
   };
+
+
+
+  const  handleAssignment =(e) => {
+     if(isValidFileUploaded(e.target.files[0])) {
+      setAssignment(e.target.files[0]) 
+      
+      ImageTOBase(e.target.files[0])
+     }else{
+      generateErrror("Invalid File type")
+     }
+  }
+
+  // checking the Type
+  const isValidFileUploaded = (file) => {
+    const validExtensions = ['png', 'jpeg', 'jpg']
+    const fileExtension = file.type.split('/')[1]
+    return validExtensions.includes(fileExtension)
+  }
+
+
+  const ImageTOBase = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setFinalAssignment(reader.result)
+    }
+  }
 
 
   const generateErrror = (err) => {
@@ -629,7 +658,8 @@ function AddCourse() {
                 name="assignment" // Add the name attribute for the assignment file
               //  accept=".z"
                 // ref={zipInputRef}
-                onChange={(e) => setAssignment(e.target.files[0])}
+                onChange={handleAssignment}
+                // onChange={(e) => setAssignment(e.target.files[0])}
                />
 
 
