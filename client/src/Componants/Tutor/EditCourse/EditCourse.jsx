@@ -11,6 +11,7 @@ import { useNavigate, useParams } from "react-router-dom";
 function EditCourse() {
   const { courseId } = useParams();
   const fileInputRef = useRef();
+  const zipFileInputRef = useRef(null);
   const navigate = useNavigate();
 
   // Get course details from redux
@@ -19,7 +20,9 @@ function EditCourse() {
   const [lesson, setLesson] = useState([]);
   const [chapter, setChapter] = useState("");
   const [course, setCourse] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [image, setImage] = useState("");
+  const [finalAssignment, setFinalAssignment] = useState(null);
   const [chapterDetails, setChapterDetails] = useState(null);
 
   useEffect(() => {
@@ -31,16 +34,15 @@ function EditCourse() {
 
       setCourse(courseDetailsRedux.course);
 
+      // Preventing Page reload
       function handleBeforeUnload(event) {
-        event.preventDefault() ; 
-        event.returnValue = '';
+        event.preventDefault();
+        event.returnValue = "";
       }
-      window.addEventListener('beforeunload' , handleBeforeUnload) ;
-
+      window.addEventListener("beforeunload", handleBeforeUnload);
 
       return () => {
-        console.log("Unmount");
-        window.removeEventListener('beforeunload' , handleBeforeUnload)
+        window.removeEventListener("beforeunload", handleBeforeUnload);
       };
     } catch (error) {
       generateErrror(error);
@@ -70,7 +72,7 @@ function EditCourse() {
       category: courseDetailsRedux ? courseDetailsRedux.category : "",
       duration: courseDetailsRedux ? courseDetailsRedux.duration : "",
       language: courseDetailsRedux ? courseDetailsRedux.language : "",
-      isFree:courseDetailsRedux ? courseDetailsRedux?.isFree : false,
+      isFree: courseDetailsRedux ? courseDetailsRedux?.isFree : false,
       price: courseDetailsRedux ? courseDetailsRedux.price : "",
       description: courseDetailsRedux ? courseDetailsRedux.description : "",
     },
@@ -78,35 +80,33 @@ function EditCourse() {
     validationSchema: validate,
     // handling The form submition
     onSubmit: async (values) => {
-// Check if there is chapter exits 
-console.log( "submit Course",course[0]?.chapter );
-
-      if(!course[0]?.chapter) { 
+      // Check if there is chapter exits
+      if (!course[0]?.chapter) {
         generateErrror("Minimum 1 chapter Required");
-      }else{
+      } else {
+        setLoading(!loading);
 
-      // Calling EditCourse api and pass the required data as body
-      
-      updateCourse(values, course, image, courseId)
-        .then((response) => {
-          console.log("res", response);
-          if (response.data.status) {
-            // Passing the success message to toast
-            successMessage(response.data.message);
-          } else {
-            // generating Error message using toast alert
-            generateErrror(response.data.message);
-          }
-        })
-        .catch((err) => {
-          generateErrror("Network error");
-        });
+        // Calling EditCourse api and pass the required data as body
+        updateCourse(values, course, image, courseId)
+          .then((response) => {
+            setLoading(loading);
+            if (response.data.status) {
+              // Passing the success message to toast
+              successMessage(response.data.message);
+            } else {
+              // generating Error message using toast alert
+              generateErrror(response.data.message);
+            }
+          })
+          .catch((err) => {
+            setLoading(loading);
+            generateErrror("Network error");
+          });
       }
     },
   });
 
   // Validating Chapter Lessons using Yup Library
-
   const validateLesson = Yup.object({
     chapterName: Yup.string().required("Chapter Name is Required"),
     lessonName: Yup.string().required("Lesson Name is Required"),
@@ -119,7 +119,6 @@ console.log( "submit Course",course[0]?.chapter );
   });
 
   // Handling form submition with formik
-
   const lessonFormik = useFormik({
     initialValues: {
       chapterName: "",
@@ -130,9 +129,9 @@ console.log( "submit Course",course[0]?.chapter );
     validationSchema: validateLesson,
     // Handling submition
     onSubmit: (values) => {
-      console.log("values", values);
+     
       setLesson([...lesson, values]);
-      console.log("lesson Submit ", lesson);
+    
       // After setting the lesson the lessoName field value will be cleared
       lessonFormik.setFieldValue("lessonName", "");
       // clearing the vedioUrl field
@@ -161,12 +160,21 @@ console.log( "submit Course",course[0]?.chapter );
   };
 
   const addChapter = () => {
-    console.log(lesson, "++LSDF");
-    setCourse([...course, { chapter, lessons: lesson }]);
-    console.log("course afeter chapter", course);
+    // update course state with newchapter
+    setCourse([
+      ...course,  
+      { chapter, assignment: finalAssignment, lessons: lesson },
+    ]);
+
+    // removing assignment file field null after adding a chapter
+    if (zipFileInputRef.current) {
+      zipFileInputRef.current.value = null;
+    }
+
     setLesson([]);
-    successMessage("Chapter Added successfully");
+    setFinalAssignment(null);
     setChapter("");
+    successMessage("Chapter Added successfully");
   };
 
   const EditLessonFormik = useFormik({
@@ -175,9 +183,15 @@ console.log( "submit Course",course[0]?.chapter );
       lessonName: "",
       videoUrl: "",
     },
+
+    // validationSchema : validateLesson,
     onSubmit: (values) => {
+      console.log("lesson onSubmit", finalAssignment);
       setChapterDetails({
         chapter: chapterDetails.chapter,
+        assignment: finalAssignment
+          ? finalAssignment
+          : chapterDetails?.assignments,
         lessons: [...chapterDetails.lessons, values],
       });
     },
@@ -190,32 +204,48 @@ console.log( "submit Course",course[0]?.chapter );
       return formFields;
     });
   };
-  
 
-  // const handleChapterDelete = (chapterId) => {
-  //   console.log("Course bfr %#$%%$" , course , chapterId);
-  //   setCourse(course.filter((chapter) => {
-  //     console.log( "chapter" ,chapter._id);
-  //     return chapter._id != chapterId
-  //   }  ))
-  //   console.log("Course after %#$%%$" , course);
-  // }
+  // Handle assignment
+  const handleAssignment = (e) => {
+    if (isValidFileUploaded(e.target.files[0])) {
+      // Converting the image to a base64 code
+      convertToBase64(e.target.files[0]);
+    } else {
+      generateErrror("Invalid File type , Select pdf file");
+    }
+  };
 
+  // checking the Type
+  const isValidFileUploaded = (file) => {
+    const validExtensions = ["pdf"];
+    const fileExtension = file.name.split(".").pop().toLowerCase();
+    return validExtensions.includes(fileExtension);
+  };
+
+  // converting file to a data url
+  const convertToBase64 = (file) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onloadend = () => {
+      setFinalAssignment(reader.result);
+    };
+  };
+
+  // Handling the chapter  delete
   const handleChapterDelete = (chapterId) => {
-    console.log("Course bfr %#$%%$", course, chapterId);
-    
     const updatedCourse = course.filter((chapter) => chapter._id !== chapterId);
     setCourse(updatedCourse);
-    
-    console.log("Course after %#$%%$", updatedCourse);
   };
-  
-  
 
-  const handleDeleteLesson = (indexId)=> {
-      let updateLesson = chapterDetails.lessons.filter((obj , index) => indexId != index)
-      setChapterDetails({ chapter: chapterDetails.chapter , lessons: updateLesson})
-  }
+  const handleDeleteLesson = (indexId) => {
+    let updateLesson = chapterDetails.lessons.filter(
+      (obj, index) => indexId != index
+    );
+    setChapterDetails({
+      chapter: chapterDetails.chapter,
+      lessons: updateLesson,
+    });
+  };
 
   const generateErrror = (err) => {
     toast.error(err, {
@@ -404,44 +434,42 @@ console.log( "submit Course",course[0]?.chapter );
 
         <div className="flex flex-wrap -mx-3  mb-3">
           <div className="w-full md:w-1/2 px-4 mb-3">
-        <input
-          id="isFree"
-          name="isFree"
-          type="checkbox"
-          className="checkbox checkbox-primary mr-3"
-          checked={formik.values.isFree}
-          onChange={formik.handleChange}
-        />
-        <label htmlFor="isFree" className="text-sm">
-          Free Course
-        </label>
-      </div>
-
-      {!formik.values.isFree && (
-      
-          <div className="w-full md:w-1/2 px-3">
-            <label
-              className="block uppercase tracking-wide text-violet-700 text-sm font-bold mb-2"
-              htmlFor="price"
-            >
-              Price
-            </label>
             <input
-              className="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              id="price"
-              name="price"
-              type="text"
-              placeholder="Price"
-              value={formik.values.price}
+              id="isFree"
+              name="isFree"
+              type="checkbox"
+              className="checkbox checkbox-primary mr-3"
+              checked={formik.values.isFree}
               onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
             />
-            {formik.touched.price && formik.errors.price ? (
-              <p className="text-red-500 text-xs">{formik.errors.price}</p>
-            ) : null}
+            <label htmlFor="isFree" className="text-sm">
+              Free Course
+            </label>
           </div>
-       
-      )}
+
+          {!formik.values.isFree && (
+            <div className="w-full md:w-1/2 px-3">
+              <label
+                className="block uppercase tracking-wide text-violet-700 text-sm font-bold mb-2"
+                htmlFor="price"
+              >
+                Price
+              </label>
+              <input
+                className="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                id="price"
+                name="price"
+                type="text"
+                placeholder="Price"
+                value={formik.values.price}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+              />
+              {formik.touched.price && formik.errors.price ? (
+                <p className="text-red-500 text-xs">{formik.errors.price}</p>
+              ) : null}
+            </div>
+          )}
         </div>
         {/* <div className="flex flex-wrap -mx-3  mb-3">
           <div className="w-full md:w-1/2 px-3">
@@ -552,7 +580,10 @@ console.log( "submit Course",course[0]?.chapter );
                                 (courses) => courses.chapter === obj.chapter
                               )
                             );
-                            console.log(chapterDetails, "chapter detaisl %%$%#$%");
+                            console.log(
+                              chapterDetails,
+                              "chapter detaisl %%$%#$%"
+                            );
                           }}
                         >
                           <span
@@ -579,7 +610,7 @@ console.log( "submit Course",course[0]?.chapter );
                               type="button"
                               className=" text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm p-2.5  text-center mr-2  dark:bg-red-400 dark:hover:bg-red-500 dark:focus:ring-red-900"
                               onClick={() => {
-                                console.log(obj._id ,"idfsd");
+                                console.log(obj._id, "idfsd");
                                 handleChapterDelete(obj._id);
                               }}
                             >
@@ -612,14 +643,13 @@ console.log( "submit Course",course[0]?.chapter );
 
         <div className="flex flex-wrap -mx-3 mb-2">
           <div className="mt-8 w-full  flex justify-end mr-3">
-            <LoadingButton onClick={formik.handleSubmit}>
+            <LoadingButton loading={loading} onClick={formik.handleSubmit}>
               <button>Submit</button>
             </LoadingButton>
           </div>
         </div>
       </form>
       <ToastContainer />
-     
 
       {/*add course modal */}
       <dialog
@@ -745,6 +775,19 @@ console.log( "submit Course",course[0]?.chapter );
                     Add
                   </button>
                 </div>
+              </div>
+
+              <div className="mx-4 mt-3   md:mx-20">
+                <input
+                  className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400  focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                  aria-describedby="file_input_help"
+                  id="file_input"
+                  type="file"
+                  name="assignment" // Add the name attribute for the assignment file
+                  ref={zipFileInputRef}
+                  //  accept=".z"
+                  onChange={handleAssignment}
+                />
               </div>
 
               {lesson[0] ? (
@@ -919,6 +962,22 @@ console.log( "submit Course",course[0]?.chapter );
                   </button>
                 </div>
               </div>
+
+              <div className="mx-4 mt-3   md:mx-20">
+                <p>Assignment</p>
+
+                <input
+                  className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400  focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                  aria-describedby="file_input_help"
+                  id="file_input"
+                  type="file"
+                  name="assignment" // Add the name attribute for the assignment file
+                  ref={zipFileInputRef}
+                  // //  accept=".z"
+                  onChange={handleAssignment}
+                />
+              </div>
+
               <div>
                 <div>
                   <h1 className="ml-4 mt-3">Lessons</h1>
@@ -936,41 +995,40 @@ console.log( "submit Course",course[0]?.chapter );
                               <div className="flex flex-col justify-between w-full p-4 leading-normal">
                                 <h5 className=" flex justify-between text-lg font-semibold tracking-tight text-gray-900 dark:text-white">
                                   <div className="f">
-                                  <span className="mr-3">{index + 1}.</span>
-                                  {obj.lessonName}
-
+                                    <span className="mr-3">{index + 1}.</span>
+                                    {obj.lessonName}
                                   </div>
                                   <div className=" ">
-                                  <button
-                              type="button"
-                              className=" text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm p-2.5  text-center  dark:bg-red-400 dark:hover:bg-red-500 dark:focus:ring-red-900"
-                              onClick={() => {
-                                handleDeleteLesson(index);
-                              }}
-                            >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth={1.5}
-                                stroke="currentColor"
-                                className="w-3 h-3"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
-                                />
-                              </svg>
+                                    <button
+                                      type="button"
+                                      className=" text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm p-2.5  text-center  dark:bg-red-400 dark:hover:bg-red-500 dark:focus:ring-red-900"
+                                      onClick={() => {
+                                        handleDeleteLesson(index);
+                                      }}
+                                    >
+                                      <svg
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        strokeWidth={1.5}
+                                        stroke="currentColor"
+                                        className="w-3 h-3"
+                                      >
+                                        <path
+                                          strokeLinecap="round"
+                                          strokeLinejoin="round"
+                                          d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0"
+                                        />
+                                      </svg>
 
-                              <span className="sr-only">Icon description</span>
-                            </button>
+                                      <span className="sr-only">
+                                        Icon description
+                                      </span>
+                                    </button>
                                   </div>
-
                                 </h5>
                               </div>
                             </a>
-                          
                           </div>
                         );
                       })
@@ -981,14 +1039,18 @@ console.log( "submit Course",course[0]?.chapter );
                   <div className="mt-8 w-full  flex justify-center mr-7">
                     <button
                       onClick={() => {
-                        setCourse(course.map((obj) => {
-                          if(obj.chapter == chapterDetails.chapter){
-                            return{...chapterDetails}
-                          } 
-                          return obj
-                        }))
+                        setCourse(
+                          course.map((obj) => {
+                            if (obj.chapter == chapterDetails.chapter) {
+                              return { ...chapterDetails };
+                            }
+                            return obj;
+                          })
+                        );
                         EditLessonFormik.resetForm();
-                        successMessage('Chapter Updated successfully')
+                        setFinalAssignment(null);
+
+                        successMessage("Chapter Updated successfully");
                       }}
                       type="button"
                       className="loading-btn form-btn mt-2 font-medium rounded"
@@ -998,7 +1060,6 @@ console.log( "submit Course",course[0]?.chapter );
                   </div>
                 </div>
               </div>
-        
             </div>
           </div>
         </form>
