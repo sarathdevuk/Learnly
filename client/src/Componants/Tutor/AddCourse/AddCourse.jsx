@@ -9,7 +9,7 @@ import { addCourse } from "../../../services/tutorApi";
 
 function AddCourse() {
   const fileInputRef = useRef();
-
+  const zipFileInputRef = useRef(null) ;
 
   const [lesson, setLesson] = useState([]);
   const [chapter, setChapter] = useState("");
@@ -24,6 +24,11 @@ function AddCourse() {
   const handleClick = () => {
     fileInputRef.current.click();
   };
+
+  // handle assignment  select 
+  // const handleAssignmentFile = () => {
+  //   zipFileInputRef.current.click()
+  // }
 
   // Validatig Course fields
   const validate = Yup.object({
@@ -145,7 +150,13 @@ function AddCourse() {
   const addChapter = () => {
     console.log(lesson,"++LSDF");
     setCourse([...course, { chapter , assignment:finalAssignment , lessons: lesson }]);
-    setChapter("")
+    setChapter("")  
+
+  
+    if(zipFileInputRef.current ){
+      zipFileInputRef.current.value = null
+    }
+
     setFinalAssignment(null)
     setLesson([]);
     successMessage("Chapter Added successfully");
@@ -157,7 +168,7 @@ function AddCourse() {
      if(isValidFileUploaded(e.target.files[0])) {
       setAssignment(e.target.files[0]) 
       
-      ImageTOBase(e.target.files[0])
+      convertToBase64(e.target.files[0])
      }else{
       generateErrror("Invalid File type")
      }
@@ -165,15 +176,15 @@ function AddCourse() {
 
   // checking the Type
   const isValidFileUploaded = (file) => {
-    const validExtensions = ['png', 'jpeg', 'jpg']
-    const fileExtension = file.type.split('/')[1]
-    return validExtensions.includes(fileExtension)
-  }
+    const validExtensions = ["pdf"];
+    const fileExtension = file.name.split(".").pop().toLowerCase();
+    return validExtensions.includes(fileExtension);
+  };
 
-
-  const ImageTOBase = (file) => {
+  // converting file into a base64 code 
+  const convertToBase64 = (file) => {
     const reader = new FileReader();
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(file); 
     reader.onloadend = () => {
       setFinalAssignment(reader.result)
     }
@@ -625,27 +636,16 @@ function AddCourse() {
               </div>  
 
               <div className="mx-4 mt-3   md:mx-20">
-           
-               {/* <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" for="file_input">Upload Assignment</label>
-                <input className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400  focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                 aria-describedby="file_input_help" id="file_input" 
-                 type="file" name="zipFile" accept=".zip"  
-                 
-                 ref={fileInputRef}
-                 onChange={(e) => setAssignment(e.target.files[0])}
-                 /> */}
                  <input
                  className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400  focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                aria-describedby="file_input_help"
                id="file_input"
                 type="file"
                 name="assignment" // Add the name attribute for the assignment file
-              //  accept=".z"
-                // ref={zipInputRef}
-                onChange={handleAssignment}
-                // onChange={(e) => setAssignment(e.target.files[0])}
+                ref={zipFileInputRef}
+                accept="application/pdf"
+                onChange={handleAssignment}      
                />
-
 
               </div>
 
