@@ -360,28 +360,6 @@ function AddCourse() {
         </div>
 
         <div className="flex flex-wrap -mx-3  mb-3">
-          {/* <div className="w-full md:w-1/2 px-3">
-            <label
-              className="block uppercase tracking-wide text-violet-700 text-sm font-bold mb-2"
-              htmlFor="price"
-            >
-              Price
-            </label>
-            <input
-              className="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-              id="price"
-              name="price"
-              type="text"
-              placeholder="Price"
-              value={formik.values.price}
-              onChange={(e) => {
-                handleChange(e);
-              }}
-            />
-            {formik.touched.price && formik.errors.price ? (
-              <p className="text-red-500 text-xs ">{formik.errors.price}</p>
-            ) : null}
-          </div> */}
           <div className="w-full md:w-1/2 px-4 mb-3">
         <input
           id="isFree"

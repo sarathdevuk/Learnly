@@ -58,7 +58,7 @@ function EditCourse() {
     category: Yup.string().required("Category Required"),
     duration: Yup.string().required("Duration Required"),
     language: Yup.string().required("Language Required"),
-    price: Yup.string().required("Price Required"),
+    price: Yup.number().required("Price Required"),
     description: Yup.string().required("Description Required"),
   });
 
@@ -70,6 +70,7 @@ function EditCourse() {
       category: courseDetailsRedux ? courseDetailsRedux.category : "",
       duration: courseDetailsRedux ? courseDetailsRedux.duration : "",
       language: courseDetailsRedux ? courseDetailsRedux.language : "",
+      isFree:courseDetailsRedux ? courseDetailsRedux?.isFree : false,
       price: courseDetailsRedux ? courseDetailsRedux.price : "",
       description: courseDetailsRedux ? courseDetailsRedux.description : "",
     },
@@ -402,6 +403,47 @@ console.log( "submit Course",course[0]?.chapter );
         </div>
 
         <div className="flex flex-wrap -mx-3  mb-3">
+          <div className="w-full md:w-1/2 px-4 mb-3">
+        <input
+          id="isFree"
+          name="isFree"
+          type="checkbox"
+          className="checkbox checkbox-primary mr-3"
+          checked={formik.values.isFree}
+          onChange={formik.handleChange}
+        />
+        <label htmlFor="isFree" className="text-sm">
+          Free Course
+        </label>
+      </div>
+
+      {!formik.values.isFree && (
+      
+          <div className="w-full md:w-1/2 px-3">
+            <label
+              className="block uppercase tracking-wide text-violet-700 text-sm font-bold mb-2"
+              htmlFor="price"
+            >
+              Price
+            </label>
+            <input
+              className="appearance-none block w-full bg-white text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+              id="price"
+              name="price"
+              type="text"
+              placeholder="Price"
+              value={formik.values.price}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {formik.touched.price && formik.errors.price ? (
+              <p className="text-red-500 text-xs">{formik.errors.price}</p>
+            ) : null}
+          </div>
+       
+      )}
+        </div>
+        {/* <div className="flex flex-wrap -mx-3  mb-3">
           <div className="w-full md:w-1/2 px-3">
             <label
               className="block uppercase tracking-wide text-violet-700 text-sm font-bold mb-2"
@@ -424,7 +466,7 @@ console.log( "submit Course",course[0]?.chapter );
               <p className="text-red-500 text-xs ">{formik.errors.price}</p>
             ) : null}
           </div>
-        </div>
+        </div> */}
 
         <div className="mb-4">
           <label
