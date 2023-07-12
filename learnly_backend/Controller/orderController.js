@@ -25,6 +25,7 @@ export async function doPayment (req , res) {
                   course : courseId,
                   user : userId,
                   tutor : course.tutor,
+                  status:true,
                   address : {line : req.body.address , pincode : req.body.pincode } ,
                   purchase_date  :Date.now() 
                 })
