@@ -5,7 +5,7 @@ import cloudinary from '../config/cloudinary.js';
 
 
 export async function addCourse (req , res) {
-          console.log("addCourse Router");
+         
   try {
 
     const {name ,duration , language , category , description ,isFree ,price } = req.body ;
@@ -20,23 +20,33 @@ export async function addCourse (req , res) {
     const coursePrice = isFree === 'true' ? 0 : price;
 
 
+      // upload each Assignment to cloudinary
+      const uploadAssignmentToCloudinary = async (assignment) => {
+        if (assignment) { 
+          const uploadedAssignment = await cloudinary.uploader.upload(assignment, {  //uploading to cloudinary
+            folder: 'learnly', //setting folder to upload
+            resource_type:'raw',
+          });
+          return uploadedAssignment || '';  
+        }
+        return '';
+      };
+      
+
       // Update Course For adding assignments into the cloudinary 
       const updatedCourse = await Promise.all(
         req.body.course.map(async (chapter) => {
-          
-          // uploading assignment
-          const assignment = await cloudinary.uploader.upload(chapter?.assignment, {
-            folder: 'learnly',
-          });
+          const assignment = await uploadAssignmentToCloudinary(chapter?.assignment);
           
           return {
             chapter: chapter.chapter,
-            assignments: assignment , //updating assignment with uploaded image url
+            assignments: assignment, //updating assingment uploaded object
             lessons: chapter.lessons,
           };
         })
       );
-    
+      
+          
     // req.files.image[0].path = req.files.image[0].path.replace('public/', "");
     req.files.image[0].path = req.files.image[0].path.substring('public'.length);
 
@@ -106,20 +116,22 @@ export async function deleteCourse (req , res) {
     res.status(500).json({ status : false , message : "Internal server error" })
   }
 
-}
+} 
 
+     
 
 // Edit Course Details
 export async function EditCourseDetails (req , res) {
   try {
-    console.log("Edit course body" , req.body);
-    
+
+    //find course based on course id && tutor id
     const course = await Course.findOne({ _id : req.body.courseId , tutor : res.tutorId})
 
     if (!course) {
       return res.status(404).json({ status: false, message: "Course not found" });
     }
    
+    // Handling Course thumbnail image
     let image;
     if(req.files?.image) {
       req.files.image[0].path = req.files.image[0].path.substring('public'.length);
@@ -128,9 +140,39 @@ export async function EditCourseDetails (req , res) {
       image = course.image ;
     }
 
+  // Handling the course price if its changed 
     const coursePrice = req.body?.isFree === 'true' ? 0 : req.body?.price;
 
-    console.log("course price" ,coursePrice);
+
+     // upload each Assignment to cloudinary
+     const uploadAssignmentToCloudinary = async (assignment) => {
+      console.log("assignment" ,);
+      if (assignment && !assignment.url) { 
+        const uploadedAssignment = await cloudinary.uploader.upload(assignment, {  //uploading to cloudinary
+          folder: 'learnly', //setting folder to upload
+          resource_type:'raw', 
+        });
+        return uploadedAssignment || '';  
+      }
+      return assignment || '';
+    };
+    
+
+    // Update Course For adding assignments into the cloudinary 
+    const updatedCourse = await Promise.all(
+      req.body.course.map(async (chapter) => {
+        console.log("chapter" , chapter?.chapter);
+        const assignment = await uploadAssignmentToCloudinary(chapter?.assignment);
+        
+        return {
+          chapter: chapter.chapter,
+          assignments: assignment, //updating assingment uploaded object
+          lessons: chapter.lessons,
+        };
+      })
+    );
+
+    console.log("updatedCourse" ,updatedCourse);
       Course.updateOne({ _id : req.body.courseId , tutor : res.tutorId } , {
         $set : {
           name : req.body.name,
@@ -139,7 +181,7 @@ export async function EditCourseDetails (req , res) {
           duration : req.body.duration,
           language: req.body.language,
           description : req.body.description ,
-          course : req.body.course ,
+          course : updatedCourse,
           isFree:req.body.isFree ,
           price:coursePrice ,
           image ,
