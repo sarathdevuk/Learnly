@@ -230,7 +230,7 @@ function Learn() {
 
                     {courseDetails && courseDetails.course.map((course, index) => (
                                     <SyllabusDropdown course={course} index={index} key={index} toggleDropdown={toggleDropdown}
-                                     getYoutubeVideoId={getYoutubeVideoId}
+                                     getYoutubeVideoId={getYoutubeVideoId} isCourseEnrolled={true}
                                       />
                                 ))}
                   </div>
