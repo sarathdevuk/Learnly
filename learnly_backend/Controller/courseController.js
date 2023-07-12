@@ -8,28 +8,30 @@ export async function addCourse (req , res) {
           console.log("addCourse Router");
   try {
 
-    const {name ,duration , language , category , description ,isFree  } = req.body ;
+    const {name ,duration , language , category , description ,isFree ,price } = req.body ;
 
     if (!name  || !duration || !language || !category || !description) {
       res.status(404);
       throw new Error("All fields are mandatory");
     }
     
-    //Handling the Course Price Based on IsFree 
-    const coursePrice = isFree ? 0 : price || 0;
+    //Handling the Course Price Based on IsFree  
 
-    console.log(req.body.course);
+    const coursePrice = isFree === 'true' ? 0 : price;
 
+
+      // Update Course For adding assignments into the cloudinary 
       const updatedCourse = await Promise.all(
         req.body.course.map(async (chapter) => {
-  
+          
+          // uploading assignment
           const assignment = await cloudinary.uploader.upload(chapter?.assignment, {
             folder: 'learnly',
           });
-  
+          
           return {
             chapter: chapter.chapter,
-            assignments: assignment ,
+            assignments: assignment , //updating assignment with uploaded image url
             lessons: chapter.lessons,
           };
         })
@@ -55,9 +57,12 @@ export async function addCourse (req , res) {
     });
 
     await course.save();
-    await Course.populate(course, { path: 'tutor' });
+    await Course.populate(course, { path: 'tutor' }); 
+
+    console.log(course);
     
     
+    // creating an message object for sending email messages 
    const message = {
      tutorName : course?.tutor?.firstName + course?.tutor?.lastName ,
       course : name
@@ -65,6 +70,7 @@ export async function addCourse (req , res) {
 
    res.status(200).json({ status: true, message: "Course has been added successfully" });
    
+  //  sending an email notification about the course added
    await sendCourseNotification( process.env.ADMIN_EMAIL , message ) 
    
   } catch (error) {
@@ -106,7 +112,7 @@ export async function deleteCourse (req , res) {
 // Edit Course Details
 export async function EditCourseDetails (req , res) {
   try {
-    console.log("Edit course body" , req.body.course);
+    console.log("Edit course body" , req.body);
     
     const course = await Course.findOne({ _id : req.body.courseId , tutor : res.tutorId})
 
@@ -122,7 +128,9 @@ export async function EditCourseDetails (req , res) {
       image = course.image ;
     }
 
-    
+    const coursePrice = req.body?.isFree === 'true' ? 0 : req.body?.price;
+
+    console.log("course price" ,coursePrice);
       Course.updateOne({ _id : req.body.courseId , tutor : res.tutorId } , {
         $set : {
           name : req.body.name,
@@ -132,6 +140,8 @@ export async function EditCourseDetails (req , res) {
           language: req.body.language,
           description : req.body.description ,
           course : req.body.course ,
+          isFree:req.body.isFree ,
+          price:coursePrice ,
           image ,
       
         }
