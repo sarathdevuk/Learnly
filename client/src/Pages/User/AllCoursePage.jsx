@@ -6,8 +6,10 @@ import Footer from '../../Componants/User/Footer/Footer'
 function AllCoursePage() {
   return (
     <React.Fragment>
-      <UserHeader/>
+      <UserHeader/> 
+      <div className='relative  '>
       <ViewAllCourse/>
+      </div>
       <Footer/>
 
     </React.Fragment>

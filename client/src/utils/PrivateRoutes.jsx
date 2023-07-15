@@ -59,5 +59,4 @@ function PrivateRoutes( {role , route}) {
     auth ? <Outlet/> : <Navigate to={route} />
   )
 }
-
 export default PrivateRoutes

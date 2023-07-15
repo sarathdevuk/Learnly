@@ -101,7 +101,7 @@ function UserProfile() {
       });
   };
 
-  console.log("image"  , image);
+  // console.log("image"  , image);
   return (
     <div>
       <div className="md:flex  no-wrap md:-mx-2 ">
