@@ -1,7 +1,8 @@
 
-import OrderModel from "../models/orderModel.js";
+import OrderModel from "../models/orderModel.js"; 
+import asynchandler from 'express-async-handler'
 
-export async function CheckCourseEnrolled (req , res , next ) {
+export const CheckCourseEnrolled = asynchandler(async (req, res, next) => {
   try {
     // Checking course is Enrolled or not 
   const courseEnrolled = await OrderModel.findOne({ user : req.userId , course: req.params.id , status: true }) 
@@ -9,13 +10,14 @@ export async function CheckCourseEnrolled (req , res , next ) {
   if(courseEnrolled) {
     next();
   }else{
-    throw new Error("Course not Enrolled ")
+    res.status(404)
+    throw new Error(" You dont Have Access ")
   }
 
   } catch (error) {
     res.status(500);
-     throw new Error("courseEnrolled Error")
+     throw new Error("Course Not Enrolled")
   }
    
-
-}
+ 
+})
