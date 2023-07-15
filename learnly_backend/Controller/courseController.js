@@ -229,6 +229,82 @@ export async function viewAllCourse (req , res) {
 
 }
 
+
+  export async function ViewCourses (req , res) {
+    console.log("ViewCourses page");
+      try {
+        console.log(req.query.isFree );
+       
+        const page = parseInt(req.query.page) - 1 || 0;
+        const limit = parseInt(req.query.limit) || 5;
+        const search = req.query.search || "";
+        let sort = req.query.sort || "price";
+        let category = req.query.category || "All";
+        let isFree = req.query.isFree || "";
+        
+        const categoryOptions = [
+          "Programming",
+          "JavaScript",
+          "Python",
+          "DataStructures",
+        ];
+        
+        category === "All"
+          ? (category = [...categoryOptions])
+          : (category = req.query.category.split(","));
+        
+        req.query.sort ? (sort = req.query.sort.split(",")) : (sort = [sort]);
+        
+        let sortBy = {};
+        if (sort[1]) {
+          sortBy[sort[0]] = sort[1];
+        } else {
+          sortBy[sort[0]] = "asc";
+        }
+        
+        console.log(search, category, sortBy, page, limit, isFree);
+        
+        const query = {
+          name: { $regex: search, $options: "i" },
+          category: { $in: category },
+        };
+        
+        if (isFree === "true") {
+          query.isFree = true;
+        } else if (isFree === "false") {
+          query.isFree = false;
+        }
+        
+        const course = await Course.find(query)
+          .sort(sortBy)
+          .skip(page * limit)
+          .limit(limit);
+        
+        console.log(course, "course");
+        
+        const total = await Course.countDocuments(query);
+        
+        const response = {
+          total,
+          page: page + 1,
+          limit,
+          category: categoryOptions,
+          course,
+        };
+        
+        res.status(200).json(response);
+          
+
+      } catch (error) {
+        console.log(error);
+        res.status(500).json({ status : false , message : " Internal Server Error "}) ;
+      }
+
+    }
+
+
+ 
+
 export async function getCourseDetails ( req , res) {
   try {
     console.log("get courseDetaisl");
