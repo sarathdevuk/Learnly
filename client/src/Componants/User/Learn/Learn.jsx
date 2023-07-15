@@ -84,8 +84,8 @@ function Learn() {
 
 
         })
-        .catch(() => {
-          toast.error("Oops Something went wrong", { position: "top-center" });
+        .catch((error) => {
+          toast.error(error.message, { position: "top-center" , toastId:"error" });
           navigate("/");
         });
 
@@ -156,7 +156,7 @@ function Learn() {
                                 
                   <div
                    onClick={() => { getYoutubeVideoId(courseDetails.course[0].lessons[0].videoUrl); }}
-                   className='cursor-pointer relative flex justify-center items-center'>
+                   className='cursor-pointer relative flex justify-center items-center mt-9 md:mt-14 '>
                      <div className='absolute text-white'>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-16 h-16">
                            <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -164,8 +164,10 @@ function Learn() {
                         </svg>
 
                       </div>
-                   <img 
-                       src={courseDetails && 'http://localhost:5000/'+courseDetails?.image?.path} alt="" />
+                   <img  className="h-50 w-80" 
+                   src={courseDetails && 'http://localhost:5000/'+courseDetails?.image?.path} 
+                   alt="thumbnail" />
+                       
                     </div>
               }
 
@@ -185,7 +187,7 @@ function Learn() {
                       />
 
                       <div>
-                        <p className="mt-1 text-lg font-medium text-gray-700">
+                        <p className="mt-1 text-lg font-semibold text-gray-700">
                           {courseDetails &&
                             courseDetails?.tutor?.firstName +
                               courseDetails?.tutor?.lastName}
@@ -193,7 +195,7 @@ function Learn() {
                       </div>
                     </div>
 
-                    <p className="line-clamp-2 sm:line-clamp-none mt-4 text-gray-500">
+                    <p className="line-clamp-2 sm:line-clamp-none mt-4 text-gray-950  mx-4"  >
                       {courseDetails && courseDetails.tutor.about}
                     </p>
                   </blockquote>
@@ -204,7 +206,7 @@ function Learn() {
                 <div>
                   <h3 className="text-2xl  mt-8 font-semibold mb-4 ">About</h3>
                   <div className="border rounded-md p-3 ">
-                    <p className="text-slate-600 mt-4">
+                    <p className="text-slate-600 mt-4 ">
                       {courseDetails && courseDetails.courseInfo.about}
                     </p>
                   </div>
