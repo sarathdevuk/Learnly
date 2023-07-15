@@ -51,6 +51,7 @@ useEffect(() => {
 const generateError = (err) => {
   toast.error(err, {
     position: "top-center",
+    toastId: "error"
   })
 };
 
