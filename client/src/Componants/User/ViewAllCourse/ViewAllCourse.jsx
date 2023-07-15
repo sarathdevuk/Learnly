@@ -1,23 +1,52 @@
 import React, { useEffect, useState } from "react";
 import CourseCard from "../CourseCard/CourseCard";
+import Pagination from "./Pagination";
 import Loader from "../Loader/Loader";
 import { viewAllCourse } from "../../../services/userApi";
 import CourseFilterCard from "../CourseFilterCard/CourseFilterCard";
+import { toast } from "react-toastify";
 
 
 function ViewAllCourse() {
   const [course, setCourse] = useState([]);
-  const [loading , setloading]= useState(true)
+  const [loading , setloading]= useState(true) 
+
+  const [obj , setObj] = useState({})
+  const [sort , setSort] = useState({ sort: "price" , order: "desc" });
+  const [filterCategory ,setfilterCategory] =useState([]);
+  const [page , setPage] = useState(1) ;
+  const [price , setPrice] = useState("All")
+  const [search , setSearch] = useState("");
+
 
   useEffect(() => {
-    viewAllCourse().then((response) => {
-      console.log("all course", response.data);
-      if (response.data.status) {
-        setCourse(response.data.course);
-        setloading(false)
+    // viewAllCourse().then((response) => {
+    //   console.log("all course", response.data);
+    //   if (response.data.status) {
+    //     setCourse(response.data.course);
+    //     setloading(false)
+    //   }
+    // });
+
+    try { 
+
+      const getAllCourse =async () => {
+        
+       const {data}= await viewAllCourse(page , sort , filterCategory.toString() , search , price  )
+       setloading(false )
+       setObj(data)
       }
-    });
-  }, []);
+    
+      getAllCourse()              
+                  
+    } catch (error) {
+      console.log(error);
+      toast.error("Something Went Wrong " , { position :"top-center" , toastId :"error"})
+    }
+
+  }, [sort, filterCategory, page, search , price]);
+  console.log( "@#%#@$%$%$#", price);
+
 
   return (
     <div className="m-7 mx-6 md:mx-16 mb-14 ">
@@ -43,9 +72,7 @@ function ViewAllCourse() {
           <input
             // ref={inputRef}
             // value={query}
-            // onChange={(e) => {
-              //   setQuery(e.target.value);
-              // }}
+            onChange={({ currentTarget: input }) => setSearch(input.value)}
               className="  rounded-lg w-full py-2 pl-4 text-gray-700 bg-gray-100 leading-tight focus:outline-none focus:shadow-outline lg:text-sm text-xs"
               type="text"
             placeholder="Search"
@@ -69,27 +96,25 @@ function ViewAllCourse() {
           </div>
           
         </div>
-        <CourseFilterCard/> 
+        <CourseFilterCard filterCategory={filterCategory} 
+                          categories = {obj?.category? obj?.category : [] } 
+                          setfilterCategory = {( category) => setfilterCategory(category)  }
+                          setPriceFilter={(price) => setPrice(price) }
+                           /> 
         </div>
       </div>
         </div>
 
       <div className=" mt-10 ml-[15%] grid-cols-1 gap-10 sm:grid-cols-2 grid md:grid-cols-3 xl:grid-cols-4 " >
 
-        {course.map((course) => {
-          return <CourseCard key={course._id} course={course} />; 
+        {obj.course.map((course) => {
+          return <CourseCard key={course._id} course={ course} />; 
         })}
         </div>
         {/* pagination */}
-        <div className="w-full flex items-center justify-center mt-12">
-
-       <div className="join">
-        <input className="join-item btn btn-square" type="radio" name="options" aria-label="1" checked />
-        <input className="join-item btn btn-square" type="radio" name="options" aria-label="2" />
-        <input className="join-item btn btn-square" type="radio" name="options" aria-label="3" />
-        <input className="join-item btn btn-square" type="radio" name="options" aria-label="4" />
-      </div>
-      </div>
+       <Pagination  page={page} limit={obj?.limit ? obj?.limit : 0} 
+                    total={obj?.total ? obj?.total: 0 } 
+                    setPage={(page)=> setPage(page)} />
       </div>
 }
     </div>
