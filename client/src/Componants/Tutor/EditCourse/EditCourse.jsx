@@ -80,12 +80,12 @@ function EditCourse() {
     validationSchema: validate,
     // handling The form submition
     onSubmit: async (values) => {
+
       // Check if there is chapter exits
       if (!course[0]?.chapter) {
         generateErrror("Minimum 1 chapter Required");
       } else {
-        setLoading(!loading);
-
+        setLoading(!loading); 
         // Calling EditCourse api and pass the required data as body
         updateCourse(values, course, image, courseId)
           .then((response) => {
@@ -105,6 +105,8 @@ function EditCourse() {
       }
     },
   });
+
+  console.log("course34354354534" , course);
 
   // Validating Chapter Lessons using Yup Library
   const validateLesson = Yup.object({
@@ -231,6 +233,7 @@ function EditCourse() {
     };
   };
 
+ 
   // Handling the chapter  delete
   const handleChapterDelete = (chapterId) => {
     const updatedCourse = course.filter((chapter) => chapter._id !== chapterId);
@@ -250,12 +253,14 @@ function EditCourse() {
   const generateErrror = (err) => {
     toast.error(err, {
       position: "top-center",
+      toastId:"error"
     });
   };
 
   const successMessage = (message) => {
     toast.success(message, {
       position: "top-center",
+      toastId:"success"
     });
   };
 
@@ -644,7 +649,7 @@ function EditCourse() {
         <div className="flex flex-wrap -mx-3 mb-2">
           <div className="mt-8 w-full  flex justify-end mr-3">
             <LoadingButton loading={loading} onClick={formik.handleSubmit}>
-              <button>Submit</button>
+              <button type="button" >Submit</button>
             </LoadingButton>
           </div>
         </div>
@@ -1041,8 +1046,8 @@ function EditCourse() {
                       onClick={() => {
                         setCourse(
                           course.map((obj) => {
-                            if (obj.chapter == chapterDetails.chapter) {
-                              return { ...chapterDetails };
+                            if (obj.chapter == chapterDetails.chapter ) { 
+                              return { ...chapterDetails , assignment:finalAssignment || obj.assignment };
                             }
                             return obj;
                           })
