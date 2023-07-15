@@ -52,7 +52,7 @@ const courseSchema = new mongoose.Schema({
     {
       chapter : String ,
       image : String ,
-      assignments: {
+      assignment: {
         type:Object
       },
 
