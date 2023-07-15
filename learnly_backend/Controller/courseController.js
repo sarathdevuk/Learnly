@@ -23,6 +23,7 @@ export async function addCourse (req , res) {
       // upload each Assignment to cloudinary
       const uploadAssignmentToCloudinary = async (assignment) => {
         if (assignment) { 
+          console.log("chapter" , assignment);
           const uploadedAssignment = await cloudinary.uploader.upload(assignment, {  //uploading to cloudinary
             folder: 'learnly', //setting folder to upload
             resource_type:'raw',
@@ -123,6 +124,7 @@ export async function deleteCourse (req , res) {
 // Edit Course Details
 export async function EditCourseDetails (req , res) {
   try {
+    console.log("body" , req.body.course);
 
     //find course based on course id && tutor id
     const course = await Course.findOne({ _id : req.body.courseId , tutor : res.tutorId})
@@ -146,27 +148,28 @@ export async function EditCourseDetails (req , res) {
 
      // upload each Assignment to cloudinary
      const uploadAssignmentToCloudinary = async (assignment) => {
-      console.log("assignment" ,);
-      if (assignment && !assignment.url) { 
+      
+       if (assignment && !assignment.url) { 
+        console.log("assignment$$",assignment   );
         const uploadedAssignment = await cloudinary.uploader.upload(assignment, {  //uploading to cloudinary
           folder: 'learnly', //setting folder to upload
           resource_type:'raw', 
         });
         return uploadedAssignment || '';  
       }
-      return assignment || '';
+      return assignment;
     };
     
 
     // Update Course For adding assignments into the cloudinary 
     const updatedCourse = await Promise.all(
       req.body.course.map(async (chapter) => {
-        console.log("chapter" , chapter?.chapter);
+        console.log("if assignment",chapter);
         const assignment = await uploadAssignmentToCloudinary(chapter?.assignment);
         
         return {
           chapter: chapter.chapter,
-          assignments: assignment, //updating assingment uploaded object
+          assignment: assignment, //updating assingment uploaded object
           lessons: chapter.lessons,
         };
       })
@@ -276,9 +279,10 @@ export async function viewAllCourse (req , res) {
         }
         
         const course = await Course.find(query)
+          .populate('tutor') 
           .sort(sortBy)
           .skip(page * limit)
-          .limit(limit);
+          .limit(limit)
         
         console.log(course, "course");
         
@@ -385,7 +389,9 @@ export async function search (req , res) {
         { name: { $regex: key, $options: 'i' } }, // Perform a case-insensitive search on the 'name' field
         { tags: { $regex: key, $options: 'i' } } // Perform a case-insensitive search on the 'tags' field
       ]
-    });
+    })
+
+
     if(course) {
        res.status(200).json({ status: true , result : course})
     }else{
