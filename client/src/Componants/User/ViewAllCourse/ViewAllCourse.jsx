@@ -20,16 +20,8 @@ function ViewAllCourse() {
 
 
   useEffect(() => {
-    // viewAllCourse().then((response) => {
-    //   console.log("all course", response.data);
-    //   if (response.data.status) {
-    //     setCourse(response.data.course);
-    //     setloading(false)
-    //   }
-    // });
 
     try { 
-
       const getAllCourse =async () => {
         
        const {data}= await viewAllCourse(page , sort , filterCategory.toString() , search , price  )
@@ -49,7 +41,7 @@ function ViewAllCourse() {
 
 
   return (
-    <div className="m-7 mx-6 md:mx-16 mb-14 ">
+    <div className=" md:my-7 mx-6 md:mx-16 mb-14 ">
       { loading ? 
       <Loader/>
       :
@@ -57,23 +49,23 @@ function ViewAllCourse() {
        
 
         <div>
-        <div className="flex flex-row justify-between p-2 py-4 mb-4 m-h-screen items-center"> 
-         <div>
+        <div className="flex flex-col justify-between p-2 py-4 mb-4 m-h-screen items-center"> 
+         <div className="mr-auto">
        
-             <h1 className="text-4xl font-bold text-slate-800"> Courses </h1>
+             <h1 className="text-xl md:hidden font-bold text-slate-800"> Courses </h1>
            
         </div>
 
-        <div className="flex items-center justify-end w-full mr-7  ">
+        <div className="flex items-center justify-end w-full md:mr-7  ">
         <div
-          className="bg-white items-center justify-between w-1/3 flex rounded-lg max-w-2xl drop-shadow-md p-2 sticky"
+          className="bg-white items-center justify-end  md:justify-between  w-2/3 md:w-1/3 flex rounded-lg max-w-2xl drop-shadow-md p-2 sticky"
           style={{ top: 5 }}
           >
           <input
             // ref={inputRef}
             // value={query}
             onChange={({ currentTarget: input }) => setSearch(input.value)}
-              className="  rounded-lg w-full py-2 pl-4 text-gray-700 bg-gray-100 leading-tight focus:outline-none focus:shadow-outline lg:text-sm text-xs"
+              className="  rounded-md w-full py-2 pl-4 text-gray-700 bg-gray-100 leading-tight focus:outline-none focus:shadow-outline lg:text-sm text-xs"
               type="text"
             placeholder="Search"
           />
@@ -105,7 +97,7 @@ function ViewAllCourse() {
       </div>
         </div>
 
-      <div className=" mt-10 ml-[15%] grid-cols-1 gap-10 sm:grid-cols-2 grid md:grid-cols-3 xl:grid-cols-4 " >
+      <div className=" mt-10 md:ml-[15%] grid-cols-1 gap-10 sm:grid-cols-2 grid md:grid-cols-3 xl:grid-cols-4 " >
 
         {obj.course.map((course) => {
           return <CourseCard key={course._id} course={ course} />; 
