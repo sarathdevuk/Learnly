@@ -2,16 +2,20 @@ import React, { useState } from "react";
 import "./CourseFilterCard.scss";
 
 function CourseFilterCard({ categories, filterCategory, setfilterCategory, priceFilter , setPriceFilter }) {
-  const [showDrawer, setShowDrawer] = useState(false);
+  const [showDrawer, setShowDrawer] = useState(true);
 
   const handleToggleDrawer = () => {
-
     setShowDrawer(!showDrawer);
     console.log(showDrawer);
   };
 
-  const handlePriceFilterChange = (event) => {
-    setPriceFilter(event.target.value);
+  const handlePriceFilterChange = ({currentTarget:input}) => {
+    if(input.checked){
+      setPriceFilter(input.value);
+    }else{
+      setPriceFilter('All')
+    }
+  
   };
 
   const onChange = ({ currentTarget: input }) => {
@@ -28,7 +32,7 @@ function CourseFilterCard({ categories, filterCategory, setfilterCategory, price
     <>
       <div className="">
         {/* <!-- drawer init and toggle --> */}
-        <div className="flex justify-center ">
+        {/* <div className="flex justify-center ">
           <button
             // className="btn btn-outline rounded-sm h-4 "
             className=" text-white  bg-gray-900    font-semibold rounded-lg text-sm px-4 py-2.5 ml-2 mr-2  dark:bg-primary-600 dark:hover:bg-primary-700 focus:outline-none dark:focus:ring-primary-800"
@@ -40,7 +44,7 @@ function CourseFilterCard({ categories, filterCategory, setfilterCategory, price
           >
             Filter
           </button>
-        </div>
+        </div> */}
 
         {/* <!-- drawer component --> */}
 
@@ -49,13 +53,13 @@ function CourseFilterCard({ categories, filterCategory, setfilterCategory, price
             action="#"
             method="get"
             id="drawer-example"
-            className="absolute top-16 left-0 z-40 w-full md:w-64 pl-7 md: pl:12  form-control h-screen max-w-sm p-4 overflow-y-auto translate-x-0 bg-white dark:bg-gray-800"
+            className="absolute top-0 left-0 z-40 w-1/2 hidden md:block md:w-36 lg:w-64 pl-7   form-control h-screen max-w-sm p-4 overflow-y-auto translate-x-0 bg-white dark:bg-gray-800"
             tabindex="-1"
           >
-            <h5 className="inline-flex items-center mb-4 text-base font-semibold text-gray-500 uppercase dark:text-gray-400">
+            {/* <h5 className="inline-flex items-center mb-4 text-base font-semibold text-gray-500 uppercase dark:text-gray-400">
               Apply filters
-            </h5>
-            <button
+            </h5> */}
+            {/* <button
               type="button"
               onClick={handleToggleDrawer}
               data-drawer-dismiss="drawer-example"
@@ -76,13 +80,17 @@ function CourseFilterCard({ categories, filterCategory, setfilterCategory, price
                 ></path>
               </svg>
               <span className="sr-only">Close menu</span>
-            </button>
+            </button> */} 
+
+            <div className=" mb-10 " >
+              <h1 className="text-4xl font-bold text-violet-700"> Courses </h1>
+            </div>
 
             <div className="flex flex-col justify-between flex-1">
               <ul className="space-y-6">
                 {/* Categories */}
                 <li className="space-y-2">
-                  <h6 className="text-lg font-semibold text-black dark:text-white mb-1">
+                  <h6 className="text-lg font-semibold text-slate-800 dark:text-white mb-1">
                     Categories
                   </h6>
 
@@ -103,25 +111,13 @@ function CourseFilterCard({ categories, filterCategory, setfilterCategory, price
                       </li>
                     ))}
 
-{/* 
-                    <li className="flex items-center">
-                      <input
-                        id="monitors"
-                        type="checkbox"
-                        value=""
-                        className="checkbox h-4 w-4 "
-                      />
-                      <label htmlFor="monitors" className="checkbox-label mt-2">
-                        Data Structure
-                      </label>
-                    </li> */}
                    
                   </ul>
                 </li>
 
                 {/* Prices */}
                 <li className="space-y-2">
-                  <h6 className="text-xl font-bold text-black dark:text-white mb-4">
+                  <h6 className="text-xl font-bold text-slate-800 dark:text-white mb-4">
                     Prices
                   </h6>
                   <div className="flex flex-col mb-">
@@ -132,7 +128,7 @@ function CourseFilterCard({ categories, filterCategory, setfilterCategory, price
                         name="flexRadioNoLabel"
                         id="radioNoLabel01"
                         value="false"
-                        checked={priceFilter === 'false'}
+                        
                         onChange={handlePriceFilterChange}
                       />
                       <label
@@ -150,7 +146,6 @@ function CourseFilterCard({ categories, filterCategory, setfilterCategory, price
                         name="flexRadioNoLabel"
                         id="radioNoLabel02"
                         value="true"
-                        checked={priceFilter === 'true'}
                        onChange={handlePriceFilterChange}
                       />
                       <label
