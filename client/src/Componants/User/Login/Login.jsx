@@ -102,10 +102,11 @@ const handleSubmit = async () => {
       }
       if(data.login) {
         localStorage.setItem('JwtToken' , data.token);
-        
+
+        // Adding that data to the Redux store 
         dispatch(
           setUserDetails({
-            name: data.user.firstname,
+            name: data.user.firstName,
             id: data.user._id ,
             email: data.user.email,
             image : data.user.picture,
