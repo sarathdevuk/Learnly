@@ -37,7 +37,7 @@ function UserHeader() {
     const [profileBox, setProfileBox] = useState(false);
     return (
         <div className='shadow-md '>
-            <nav className="relative px-2  flex justify-between items-center bg-white">
+            <nav className="relative px-2 py-2  flex justify-between items-center bg-white">
                 <div className="md:hidden"
                     onClick={() => {
                         setSidebar(!sidebar)
@@ -52,8 +52,13 @@ function UserHeader() {
                 </div>
                 <Link to={'/'}>
                     <p className="text-3xl font-bold leading-none" >
-                        <img src="/images/learnly-logo.png" width="130px"  />
+                        <img src="/images/learnly-logo.png" 
+                        // width="100"
+                         className='w-24  md:w-28'  />
                     </p>
+                     {/* <a className="   text-3xl font-bold leading-none py-6 md:p-6" href="#">
+                    <h1 className='text-violet-800 text-2xl'>Learnly</h1>
+                </a> */}
                 </Link>
 
                 <div className="  items-center md:order-2 cursor-pointer">

@@ -853,7 +853,7 @@ function EditCourse() {
         >
           <div className=" relative flex w-full flex-col rounded-md border-none bg-white bg-clip-padding text-current shadow-lg outline-none dark:bg-neutral-600">
             <div className="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4 dark:border-opacity-50">
-              <h5 className="  text-xl font-medium leading-normal text-neutral-800 dark:text-neutral-200">
+              <h5  className=" uppercase tracking-wide text-violet-700 text-xl font-semibold ">
                 Edit Chapter
               </h5>
               <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
@@ -968,8 +968,15 @@ function EditCourse() {
                 </div>
               </div>
 
-              <div className="mx-4 mt-3   md:mx-20">
-                <p>Assignment</p>
+              <div className="mx-4 mt-3   md:mx-20"> 
+               { finalAssignment ?   
+                     <div  className="block  tracking-wide text-slate-800 text-md font-semibold mb-2"
+                     >Edit Assignment</div>   
+                     :        
+                     <div  className="block  tracking-wide text-slate-800 text-md font-semibold mb-2"
+                     >ADD Assignment</div>  
+
+                }
 
                 <input
                   className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400  focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
