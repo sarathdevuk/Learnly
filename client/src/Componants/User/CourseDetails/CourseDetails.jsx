@@ -15,7 +15,7 @@ function CourseDetails() {
 
   useEffect(() =>{
 
-    getCourseDetails(courseId).then((response)=>{
+    getCourseDetails(courseId).then((response)=>{ 
       if(response.data.status) {
         console.log("Respose" , response.data.courseDetails);
         response.data.courseDetails.course = response.data.courseDetails.course.map(obj => {

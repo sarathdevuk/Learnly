@@ -10,7 +10,7 @@ function Pagination({ page, total, limit, setPage }) {
         {totalPages > 0 &&
           [...Array(totalPages)].map((val, index) => (
             <input
-              className={`join-item btn btn-square ${
+              className={`join-item btn btn-square btn-sm ${
                 page === index + 1 ? "checked" : ""
               }`}
               type="radio"

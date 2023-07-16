@@ -21,6 +21,7 @@ function SyllabusDropdown({ course, index, toggleDropdown, getYoutubeVideoId , i
         }
       };
       
+      console.log("course@$#$",course);
     return (
         <div
             className={"syllabus   " + (course.open ? "open" : "")}
@@ -65,7 +66,7 @@ function SyllabusDropdown({ course, index, toggleDropdown, getYoutubeVideoId , i
                 
             }
               
-              { course?.assignments&& 
+              { course?.assignment&& 
 
                 <div className={"lessons-title cursor-pointer  hover:bg-violet-50 " + (course.open ? "p-4" : "")}>
                 <p className='lesson-title'> Assignments </p>
@@ -74,7 +75,7 @@ function SyllabusDropdown({ course, index, toggleDropdown, getYoutubeVideoId , i
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M10.75 14.5v-9M10.75 14.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
                 </svg> 
                         <p  
-                        onClick={() => isCourseEnrolled ? handleDownload(course.assignments.secure_url) : ""} 
+                        onClick={() => isCourseEnrolled ? handleDownload(course.assignment.secure_url) : ""} 
                         className='ml-2 lesson-content-type text-slate-500'>download file</p>
                     
                 </div>
