@@ -1,11 +1,16 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
+
+
 
 function DescriptionCard() {
+  const courseDetails = useSelector((state) => state.course.value);
+  console.log(courseDetails , "courseDetails");
   return (
     <div className="course-info-wrap p-5">
               
     <div>
-      <h3 className="text-2xl  mt-8 font-semibold mb-4 ">Author</h3>
+      <h3 className="text-2xl  mt-2 font-semibold mb-4 ">Author</h3>
       <blockquote className="rounded-lg bg-gray-100 p-8">
         <div className="flex items-center gap-4">
           <img
@@ -26,7 +31,7 @@ function DescriptionCard() {
         </div>
 
         <p className="line-clamp-2 sm:line-clamp-none mt-4 text-gray-950  mx-4"  >
-          {courseDetails && courseDetails.tutor.about}
+          {courseDetails && courseDetails.tutor?.about}
         </p>
       </blockquote>
     </div>
@@ -34,10 +39,10 @@ function DescriptionCard() {
    
 
     <div>
-      <h3 className="text-2xl  mt-8 font-semibold mb-4 ">About</h3>
-      <div className="border rounded-md p-3 ">
+      <h3 className="text-2xl  mt-4 font-semibold mb-4 ">About</h3>
+      <div className="border shadow-sm rounded-md p-3 ">
         <p className="text-slate-600 mt-4 ">
-          {courseDetails && courseDetails.courseInfo.about}
+          {courseDetails && courseDetails?.courseInfo?.about}
         </p>
       </div>
     </div>
