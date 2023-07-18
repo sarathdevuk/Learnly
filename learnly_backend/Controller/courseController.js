@@ -404,4 +404,37 @@ export async function search (req , res) {
     res.status(500).json({ status: false , message : "internal server Error"})
   }
 
+  
+}
+
+// Add New Question
+export async function AskQuestion (req ,res) {
+  console.log("Asl Questionrs", req.body);
+  try {
+    const courseId = req.params.id;
+    console.log(courseId);
+    const userQuestion = req.body.question ; 
+
+    const courseIndex = req.body.index
+
+    // Find the course by its ID
+    const course = await Course.findById(courseId);
+
+    // Check if the course exists
+    if (!course) {
+      return res.status(404).json({ error: 'Course not found' });
+    }
+
+    // Add the user's question to the course's questionsAndAnswers array
+    course.course[courseIndex].questionsAndAnswers.push({ question: userQuestion });
+
+    // Save the updated course to the database
+    await course.save();
+
+    return res.status(200).json({status : true ,  message: 'Question saved successfully' });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+
 }

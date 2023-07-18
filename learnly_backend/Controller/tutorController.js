@@ -214,7 +214,7 @@ export async function getDashboardDetails (req ,res) {
       },
       {
         $project: {
-          _id: 0,
+          _id: null,
           data: {
             $map: {
               input: { $range: [1, 13] },
@@ -223,7 +223,8 @@ export async function getDashboardDetails (req ,res) {
                 $cond: [
                   { $in: ["$$m", "$months"] },
                   { $arrayElemAt: ["$data", { $indexOfArray: ["$months", "$$m"] }] },
-                  0
+                  null
+                  
                 ]
               }
             }
