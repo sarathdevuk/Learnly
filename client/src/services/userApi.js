@@ -59,6 +59,13 @@ export const getCourseFullDetails = (courseId) =>{
   return axiosInstance('JwtToken').get(`/course/learn/${courseId}`)
 }
 
+// Add Question 
+export const AskQuestion = (courseId  , question , index ) =>{
+  return axiosInstance('JwtToken').post(`/course/ask-question/${courseId}` , { question , index } )
+}
+
+
+
 // search course
 export const searchCourse = (query) => { 
   return axiosInstance('JwtToken').get(`/search?q=${query}`)
@@ -74,3 +81,5 @@ export const deleteOrder = ( orderId ) =>  {
   console.log("DElete order api @#$#@!$#@$@#$23");
   return axiosInstance('JwtToken').get(`/cancel-payment/${orderId}`)
 }
+
+
