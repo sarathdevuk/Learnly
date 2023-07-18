@@ -11,6 +11,7 @@ import YouTube from 'react-youtube'
 import getYouTubeID from 'get-youtube-id' ;
 
 
+
 function Learn() {
 
   const dispatch = useDispatch();
@@ -170,9 +171,25 @@ function Learn() {
                        
                     </div>
               }
+              
+              <div className="bg-gray-100 lg:px-24">
+        <div className=' p-5  mx-auto'>
+          <ul className=" text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow flex dark:divide-gray-700 dark:text-gray-400">
+            <li className="w-full">
+              <a onClick={() => { setActiveTab('profile') }} className={activeTab == 'profile' ? "inline-block w-full p-4 text-gray-900 bg-violet-50 rounded-l-lg dark:bg-gray-700 dark:text-white" : "bg-white inline-block w-full p-4 text-gray-900 rounded-l-lg dark:bg-gray-700 dark:text-white"} aria-current="page">Profile</a>
+            </li>
+            <li className="w-full">
+              <a onClick={() => { setActiveTab('settings') }} className={activeTab == 'settings' ? "inline-block w-full p-4 text-gray-900 bg-violet-100 rounded-l-lg dark:bg-gray-700 dark:text-white" : "bg-white inline-block w-full p-4 text-gray-900 rounded-l-lg dark:bg-gray-700 dark:text-white"} >Settings</a>
+            </li>
+          </ul>
+        </div>
 
-              <div className="course-info-wrap p-5">
-                {/* //author section */}
+        <div className=" mx-auto my-5 p-5">
+          {loadTab()}
+        </div>
+      </div>
+              {/* <div className="course-info-wrap p-5">
+                
 
                 <div>
                   <h3 className="text-2xl  mt-8 font-semibold mb-4 ">Author</h3>
@@ -201,7 +218,7 @@ function Learn() {
                   </blockquote>
                 </div>
 
-                {/* //about section */}
+               
 
                 <div>
                   <h3 className="text-2xl  mt-8 font-semibold mb-4 ">About</h3>
@@ -211,7 +228,28 @@ function Learn() {
                     </p>
                   </div>
                 </div>
-              </div>
+              </div>  */}
+          {/* <div className="Q&A p-5 w-full">
+            <h3 className="text-2xl  mt-8 font-semibold mb-4 ">
+              Question And Answers
+            </h3>
+            <blockquote className="rounded-lg bg-gray-100 p-6">
+              <p className=" text-lg font-semibold text-gray-700">
+                Qn1. What is JavaScript
+              </p>
+
+              <p className="text-gray-950  mx-2 mb-4">
+                JavaScript is a single threaded synchronising programming language
+              </p>
+              <p className=" text-lg font-semibold text-gray-700">
+                Qn1. What is JavaScript
+              </p>
+
+              <p className="  text-gray-950  mx-2">
+                JavaScript is a single threaded synchronising programming language
+              </p>
+            </blockquote>
+          </div> */}
 
               <div className="hidden lg:block">
                 <Footer />
