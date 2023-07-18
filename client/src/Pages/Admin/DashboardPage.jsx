@@ -15,7 +15,7 @@ import { getAdminDashboard } from "../../services/adminApi";
 function DashboardPage() {
 
   const admin = useSelector((state) => state.admin)
-  const [dashboardDetails , setDashboardDetails ] = useState() ;
+  const [dashboardDetails , setDashboardDetails ] = useState({}) ;
 
   useEffect(()=> {
     getAdminDashboard()

@@ -308,37 +308,37 @@ export async function getAdminDashboard (req , res) {
       
     ]);
 
-  //   let studentJoinedDetails = await User.aggregate([
-  //     {
-  //       $group: {
-  //         _id:{ $month : "$createdAt"},
-  //         count:{$sum: 1}
-  //       }
-  //     },
-  //     {
-  //       $project:{
-  //         _id:0,
-  //         month:"$_id",
-  //         count:1
-  //       }
-  //     },
-  //     {
-  //       $sort: {month : 1} 
-  //     },
-  //     {
-  //       $group:{
-  //         _id: null,
-  //         data: {$push: "$count"}
-  //       }
-  //     },
-  //     {
-  //       $project: {
-  //         _id: 0 ,
-  //         data:1 
-  //       }
-  //     }
-  //   ])
-  // ;
+    // let studentJoinedDetails = await User.aggregate([
+    //   {
+    //     $group: {
+    //       _id:{ $month : "$createdAt"},
+    //       count:{$sum: 1}
+    //     }
+    //   },
+    //   {
+    //     $project:{
+    //       _id:0,
+    //       month:"$_id",
+    //       count:1
+    //     }
+    //   },
+    //   {
+    //     $sort: {month : 1} 
+    //   },
+    //   {
+    //     $group:{
+    //       _id: null,
+    //       data: {$push: "$count"}
+    //     }
+    //   },
+    //   {
+    //     $project: {
+    //       _id: 0 ,
+    //       data:1 
+    //     }
+    //   }
+    // ])
+  ;
 
   // let studentJoinedDetails = await User.aggregate([
   //   {
@@ -404,7 +404,7 @@ export async function getAdminDashboard (req , res) {
     },
     {
       $project: {
-        _id: 0,
+        _id: null,
         data: {
           $map: {
             input: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -413,7 +413,7 @@ export async function getAdminDashboard (req , res) {
               $cond: {
                 if: { $in: ["$$m", "$months"] },
                 then: { $arrayElemAt: ["$data", { $indexOfArray: ["$months", "$$m"] }] },
-                else: 0
+                else: null
               }
             }
           }
