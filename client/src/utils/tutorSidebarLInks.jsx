@@ -17,11 +17,20 @@ const tutorLinks = [
             { subTitle: "List Courses", link: "/tutor/course", icon: <HiOutlineClipboardList size={22} /> }
         ]
     },
+    {
+        title: 'Q & A s',
+        links: [
+            {
+                subTitle: "Questions", link: "/tutor/questions", icon: <AiOutlineFileAdd size={22} /> },
+            
+        ]
+    },
 
     {
         title: "Settings",
         links: [
-            { subTitle: "Logout", link: "/tutor/course", icon: <BiLogOut size={22} /> }
+            { subTitle: "Change Password", link: "/tutor/change-password", icon: <BiLogOut size={22} /> } , 
+            { subTitle: "Logout", link: "/tutor/course", icon: <BiLogOut size={22} /> } , 
         ]
     }
 
