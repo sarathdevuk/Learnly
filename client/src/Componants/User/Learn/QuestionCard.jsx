@@ -3,7 +3,7 @@ import { AskQuestion } from "../../../services/userApi";
 import { toast, ToastContainer } from "react-toastify";
 import { useParams } from "react-router-dom";
 
-function QuestionCard({ index }) {
+function QuestionCard({ index, courseDetails }) {
   const { courseId } = useParams();
   const [question, setQuestion] = useState("");
 
@@ -38,6 +38,7 @@ function QuestionCard({ index }) {
     }
   };
 
+
   return (
     <div className="Q&A p-5 w-full">
       <div className="flex justify-between ">
@@ -48,7 +49,10 @@ function QuestionCard({ index }) {
         <button className="btn" onClick={() => window.my_modal_3.showModal()}>
           Ask Question
         </button>
-        <dialog id="my_modal_3" className="modal flex items-center justify-center">
+        <dialog
+          id="my_modal_3"
+          className="modal flex items-center justify-center"
+        >
           <form method="dialog" className="modal-box">
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
               ✕
@@ -78,26 +82,23 @@ function QuestionCard({ index }) {
               </button>
             </div>
           </form>
-        <ToastContainer/>
-
+          <ToastContainer />
         </dialog>
       </div>
-      <blockquote className="rounded-lg bg-gray-100 p-4">
-        <p className=" text-lg font-semibold text-gray-700">
-          Qn1. What is JavaScript
-        </p>
-
-        <p className="text-gray-950  mx-2 mb-4">
-          JavaScript is a single threaded synchronising programming language
-        </p>
-        <p className=" text-lg font-semibold text-gray-700">
-          Qn1. What is JavaScript
-        </p>
-
-        <p className="  text-gray-950  mx-2">
-          JavaScript is a single threaded synchronising programming language
-        </p>
-      </blockquote>
+      <blockquote  className="rounded-lg bg-gray-100 p-4">
+      {courseDetails.course[index].questionsAndAnswers &&
+        courseDetails.course[index].questionsAndAnswers.map((qa, qaIndex) => (
+           qa.answer && (
+          <div>
+            <p className="text-lg font-semibold text-gray-700">
+              Qn{qaIndex + 1}.{ qa.question}
+            </p>
+            <p className="text-gray-950 mx-2 mb-4"> 
+              
+              {qa.answer}</p>
+            </div> )
+            ))}
+            </blockquote>
     </div>
   );
 }
