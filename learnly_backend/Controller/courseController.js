@@ -93,12 +93,22 @@ export async function addCourse (req , res) {
 
 export async function getCourse (req , res) {
   try {
+    const key = req.query?.key?.replace(/[^a-zA-Z ]/g, "") || "" // Sanitize the search query to remove special characters
+    
+    const course = await Course.find({
+
+         name: { $regex: key, $options: 'i' } , // Perform a case-insensitive search on the 'name' field
+         tutor: res.tutorId ,                                        // Perform a case-insensitive search on the 'tags' field
+      
+    })
+
     // find all course based on teacher 
-    const course = await Course.find({ tutor : res.tutorId });
+    // const course = await Course.find({ tutor : res.tutorId });
     if(course) {
       res.status(200).json({status : true , course})
     }
   } catch (error) {
+    console.log(error);
     res.status(500).json({ status : true , message : "Internal Server Error"})
   }
 }
@@ -236,7 +246,6 @@ export async function viewAllCourse (req , res) {
   export async function ViewCourses (req , res) {
     console.log("ViewCourses page");
       try {
-        console.log(req.query.isFree );
        
         const page = parseInt(req.query.page) - 1 || 0;
         const limit = parseInt(req.query.limit) || 5;
@@ -367,7 +376,7 @@ export async function getCourseFullDetails (req , res) {
     const courseId = req.params.id  
     // geting course details by id 
     const course =  await Course.findOne({_id:courseId}).populate('tutor').lean()
-      console.log("cousefull details" , course);
+   
     if(course) {
       res.status(200).json({ status : true , courseDetails : course})
     }else{
@@ -438,3 +447,5 @@ export async function AskQuestion (req ,res) {
   }
 
 }
+
+
