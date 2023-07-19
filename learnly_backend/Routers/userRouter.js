@@ -30,13 +30,19 @@ router.patch('/update-profile' ,verifyUser , updateUserProfile)
 router.patch('/update-avatar' ,verifyUser , uploadImage("./public/images/user") , updateUserAvatar)
 
 // Course
+router.get('/search', search)
 router.get('/course' , ViewCourses)
 router.get('/course/:id' ,validateId , getCourseDetails)
+
+// Check is User Enrolled Course
 router.get('/is-course-enrolled/:id' , validateId , verifyUser , isCourseEnrolled )
 router.get('/enrolled-course' , verifyUser,  getEnrolledCourse)
+
 router.get('/course/learn/:id' ,validateId ,  verifyUser, CheckCourseEnrolled , getCourseFullDetails)
-router.post('/course/ask-question/:id' , AskQuestion )
-router.get('/search', search)
+
+//ASk Questions
+router.patch('/course/ask-question/:id', validateId ,verifyUser, CheckCourseEnrolled ,  AskQuestion )
+
 
 // payment 
 router.post('/create-checkout-session', verifyUser , doPayment)
