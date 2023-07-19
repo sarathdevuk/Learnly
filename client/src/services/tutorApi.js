@@ -21,18 +21,24 @@ export const uploadAssignmentImage = ( assignmentImage  ) => {
   return axiosInstance("tutorJwtToken").post('/tutor/upload' , {assignmentImage } ,{ headers: {"Content-Type" : "multipart/form-data" }  })
 }
 
-export const getCourse =() => {
-  return axiosInstance('tutorJwtToken').get('/tutor/course/')
+export const getCourse =(search) => {
+  return axiosInstance('tutorJwtToken').get(`/tutor/course/?key=${search || ""}`)
 }
 
 export const deleteCourse = (courseId) => {
   return axiosInstance('tutorJwtToken').delete(`/tutor/delete-course/${courseId}`)
 }
 
+export const replayQuestion = (courseId , replayIndex ,answer) => {
+  return axiosInstance('tutorJwtToken').patch(`/tutor/replay-question/${courseId}` , {...replayIndex , answer})
+}
+
 export const updateCourse = (values , course , image , courseId) => {
   return axiosInstance('tutorJwtToken').put('/tutor/update-course/' , {...values ,course , image , courseId}  , { headers: {"Content-Type" : "multipart/form-data" }  } )
 
 }
+
+
 
 export const getDashboardDetails =() => {
   return axiosInstance('tutorJwtToken').get('/tutor/dashboard/')
