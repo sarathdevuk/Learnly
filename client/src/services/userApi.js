@@ -61,7 +61,7 @@ export const getCourseFullDetails = (courseId) =>{
 
 // Add Question 
 export const AskQuestion = (courseId  , question , index ) =>{
-  return axiosInstance('JwtToken').post(`/course/ask-question/${courseId}` , { question , index } )
+  return axiosInstance('JwtToken').patch(`/course/ask-question/${courseId}` , { question , index } )
 }
 
 
