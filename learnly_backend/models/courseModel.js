@@ -55,6 +55,12 @@ const courseSchema = new mongoose.Schema({
       assignment: {
         type:Object
       },
+      questionsAndAnswers: [
+        {
+          question: String,
+          answer: String,
+        },
+      ],
 
       lessons : [
             {
