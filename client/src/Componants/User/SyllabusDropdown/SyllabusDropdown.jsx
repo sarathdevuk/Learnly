@@ -1,4 +1,5 @@
 
+import { toast } from 'react-toastify';
 import './SyllabusDropdown.scss'
 import React from 'react';
 
@@ -17,11 +18,12 @@ function SyllabusDropdown({ course, index, toggleDropdown, getYoutubeVideoId , i
       
           downloadLink.click();
         } catch (error) {
+            toast.error("Cant Download" ,{position :"top-center" , toastId : "error"})
           console.log('Error occurred during PDF download:', error);
         }
       };
       
-      console.log("course@$#$",course);
+    
     return (
         <div
             className={"syllabus   " + (course.open ? "open" : "")}
@@ -46,7 +48,7 @@ function SyllabusDropdown({ course, index, toggleDropdown, getYoutubeVideoId , i
             </div>
             {
                 course.lessons.map((lesson, index) => {
-                    console.log("lesson vdedioUrl" , lesson.videoUrl);
+                   
                     return (
                         <div onClick={() => { getYoutubeVideoId(lesson.videoUrl)}} key={index} className={"lessons-title cursor-pointer  hover:bg-violet-50 " + (course.open ? "p-4" : "")}>
                             <p className='lesson-title'>{lesson.lessonName}</p>

@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 
 function DescriptionCard() {
   const courseDetails = useSelector((state) => state.course.value);
-  console.log(courseDetails , "courseDetails");
+ 
   return (
     <div className="course-info-wrap p-5">
               

@@ -129,7 +129,7 @@ const handleSubmit = async () => {
 
 const handleAdminSubmit = async () => {
   try {
-    // adminLogin(loginData)
+   
     const {data} = await adminLogin(loginData)
     if(data.login){
       localStorage.setItem('adminJwtToken', data.token) ;

@@ -25,7 +25,6 @@ function Learn() {
   const [index , setIndex] = useState(0)
 
 
-
   // Toggle syllubus dropdown
   const toggleDropdown = (toggleIndex) => { 
     setIndex(toggleIndex)
@@ -98,7 +97,6 @@ function Learn() {
 
     // Setting first video to the vedio Controller
     if (courseDetails) {
-      console.log("Setting vedio url if course  Details is there");
       getYoutubeVideoId(courseDetails.course[0].lessons[0].vedioUrl);
     }
 
@@ -133,7 +131,7 @@ function Learn() {
       case "Description" :
         return <DescriptionCard /> ;
       case "QnA" :
-        return <QuestionCard index={index}/>;   
+        return <QuestionCard index={index } courseDetails={courseDetails}/>;   
       default : 
       null ;
     }
