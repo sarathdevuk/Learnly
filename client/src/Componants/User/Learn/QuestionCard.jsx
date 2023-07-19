@@ -1,38 +1,42 @@
 import React, { useState } from "react";
 import { AskQuestion } from "../../../services/userApi";
-import {toast , ToastContainer} from "react-toastify"
+import { toast, ToastContainer } from "react-toastify";
 import { useParams } from "react-router-dom";
 
-
 function QuestionCard({ index }) {
-
   const { courseId } = useParams();
-  const [question , setQuestion] = useState("")
+  const [question, setQuestion] = useState("");
 
   const validForm = () => {
     if (question.trim() === "") {
-        return false
+      return false;
     }
-    return true
-} 
+    return true;
+  };
 
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    
-    const { data } = await AskQuestion( courseId , question , index )
-       if(data.status) {
-         toast.success( "New Question Added" , { position:"bottom-left" , toastId:"success" })
-        }else{
-         toast.error("Something Went Wrong" , {position: "top-center" , toastId:"error"}) 
-        }
-  } catch (error) {
-    console.log(error); 
-    toast.error("Something Went Wrong" , {position: "top-center" , toastId:"error"}) 
-
-  }
-}
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await AskQuestion(courseId, question, index);
+      if (data.status) {
+        toast.success("New Question Added", {
+          position: "bottom-left",
+          toastId: "success",
+        });
+      } else {
+        toast.error("Something Went Wrong", {
+          position: "top-center",
+          toastId: "error",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Something Went Wrong", {
+        position: "top-center",
+        toastId: "error",
+      });
+    }
+  };
 
   return (
     <div className="Q&A p-5 w-full">
@@ -44,36 +48,35 @@ const handleSubmit = async (e) => {
         <button className="btn" onClick={() => window.my_modal_3.showModal()}>
           Ask Question
         </button>
-        <dialog id="my_modal_3" className="modal">
-
+        <dialog id="my_modal_3" className="modal flex items-center justify-center">
           <form method="dialog" className="modal-box">
             <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
               ✕
             </button>
-            <h3 className="font-bold text-lg mb-2"> Enter Your Doubts For Chapter {index +1} </h3>
+            <h3 className="font-bold text-lg mb-2">
+              {" "}
+              Enter Your Doubts For Chapter {index + 1}{" "}
+            </h3>
 
-            <textarea 
+            <textarea
               className="textarea textarea-bordered w-full"
-              placeholder="Ask Question" 
-              value={question} 
-              onChange={(e)=>setQuestion(e.target.value)}
-
-            > </textarea>
-
-                  <div className="flex  w-full justify-end">
-
-            <button 
-             onClick={handleSubmit}
-              type="button"
-              className=" form-btn mt-2 font-medium rounded  " 
-              disabled={!validForm()}
+              placeholder="Ask Question"
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
             >
-              <span className="txt">Submit</span>
+              {" "}
+            </textarea>
 
-            </button>
-      
-              
-                  </div>
+            <div className="flex  w-full justify-end">
+              <button
+                onClick={handleSubmit}
+                type="button"
+                className=" form-btn mt-2 font-medium rounded  "
+                disabled={!validForm()}
+              >
+                <span className="txt">Submit</span>
+              </button>
+            </div>
           </form>
         <ToastContainer/>
 
