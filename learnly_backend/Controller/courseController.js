@@ -452,26 +452,27 @@ export async function AskQuestion (req ,res) {
 export async function replayQuestion (req , res) {
 
   try {
-    console.log("patch route ", req.body );
-    
-    const courseId = req.params.id ;
-    const { chapterIndex , questionIndex , questionId  , answer } = req.body ; 
-
-    const course = await Course.findById({_id: courseId});
-
-    if(!course){
-      res.status().json({status: false , message:"sorry no Course Found"})
+    const courseId = req.params.id;
+    const { chapterIndex, questionIndex, answer } = req.body;
+  
+    const course = await Course.findByIdAndUpdate(
+      { _id: courseId },
+      {
+        $set: {
+          [`course.${chapterIndex}.questionsAndAnswers.${questionIndex}.answer`]: answer,
+        },
+      }
+    );
+  
+    if (!course) {
+      return res.status(404).json({ status: false, message: "Sorry, no Course Found" });
     }
-
-    course.course[chapterIndex].questionsAndAnswers[questionIndex].answer = answer 
-
-    course.save() ; 
-
-    res.status(200).json({ status : true , message: "Answer Added" })
-
+  
+    return res.status(200).json({ status: true, message: "Answer Added" });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ status : false , message : "Internal Server Error"})
+    return res.status(500).json({ status: false, message: "Internal Server Error" });
   }
+  
 
 }
