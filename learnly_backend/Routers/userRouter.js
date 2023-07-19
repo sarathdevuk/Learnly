@@ -6,7 +6,7 @@ import { loginSchema, signupSchema } from "../utils/yupSchema.js";
 import { getUserDetails, updateUserAvatar, updateUserProfile } from "../Controller/userController.js";
 import { verifyUser } from "../middleware/AuthUser.js";
 import uploadImage from "../middleware/image-upload.js";
-import { ViewCourses, getCourseDetails, getCourseFullDetails, getEnrolledCourse, isCourseEnrolled, search, viewAllCourse } from "../Controller/courseController.js";
+import { AskQuestion, ViewCourses, getCourseDetails, getCourseFullDetails, getEnrolledCourse, isCourseEnrolled, search, viewAllCourse } from "../Controller/courseController.js";
 import { cancelOrder, doPayment, verifyPayment,  } from "../Controller/orderController.js";
 import { validateId } from "../middleware/validateParams.js";
 import { CheckCourseEnrolled } from "../middleware/CheckCourseEnrolled.js";
@@ -35,6 +35,7 @@ router.get('/course/:id' ,validateId , getCourseDetails)
 router.get('/is-course-enrolled/:id' , validateId , verifyUser , isCourseEnrolled )
 router.get('/enrolled-course' , verifyUser,  getEnrolledCourse)
 router.get('/course/learn/:id' ,validateId ,  verifyUser, CheckCourseEnrolled , getCourseFullDetails)
+router.post('/course/ask-question/:id' , AskQuestion )
 router.get('/search', search)
 
 // payment 
