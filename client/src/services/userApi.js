@@ -78,7 +78,6 @@ export const handleCheckout = ( values , courseId ) =>  {
 
 // Delete Order api
 export const deleteOrder = ( orderId ) =>  {
-  console.log("DElete order api @#$#@!$#@$@#$23");
   return axiosInstance('JwtToken').get(`/cancel-payment/${orderId}`)
 }
 
