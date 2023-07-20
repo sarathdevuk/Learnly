@@ -18,10 +18,8 @@ const createToken = (id) => {
 
 // post Signup
 export async function generateOtp(req, res) {
-  console.log("generate otp");
   try {
     const { email } = req.body;
-    console.log(req.body);
 
     const user = await User.findOne({ email });
     // check the user is exist
@@ -42,19 +40,17 @@ export async function generateOtp(req, res) {
         });
     }
   } catch (error) {
-    console.log(error);
   }
 }
 
 // verify otp
 export async function doSignup(req, res) {
   try {
-    console.log("generate signup");
 
     const verified = verifyOtp(req.body.otp);
 
     if (verified) {
-      console.log(userDetails);
+
       const { firstName, lastName, email, phone, password } = userDetails;
 
       if ((!firstName, !email, !password ))
@@ -77,13 +73,13 @@ export async function doSignup(req, res) {
       res.json({ status: false, message: "Otp does not match " });
     }
   } catch (error) {
-    console.log(error);
+    res.status(500).json({ status : false , message : " Internal Server error "})
   }
 }
 
 // login 
 export async function login(req, res) {
-  console.log("generate login");
+
 
   try {
     const { email, password } = req.body;

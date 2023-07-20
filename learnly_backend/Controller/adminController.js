@@ -23,7 +23,6 @@ const createToken = (id) => {
 export async function AdminLogin (req , res) {
 
   const {email , password } = req.body;
-  console.log(req.body);
   try {
      
     if(!email || !password  ) {
@@ -52,8 +51,7 @@ export async function AdminLogin (req , res) {
     res.status(200).json({admin , token , login : true });
 
   } catch (error) {
-    console.log(error);
-    res.json({message: "Internal Server Error"})
+    res.status(500).json({message: "Internal Server Error"})
   }
 
 
@@ -64,7 +62,6 @@ export async function AdminLogin (req , res) {
 export async function authAdmin (req,res) {
   try {
     const authHeader = req.headers.authorization;
-  console.log(authHeader, "auth head");
   if(authHeader) {
 
     // seperating bearer and token and taking the token 
@@ -91,14 +88,14 @@ export async function authAdmin (req,res) {
     res.json ({ status : false , message : "Admin not exist "})
   }
   } catch (error) {
-    console.log(error);
+    res.json({ status: false, message: "Internal Server Error " })
   }
 
 }
 
 
 export async function addTutor (req, res) { 
-  console.log("add Tutor");
+  
 
 try {
   const {firstName , lastName , email ,  phone , place  } = req.body;
@@ -109,13 +106,11 @@ try {
 
 // creating random password for tutor 
   const randomPassword = cryptoRandomSting({length:6 , type: 'numeric'})
-  console.log(randomPassword);
 
   const tutor = await Tutor.findOne({
     $or:[{email:email} , {phone : phone }]
   }); 
 
-  console.log(tutor  ,"tutoeor");
 
   if(tutor){
    return res.json({created:false , message :"Tutor already exists"});
@@ -132,7 +127,6 @@ try {
 
   })
 
-  console.log(newTutor);
   // here send the password to the tutor via email 
     const emailSend = await sendEmail(email , randomPassword);
 
@@ -143,7 +137,6 @@ try {
       res.json({created : false ,  message : "Email not send" })
     }
 } catch (error) {
-  console.log(error);
   res.status(500).json("internal server error") ;
 }
 
@@ -156,7 +149,6 @@ export async function getAllTutors(req, res) {
   try {
     // Finding all Tutors with paginated Results
     const tutors =  await Tutor.find({} ,{password: 0 }).skip(req.paginatedResults.startIndex).limit(req.paginatedResults.endIndex)
-    console.log("get tutors ,  " , tutors);
      res.status(200).json({status : true , tutors , pagination :req.paginatedResults})
   } catch (error) {
     res.status(500).json({created : false , message:"Internal Server Error" })
@@ -174,7 +166,6 @@ export async function blockTutor (req , res){
       res.status(404).json({ status : false , message : "Something went wrong"})
     }
   } catch (error) {
-    console.log(error)
     res.status(500).json({ status : false , message: "Internal server Error"})
   }
 }
@@ -193,7 +184,6 @@ export async function unBlockTutor (req , res) {
       }
 
   } catch (error) {
-  console.log(error);
   res.status(500).json({status : false , message : "Internal server error" })    
   }
 }
@@ -224,7 +214,6 @@ export async function blockUser (req, res) {
     {$set : {status : false}} , {new: true});
 
     if(user) {
-      console.log("suerersfs" , user);
       res.status(200).json({status : true , message : "user Blocked successfully"})
     }else {
       res.status(500).json({status : false , message : "User not found"})
@@ -421,10 +410,6 @@ export async function getAdminDashboard (req , res) {
       }
     }
   ]);
-    
-    
-    console.log("studentJoinedDetails" , studentJoinedDetails);
-
   
 
     const totalOrders = await Order.aggregate([
