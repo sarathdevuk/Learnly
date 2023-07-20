@@ -163,15 +163,15 @@ function ReplayQuestion() {
       
       </blockquote> */}
 
-    { courseObj.course  &&   courseObj?.course.map((chapter, chapterIndex) => (
+    { courseObj?.course  &&   courseObj?.course.map((chapter, chapterIndex) => (
         <blockquote key={chapterIndex} className="rounded-lg bg-gray-100 p-4">
           <h4 className="font-bold text-lg mb-2">Chapter {chapterIndex + 1}</h4>
 
-          {chapter.questionsAndAnswers.map((qa, qaIndex) => (
+          {chapter?.questionsAndAnswers?.map((qa, qaIndex) => (
             <div>
             <div key={qaIndex} className="flex justify-between">
               <p className="text-lg font-semibold text-gray-700">
-                Qn{qaIndex + 1}. {qa.question}
+                Qn{qaIndex + 1}. {qa?.question}
               </p>
               <button
                 className="btn btn-sm font-bold rounded-md hover:bg-violet-700 hover:text-slate-100"
@@ -186,7 +186,7 @@ function ReplayQuestion() {
               </button>
                 </div>
           <p className="text-gray-950 mx-2 mb-4">
-            {chapter.questionsAndAnswers[qaIndex]?.answer} 
+            {chapter?.questionsAndAnswers[qaIndex]?.answer} 
           </p>
             </div>
           ))}
