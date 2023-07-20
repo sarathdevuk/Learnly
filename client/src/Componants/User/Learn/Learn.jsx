@@ -211,7 +211,7 @@ function Learn() {
                       className="h-50 w-80"
                       src={
                         courseDetails &&
-                        "http://localhost:5000/" + courseDetails?.image?.path
+                        import.meta.env.VITE_SERVER_URL + courseDetails?.image?.path
                       }
                       alt="thumbnail"
                     />
