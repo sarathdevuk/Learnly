@@ -1,6 +1,8 @@
 import { BiHomeAlt, BiLogOut } from "react-icons/bi";
 import { HiOutlineClipboardList } from "react-icons/hi";
 import { AiOutlineFileAdd } from "react-icons/ai";
+import { SiSpringsecurity } from "react-icons/si";
+import { BsPatchQuestion } from "react-icons/bs";
 
 const tutorLinks = [
     {
@@ -21,7 +23,7 @@ const tutorLinks = [
         title: 'Q & A s',
         links: [
             {
-                subTitle: "Questions", link: "/tutor/questions", icon: <AiOutlineFileAdd size={22} /> },
+                subTitle: "Questions", link: "/tutor/questions", icon: <BsPatchQuestion size={22} /> },
             
         ]
     },
@@ -29,8 +31,8 @@ const tutorLinks = [
     {
         title: "Settings",
         links: [
-            { subTitle: "Change Password", link: "/tutor/change-password", icon: <BiLogOut size={22} /> } , 
-            { subTitle: "Logout", link: "/tutor/course", icon: <BiLogOut size={22} /> } , 
+            { subTitle: "Change Password", link: "/tutor/change-password", icon: <SiSpringsecurity size={22} /> } , 
+            { subTitle: "Logout", link: "/tutor", icon: <BiLogOut size={22} /> } , 
         ]
     }
 
