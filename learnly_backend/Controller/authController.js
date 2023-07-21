@@ -83,14 +83,13 @@ export async function login(req, res) {
 
   try {
     const { email, password } = req.body;
-    // console.log(req.body);
     if (!email || !password) {
+      res.status(404)
       throw new Error("All fields are required");
     }
 
     const user = await User.findOne({ email });
     if (user) {
-      console.log(user.status);
       if(!user.status) {
         return res.json({ login : false , message :"Sorry You are banned"})
       }
@@ -99,35 +98,27 @@ export async function login(req, res) {
       if (!validPassword) {
         return res.json({ login: false, message: "incorrect password" });
       }
-      // creating token using user Id
-      // console.log(user._id ,"user id");
+              //Creating Token With user id
       const token = createToken(user._id);
-    //   res.cookie("jwt", token, {
-    //     withCredential: true,
-    //     httpOnly: false,
-    //     maxAge: maxAge * 1000
-    // })
 
       res.status(200).json({ user, token, login: true });
     } else {
       res.json({ login: false, message: "incorrect username or password" });
     }
   } catch (error) {
-    console.log(error);
+    res.json({ login: false, message: "Internal Serverl Error" });
   }
 }
 
 // login with google 
 
 export async function googleAuth (req , res) {
-console.log("auth controller");
   try {
    
     if (req.body.access_token) {
       // fetching user details  from google
       axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${req.body.access_token}`).then( async (response)=> {
         // checking user exist or not
-        console.log("axios.get success");
         const user = await User.findOne({ googleId : response.data.id , loginWithGoogle: true } , {password : 0 }).catch((err)=> {
           res.status(500).json({created : false , message : "internal server error "})
 
@@ -168,7 +159,7 @@ console.log("auth controller");
       res.status(401).json({massage:"Not authorized"})
     }
   } catch (error) {
-    console.log(error);
+    res.json({ login: false, message: "Internal Serverl Error" });
   }
 
 }
@@ -179,7 +170,6 @@ console.log("auth controller");
 export async function userAuth (req, res){
   // accessing the token
   const authHeader = req.headers.authorization;
-  console.log("userAuth conerfslkdfjkjfk" , authHeader);
   if(authHeader) {
     const token = authHeader.split(' ')[1];
     // verifying user token

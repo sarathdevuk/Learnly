@@ -18,7 +18,6 @@ export async function doPayment (req , res) {
         const course = await Course.findById({ _id : courseId}) 
          if(course) { 
           // if Its Free Course directly creating the Order 
-           console.log(course.isFree ," free coourse");
              if(course?.isFree){
                 const order = await Order.create({
                   total : course.price , 
@@ -78,7 +77,6 @@ export async function doPayment (req , res) {
               cancel_url: `${process.env.BASE_URL}/cancel-payment/${orderResponse._id}` , 
      
           })
-          console.log("session created" , session);
           // Passing the session url to the client 
           res.json({ url: session.url , orderId: orderResponse._id })
           }).catch((err) => {
@@ -105,7 +103,6 @@ export async function doPayment (req , res) {
 
 // Payment verification 
 export async function verifyPayment (req , res ) {
-  console.log("orderSucces verify payment");
 try {
   // findinf the order  and updating the order status
   const order = await Order.findById({ _id: req.params.orderId})
@@ -134,11 +131,9 @@ try {
 
 // if Patment cancel 
 export async function cancelOrder (req , res) {
-   console.log("cancel order @$#@$#@$#@$#@$#@$#@$");
   try {
     // Deleting the Order if the payment is cancelled
     Order.findByIdAndDelete({ _id : req.params.orderId}).then((response)=> {
-      console.log(response);
       if(response) {
         // After deleting Order redirect to the payment page
         res.redirect(`${process.env.CLIENT_URL}/order-failed`)

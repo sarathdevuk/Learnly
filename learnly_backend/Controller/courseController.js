@@ -134,7 +134,6 @@ export async function deleteCourse (req , res) {
 // Edit Course Details
 export async function EditCourseDetails (req , res) {
   try {
-    console.log("body" , req.body.course);
 
     //find course based on course id && tutor id
     const course = await Course.findOne({ _id : req.body.courseId , tutor : res.tutorId})
@@ -160,7 +159,6 @@ export async function EditCourseDetails (req , res) {
      const uploadAssignmentToCloudinary = async (assignment) => {
       
        if (assignment && !assignment.url) { 
-        console.log("assignment$$",assignment   );
         const uploadedAssignment = await cloudinary.uploader.upload(assignment, {  //uploading to cloudinary
           folder: 'learnly', //setting folder to upload
           resource_type:'raw', 
@@ -174,7 +172,6 @@ export async function EditCourseDetails (req , res) {
     // Update Course For adding assignments into the cloudinary 
     const updatedCourse = await Promise.all(
       req.body.course.map(async (chapter) => {
-        console.log("if assignment",chapter);
         const assignment = await uploadAssignmentToCloudinary(chapter?.assignment);
         
         return {
@@ -185,7 +182,6 @@ export async function EditCourseDetails (req , res) {
       })
     );
 
-    console.log("updatedCourse" ,updatedCourse);
       Course.updateOne({ _id : req.body.courseId , tutor : res.tutorId } , {
         $set : {
           name : req.body.name,
@@ -201,7 +197,6 @@ export async function EditCourseDetails (req , res) {
       
         }
       }).then((response) => {
-        console.log(response);
         res.status(200).json({ status : true , message : " Course updated Successfully" })
       })
     
@@ -215,7 +210,6 @@ export async function EditCourseDetails (req , res) {
 // Finding all The courses
 export async function getAllCourse (req , res) {
   try {
-    console.log("Course" , req.paginatedResults.startIndex , "end ndex" , req.paginatedResults.endIndex);
     // finding All courses and find the tutor details also by populating
     const course = await Course.find().skip(req.paginatedResults.startIndex).limit(req.paginatedResults.limit).populate('tutor').lean()
       
@@ -232,7 +226,6 @@ export async function viewAllCourse (req , res) {
   try {
     // finding All courses and find the tutor details also by populating
     const course = await Course.find({status:true}).populate('tutor').lean()
-      console.log(course);
     if(course) {
       res.status(200).json({ status : true , course })
     }
@@ -244,7 +237,6 @@ export async function viewAllCourse (req , res) {
 
 
   export async function ViewCourses (req , res) {
-    console.log("ViewCourses page");
       try {
        
         const page = parseInt(req.query.page) - 1 || 0;
@@ -274,11 +266,11 @@ export async function viewAllCourse (req , res) {
           sortBy[sort[0]] = "asc";
         }
         
-        console.log(search, category, sortBy, page, limit, isFree);
         
         const query = {
           name: { $regex: search, $options: "i" },
           category: { $in: category },
+          status:true ,
         };
         
         if (isFree === "true") {
@@ -293,7 +285,6 @@ export async function viewAllCourse (req , res) {
           .skip(page * limit)
           .limit(limit)
         
-        console.log(course, "course");
         
         const total = await Course.countDocuments(query);
         
@@ -320,7 +311,6 @@ export async function viewAllCourse (req , res) {
 
 export async function getCourseDetails ( req , res) {
   try {
-    console.log("get courseDetaisl");
     // find course course details with course id 
    const course = await  Course.findOne({_id: req.params.id} , 
                 {'course.lessons._id' : 0}).populate('tutor').lean()
@@ -331,14 +321,12 @@ export async function getCourseDetails ( req , res) {
    }
 
   } catch (error) {
-    console.log("error" , error);
     res.status(500).json({ status : false , message : " Internal server Error "})
   }
 }
 
 // Check is Course Enrolled or Not
 export async function isCourseEnrolled(req , res) {
-  console.log("is isCourseEnrolled ",req.userId , req.params.id);
   try { 
     // finding the course from orderModel based on Course id and userId
     const enrolledCourse = await Order.findOne({ user : req.userId , course : req.params.id , status:true })
@@ -389,7 +377,6 @@ export async function getCourseFullDetails (req , res) {
 }
 
 export async function search (req , res) {
-  console.log(req.query);
   try {
     const key = req.query.q.replace(/[^a-zA-Z ]/g, ""); // Sanitize the search query to remove special characters
 
@@ -409,7 +396,6 @@ export async function search (req , res) {
 
 
   } catch (error) {
-    console.log(error);
     res.status(500).json({ status: false , message : "internal server Error"})
   }
 
@@ -418,10 +404,8 @@ export async function search (req , res) {
 
 // Add New Question
 export async function AskQuestion (req ,res) {
-  console.log("Asl Questionrs", req.body);
   try {
     const courseId = req.params.id;
-    console.log(courseId);
     const userQuestion = req.body.question ; 
 
     const courseIndex = req.body.index

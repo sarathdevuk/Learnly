@@ -283,7 +283,6 @@ export async function changeCourseStatus (req , res) {
 }
 
 export async function getAdminDashboard (req , res) {
-  console.log("et adminfsdf");
   try {
     const [
       studentCount,
@@ -425,6 +424,6 @@ export async function getAdminDashboard (req , res) {
 
 
   } catch (error) {
-    console.log(error)
+    res.json({ status: false, message: "Internal Serverl Error" });
   }
 }

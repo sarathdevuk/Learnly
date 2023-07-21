@@ -1,7 +1,6 @@
 import User from "../models/userModel.js";
 
 export async function getUserDetails(req, res) {
-  console.log("get userDetails" , req.userId);
   try {
     const userDetails = await User.findById(
       { _id: req.userId },
@@ -16,13 +15,11 @@ export async function getUserDetails(req, res) {
 export async function updateUserProfile(req, res) {
   try {
     const { firstName, lastName } = req.body;
-    console.log(req.userId);
     const updatedUser = await User.updateOne(
       { _id: req.userId },
       { $set: { firstName, lastName } }
     );
      
-    console.log("updaye" , updatedUser);
     res
       .status(200)
       .json({ status: true, message: "Profile updated Successfully" });
@@ -33,7 +30,6 @@ export async function updateUserProfile(req, res) {
 
 export async function updateUserAvatar (req , res) {
   try {
-    console.log("req.filses" );
     // updating the image upload path 
     const image = process.env.BASE_URL + req.files.image[0].path.substring('public'.length);
 
@@ -41,7 +37,6 @@ export async function updateUserAvatar (req , res) {
     const updateUser = await  User.updateOne({_id: req.userId}, {
       $set: { picture : image}
     })
-    console.log("updated seersaf" , updateUser);
     res.status(200).json({status : true, message : "Profile updated successfully"})
 
   } catch (error) {

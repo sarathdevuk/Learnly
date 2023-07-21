@@ -38,12 +38,10 @@ try {
 
   // verify the password
   const validPassword = await bcrypt.compare(password , tutor.password);
-  console.log("valid" , validPassword);
 
   if (!validPassword) {
     return res.json({ login : false , message : "incorrect password"})
   }
-  console.log("secret" ,secret_key);
   // Create a jwt token with tutor id 
   const token = createToken(tutor._id)
   
@@ -233,8 +231,6 @@ export async function getDashboardDetails (req ,res) {
       }
     ]);
     
-
-    console.log("studentJoinedDetails" , revanueDetails);
 
     res.status(200).json({status: true ,  studentCount , orderCount , courseCount , revanueDetails: revanueDetails[0].data })
 
