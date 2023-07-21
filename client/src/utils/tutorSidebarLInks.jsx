@@ -3,6 +3,7 @@ import { HiOutlineClipboardList } from "react-icons/hi";
 import { AiOutlineFileAdd } from "react-icons/ai";
 import { SiSpringsecurity } from "react-icons/si";
 import { BsPatchQuestion } from "react-icons/bs";
+import { MdOutlineSecurity} from "react-icons/md";
 
 const tutorLinks = [
     {
@@ -23,7 +24,7 @@ const tutorLinks = [
         title: 'Q & A s',
         links: [
             {
-                subTitle: "Questions", link: "/tutor/questions", icon: <BsPatchQuestion size={22} /> },
+                subTitle: "Questions", link: "/tutor/questions", icon: <BsPatchQuestion size={20} /> },
             
         ]
     },
@@ -31,7 +32,7 @@ const tutorLinks = [
     {
         title: "Settings",
         links: [
-            { subTitle: "Change Password", link: "/tutor/change-password", icon: <SiSpringsecurity size={22} /> } , 
+            { subTitle: "Change Password", link: "/tutor/change-password", icon: <MdOutlineSecurity size={20} /> } , 
             { subTitle: "Logout", link: "/tutor", icon: <BiLogOut size={22} /> } , 
         ]
     }

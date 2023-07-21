@@ -6,20 +6,20 @@ import { Link, useNavigate } from 'react-router-dom';
 function BannerWithSearch() {
     const navigate=useNavigate();
     return (
-        <div className=' homepage-banner grid sm:grind-cols-3 md:grid-cols-3 ' style={{ backgroundImage: "url(/images/Edit-Banner.jpg" }}>
+        <div className=' homepage-banner grid grid-cols-3 md:grid-cols-3 ' style={{ backgroundImage: "url(/images/Edit-Banner.jpg" }}>
             <div className='col-span-2 h- flex flex-col justify-center m-5 md:ml-14'>
-                <div>
-                    <h2 className="search-banner-title font-black  md:text-3xl md:mb-10   tracking-wide">
+                <div className='mt-5'>
+                    <h2 className="search-banner-title font-black text-md md:text-3xl md:mb-10 tracking- md:tracking-wider pr-9  ">
                     The Premier Platform <br />
                     to Showcase Your Skills
 
                     </h2>
                 </div>
-                <div className='mb-10 tracking-wide'>
-                    <p className='text-xs  sm:text-xs sm:leading-5 md:leading-6'>Learn the skills you need to take the next step and every step <br />
+                <div className='mb-10 hidden md:block tracking-wide'>
+                    <p className='text-xs md:text-md  leading-4 md:leading-6'>Learn the skills you need to take the next step and every step <br />
                         after. Log in now to save on courses through March 1.</p>
                 </div>
-                <div onClick={() => { navigate('/courses')}} className='mb-10'>
+                <div onClick={() => { navigate('/courses')}} className='mb-10 flex'>
                     <Button >
                         Explore courses
                     </Button>
