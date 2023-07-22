@@ -148,7 +148,7 @@ function UserHeader() {
                         </svg>
                     </li>
                     <li>
-                        <Link to={'/community'}>
+                        <Link to={'/'}>
                             <p className="text-sm text-gray-400 hover:font-bold focus:text-violet-600 hover:text-violet-600" >Community</p>
                         </Link>
                         </li>

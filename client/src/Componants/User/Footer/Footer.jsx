@@ -20,7 +20,7 @@ function Footer() {
                           <a href="/" className="hover:underline">Learnly</a>
                       </li>
                       <li>
-                          <a href="#!" className="hover:underline">Courses</a>
+                          <a href="/courses" className="hover:underline">Courses</a>
                       </li>
                   </ul>
               </div>
@@ -31,7 +31,7 @@ function Footer() {
                           <a href="https://github.com/sarathdevuk" className="hover:underline ">Github</a>
                       </li>
                       <li>
-                          <a href="https://discord.gg/4eeurUVvTy" className="hover:underline">Discord</a>
+                          <a href="#" className="hover:underline">Discord</a>
                       </li>
                   </ul>
               </div>
