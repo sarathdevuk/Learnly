@@ -95,7 +95,7 @@ function UserProfile() {
       })
       .catch((error) => {
         console.log("err" , error);
-        toast.error(error.message, {
+        toast.error("Image upload failed", {
           position: "top-center",
         });
       });
