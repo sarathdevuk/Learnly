@@ -47,6 +47,14 @@ const userSchema = new mongoose.Schema(
     status : {
       type : Boolean ,
       default : true,
+    },
+    community:{
+      type : [ mongoose.Schema.Types.ObjectId],
+      ref: 'Communitys'
+    },
+    group : {
+      type : [mongoose.Schema.Types.ObjectId] ,
+      ref : "Groups"
     }
 
 
