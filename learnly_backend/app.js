@@ -12,7 +12,7 @@ import multer from 'multer';
 import { errorHandler } from './middleware/ErrorHandler.js';
 import mongoSanitize from 'express-mongo-sanitize' ;
 import xss from 'xss-clean'
-
+import socketapi from './socket/socketapi.js';
 
 const app = express();
 
@@ -63,8 +63,14 @@ app.use(( err ,req , res , next) => {
  }
 })
 
-
-app.listen(PORT ,()=>{
+ const server = app.listen(PORT ,()=>{
   console.log(`Server Running on Port${PORT}` );
 })
 
+socketapi.io.attach(server , {
+  cors : {
+    origin : "*"
+  }
+});
+
+export { app }
