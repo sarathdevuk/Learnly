@@ -15,7 +15,6 @@ import { setTutorDetails } from '../../../Redux/Features/tutorSlice';
 
 function Login(props){
 
-
   const dispatch = useDispatch() ;
   const navigate = useNavigate() ;
   const [loginData , setLoginData] = useState({
