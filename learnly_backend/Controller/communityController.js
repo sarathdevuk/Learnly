@@ -1,4 +1,4 @@
-import { respose } from '../app' 
+// import { respose } from '../app' 
 import User from '../models/userModel.js'
 import Community from '../models/communityModel.js'
 
@@ -41,5 +41,56 @@ export const createCommunity = async (req , res) => {
   } catch (err) {
     let error = handleError(err)
     res.json({ status : false , message : error})
+  }
+}
+
+export const getAllCommunity = async ( req , res) => {
+ try {
+  const community = await Community.find({status : true} ,{ post :0 , groups :0 }) 
+
+  if(community) {
+    res.status(200).json({status: true , community : community})
+  }else {
+    res.status(404).json({ status : false , message :"Something went wrong "})
+  }
+ } catch (error) {
+  res.status(500).json({ status: false, message: "Internal server error" });
+ }
+}
+
+export const joinCommunity = async (req , res) => {
+  try {
+    if(req.body.userId) {
+      let community = await Community.find({ _id:req.body.communityId }) 
+
+      if(community) {
+        const join = await Community.updateOne({_id : req.body.communityId } , {
+          $addToSet:{
+            members : req.body.userId
+          }
+        })
+
+        const user = await User.updateOne({_id : req.userId} , { 
+          $addToSet : {
+            community : req.body.communityId
+          }
+        })
+        
+   
+        if (join && user.acknowledged) {
+          res.status(200).json({ status: true, message: "Joined successfully" })
+         } else {
+          res.json({ status: false, message: "Something went wrong try again" })
+      }
+   } else {
+      res.status(404).json({ status: false, message: "Community not Exist" })
+  }
+} else {
+  res.status(404).json({ status: false, message: "User ID is not provided" });
+}
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ status: false, message: "Internal server error" });
+
   }
 }
