@@ -94,3 +94,18 @@ export const joinCommunity = async (req , res) => {
 
   }
 }
+
+export const getJoinedCommunity = async(req,res) => {
+  try {
+    if(req.userId){
+      const joinedCommunityList = await User.find({_id : req.userId} , {posts : 0 ,groups :0}).populate('community') ;
+      res.status(200).json({ status : true , joinedCommunity : joinedCommunityList[0].community})
+
+    }else {
+      throw new Error("User Id not provided")
+    }
+  } catch (error) {
+    res.json({ status: false, message: err.message });
+  }
+}
+
