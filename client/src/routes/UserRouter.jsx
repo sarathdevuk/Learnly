@@ -15,6 +15,7 @@ import EnrolledCoursePage from "../Pages/User/EnrolledCoursePage";
 import LearnPage from "../Pages/User/LearnPage";
 import SearchPage from "../Pages/User/SearchPage";
 import CourseFilterCard from "../Componants/User/CourseFilterCard/CourseFilterCard";
+import CommunityPage from "../Pages/User/CommunityPage";
 
 function UserRouter() {
   return (
@@ -37,6 +38,10 @@ function UserRouter() {
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/otp" element={<OtpPage />} />
         <Route path="/search" element={<SearchPage />} />
+        <Route path="/community" element={ <CommunityPage />} /> 
+        
+
+
         <Route path="/test" element={<CourseFilterCard />} />
 
       
