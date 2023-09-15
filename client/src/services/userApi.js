@@ -81,4 +81,8 @@ export const deleteOrder = ( orderId ) =>  {
   return axiosInstance('JwtToken').get(`/cancel-payment/${orderId}`)
 }
 
+// group
+export const getJoinedGroups = () => {
+  return axiosInstance('JwtToken').get('/community/group/joinedGroups')
+}
 
