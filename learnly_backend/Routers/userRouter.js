@@ -10,6 +10,8 @@ import { AskQuestion, ViewCourses, getCourseDetails, getCourseFullDetails, getEn
 import { cancelOrder, doPayment, verifyPayment,  } from "../Controller/orderController.js";
 import { validateId } from "../middleware/validateParams.js";
 import { CheckCourseEnrolled } from "../middleware/CheckCourseEnrolled.js";
+import { createCommunity, getAllCommunity, joinCommunity } from "../Controller/communityController.js";
+import { createGroup, exitGroup, getAllGroup, getCommunityGroups, getJoinedGroups, joinGroup } from "../Controller/groupController.js";
 const router = express.Router()
 
 
@@ -48,6 +50,22 @@ router.patch('/course/ask-question/:id', validateId ,verifyUser, CheckCourseEnro
 router.post('/create-checkout-session', verifyUser , doPayment)
 router.get('/verifyPayment/:orderId', verifyPayment)
 router.get('/cancel-payment/:orderId', cancelOrder)
+
+// Community
+router.post('/create-community' , verifyUser , uploadImage("./public/images/community") , createCommunity )
+router.get('/community' , getAllCommunity)
+router.put('/join-community', verifyUser , joinCommunity)
+// router.get('/joined-community', verifyUser , getJ)
+
+
+// Group
+router.post('create-group' , verifyUser , uploadImage("./public/images/group") , createGroup ) 
+router.get('/community/groups/:communityId', verifyUser , getCommunityGroups ) 
+router.get('/community/groups/join/:communityId/:groupId' , verifyUser , joinGroup)
+router.get('/community/group/joinedGroups/', verifyUser , getJoinedGroups);
+router.get('/community/groups',verifyUser , getAllGroup);
+router.get('/community/groups/exit/:groupId', verifyUser,  exitGroup);
+
 
 
 export default router
