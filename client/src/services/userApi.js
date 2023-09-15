@@ -81,8 +81,36 @@ export const deleteOrder = ( orderId ) =>  {
   return axiosInstance('JwtToken').get(`/cancel-payment/${orderId}`)
 }
 
+// Community
+export const createCommunity=(data)=>{
+  return axiosInstance("JwtToken").post('/create-community',{...data}, { headers: { "Content-Type": "multipart/form-data" } })
+}
+
+export const getCommunity=()=>{
+  return axiosInstance("JwtToken").get('/community');
+}
+
+export const joinCommunity = (userId , communityId) => {
+  return axiosInstance('JwtToken').put('/join-community' , {userId , communityId })
+}
+
+export const getJoinedCommunity = () => {
+  return axiosInstance('JwtToken').get('/community/group/joinedGroups')
+}
+
+
+
 // group
+export const createGroup = (data) => {
+  return axiosInstance("JwtToken").post('/create-group' , {...data},{ headers: { "Content-Type": "multipart/form-data" } } )
+}
+
+export const getCommunityGroups = (communityId) => {
+  return axiosInstance('JwtToken').get(`/community/groups/${communityId}`)
+}
 export const getJoinedGroups = () => {
   return axiosInstance('JwtToken').get('/community/group/joinedGroups')
 }
+
+
 
