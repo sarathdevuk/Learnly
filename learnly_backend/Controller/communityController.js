@@ -109,3 +109,19 @@ export const getJoinedCommunity = async(req,res) => {
   }
 }
 
+export const getCommunityDetails = async (req , res) => {
+  try {
+    let admin = false;
+    const communityDetails = await Community.findById({ _id: req.params.communityId, status: true }, { posts: 0 }).populate('groups')
+    if (communityDetails) {
+        //checking user is admin or not
+        if (req.userId.equals(communityDetails.admin)) admin = true;
+
+        res.status(200).json({ status: true, communityDetails, admin })
+    } else {
+        throw new Error("Community not Exist")
+    }
+} catch (err) {
+    res.json({ status: false, message: err.message });
+}
+}
