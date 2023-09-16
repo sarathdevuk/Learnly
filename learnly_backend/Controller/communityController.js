@@ -111,6 +111,7 @@ export const getJoinedCommunity = async(req,res) => {
   }
 }
 
+
 export const getCommunityDetails = async (req , res) => {
   try {
     let admin = false;
@@ -127,3 +128,44 @@ export const getCommunityDetails = async (req , res) => {
     res.json({ status: false, message: err.message });
 }
 }
+
+
+export const createCommunityPost = async( req , res) => {
+  try {
+    // Create a Community post with User id and message
+    let post = {
+      user : req.userId ,
+      message : req.body.message ,
+    }
+    if(req.files.image) { // updating the post image
+      post.image = req.files.image[0] 
+      req.files.image[0].path = req.files.image[0].path.substring('public'.length) 
+
+    } 
+
+    // checking user is the admin of community
+    const community = await Community.findById({_id: req.body.communityId , admin: req.userId}) 
+
+    if(community) {
+      //adding new post to the existstin community
+      const createPost  = await Community.updateOne({ _id : req.body.communityId}, {
+        $push : {
+          posts : post
+        }
+      })
+
+      if(createPost) {
+        res.status(200).json({ status : true , message : "Post Created Successfully"})
+      }else {
+        throw new Error("Something went wrong")
+      }
+    }else{
+      throw new Error("Not permitted")
+    }
+
+  } catch (error) {
+    console.log(error);
+    res.json({ status : false , message : error.message })
+  }
+}
+
