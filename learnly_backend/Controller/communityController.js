@@ -11,7 +11,7 @@ const handleError = (err) => {
 
 export const createCommunity = async (req , res) => {
   try {
-    req.files.image[0].path = req.files.image[0].path.replace('public/' , "")
+    req.files.image[0].path = req.files.image[0].path.substring('public'.length)
     // Creatng a community with details
     const newCommunity = new Community ({
       name : req.body.name,
@@ -59,6 +59,7 @@ export const getAllCommunity = async ( req , res) => {
 }
 
 export const joinCommunity = async (req , res) => {
+  console.log("join community");
   try {
     if(req.body.userId) {
       let community = await Community.find({ _id:req.body.communityId }) 
@@ -77,7 +78,8 @@ export const joinCommunity = async (req , res) => {
         })
         
    
-        if (join && user.acknowledged) {
+        if (join && user.acknowledged) { 
+          console.log("joined to the community");
           res.status(200).json({ status: true, message: "Joined successfully" })
          } else {
           res.json({ status: false, message: "Something went wrong try again" })
