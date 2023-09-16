@@ -98,7 +98,9 @@ export const getJoinedCommunity = () => {
   return axiosInstance('JwtToken').get('/community/group/joinedGroups')
 }
 
-
+export const createCommunityPost=(data)=>{
+  return axiosInstance("JwtToken").post('/create-community/post', { ...data }, { headers: {  "Content-Type": "multipart/form-data" } })
+}
 
 // group
 export const createGroup = (data) => {
