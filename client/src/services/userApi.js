@@ -102,6 +102,13 @@ export const createCommunityPost=(data)=>{
   return axiosInstance("JwtToken").post('/create-community/post', { ...data }, { headers: {  "Content-Type": "multipart/form-data" } })
 }
 
+//load community feeds 
+export const getFeeds=(communityId)=>{
+  return axiosInstance("JwtToken").get(`/community/feeds/${communityId}`,)
+}
+
+
+
 // group
 export const createGroup = (data) => {
   return axiosInstance("JwtToken").post('/create-group' , {...data},{ headers: { "Content-Type": "multipart/form-data" } } )
