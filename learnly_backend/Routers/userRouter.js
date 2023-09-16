@@ -10,7 +10,7 @@ import { AskQuestion, ViewCourses, getCourseDetails, getCourseFullDetails, getEn
 import { cancelOrder, doPayment, verifyPayment,  } from "../Controller/orderController.js";
 import { validateId } from "../middleware/validateParams.js";
 import { CheckCourseEnrolled } from "../middleware/CheckCourseEnrolled.js";
-import { createCommunity, getAllCommunity, joinCommunity } from "../Controller/communityController.js";
+import { createCommunity, getAllCommunity, getCommunityDetails, getJoinedCommunity, joinCommunity } from "../Controller/communityController.js";
 import { createGroup, exitGroup, getAllGroup, getCommunityGroups, getJoinedGroups, joinGroup } from "../Controller/groupController.js";
 const router = express.Router()
 
@@ -55,8 +55,8 @@ router.get('/cancel-payment/:orderId', cancelOrder)
 router.post('/create-community' , verifyUser , uploadImage("./public/images/community") , createCommunity )
 router.get('/community' , getAllCommunity)
 router.put('/join-community', verifyUser , joinCommunity)
-// router.get('/joined-community', verifyUser , getJ)
-
+router.get('/joined-community', verifyUser , getJoinedCommunity)
+router.get('/community-details/:communityId', verifyUser , getCommunityDetails);
 
 // Group
 router.post('create-group' , verifyUser , uploadImage("./public/images/group") , createGroup ) 
