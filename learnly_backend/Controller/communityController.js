@@ -262,7 +262,7 @@ export const leaveFromCommunity = async (req , res) => {
         })
         
         // Removing member from the group
-        await GroupCard.updateOne({ _id : obj} , {
+        await Group.updateOne({ _id : obj} , {
           $pull : {
             members : req.userId
           }
@@ -277,7 +277,7 @@ export const leaveFromCommunity = async (req , res) => {
     }) 
 
     // removing community from User collection 
-    const removeCommunity = await  User.updateOne({_id : req.userId } , {
+    const updateUser = await  User.updateOne({_id : req.userId } , {
       $pull : {
         community : req.params.communityId
       }
@@ -300,7 +300,9 @@ export const leaveFromCommunity = async (req , res) => {
 
 export const deleteCommunity = async(req , res)=> {
   try {
-    let community = await Community.findOne({admin: req.userId , _id:req.body.communityId})
+    console.log("deleteCommunity" , req.body.communityId);
+    let community = await Community.findOne({admin: req.userId , _id:req.params.communityId})
+    console.log("community exist");
     if(community) {
       //  deleting all groups under this comminity
       community.groups.forEach(async (groupId) =>{
@@ -308,7 +310,8 @@ export const deleteCommunity = async(req , res)=> {
       })
 
       // deleting Community
-      Community.deleteOne({ admin : req.userId , _id : req.params.communityId }).then((res)=> {
+       Community.deleteOne({ admin : req.userId , _id : req.params.communityId })
+       .then((respose)=> {
         res.status(200).json({ status: true, message:"Community deleted Successfully"})
 
       })
@@ -316,6 +319,7 @@ export const deleteCommunity = async(req , res)=> {
 
 
   } catch (err) {
+    console.log(err);
     res.status(404).json({ status: false, message: err.message });
 
   }
