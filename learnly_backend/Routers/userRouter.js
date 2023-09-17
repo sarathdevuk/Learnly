@@ -10,7 +10,7 @@ import { AskQuestion, ViewCourses, getCourseDetails, getCourseFullDetails, getEn
 import { cancelOrder, doPayment, verifyPayment,  } from "../Controller/orderController.js";
 import { validateId } from "../middleware/validateParams.js";
 import { CheckCourseEnrolled } from "../middleware/CheckCourseEnrolled.js";
-import { createCommunity, getAllCommunity, getCommunityDetails, getJoinedCommunity, joinCommunity } from "../Controller/communityController.js";
+import { createCommunity, createCommunityPost, deleteCommunity, editCommunity, getAllCommunity, getCommunityDetails, getCommunityFeeds, getCommunityMembers, getJoinedCommunity, joinCommunity, leaveFromCommunity } from "../Controller/communityController.js";
 import { createGroup, exitGroup, getAllGroup, getCommunityGroups, getJoinedGroups, joinGroup } from "../Controller/groupController.js";
 const router = express.Router()
 
@@ -57,9 +57,14 @@ router.get('/community' , getAllCommunity)
 router.put('/join-community', verifyUser , joinCommunity)
 router.get('/joined-community', verifyUser , getJoinedCommunity)
 router.get('/community-details/:communityId', verifyUser , getCommunityDetails);
-
+router.post('/create-community/post', verifyUser, uploadImage('./public/images/post'), createCommunityPost);
+router.get('/community/feeds/:communityId', verifyUser, getCommunityFeeds);
+router.get('/community/members/:communityId', verifyUser, getCommunityMembers);
+router.post('/edit-community', verifyUser, uploadImage("./public/images/community"), editCommunity);
+router.get('/community/leave/:communityId', verifyUser, leaveFromCommunity);
+router.get('/commuinty/delete/:communityId', verifyUser, deleteCommunity);
 // Group
-router.post('create-group' , verifyUser , uploadImage("./public/images/group") , createGroup ) 
+router.post('/create-group' , verifyUser , uploadImage("./public/images/group") , createGroup ) 
 router.get('/community/groups/:communityId', verifyUser , getCommunityGroups ) 
 router.get('/community/groups/join/:communityId/:groupId' , verifyUser , joinGroup)
 router.get('/community/group/joinedGroups/', verifyUser , getJoinedGroups);
