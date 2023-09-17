@@ -178,7 +178,6 @@ export const getCommunityFeeds = async (req, res) => {
       let community = await Community.findOne({_id : req.params.communityId } , {_id : 1 , name:1 , posts :1 }).populate({
         path:"posts" , populate:{ path : "user" , select : "firstName picture" }
       })
-      console.log(community);
       community.posts = community.posts.reverse() ;
       if(community) {
         res.status(200).json({ status : true , community : community})
@@ -190,6 +189,7 @@ export const getCommunityFeeds = async (req, res) => {
       throw new Error( "communityId is not provided" )
     }
   } catch (err) {
+    console.log(err);
     res.json({ status: false, message: err.message });
   }
 }

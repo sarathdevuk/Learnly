@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const GroupCard = ({ community, joined, handleJoin, joinedStatus }) => {
     const user = useSelector((state) => state.user);
-
+    console.log("joined" , joinedStatus);
     return (
         <div className="card cursor-pointer card-compact bg-base-100 shadow-lg">
             <Link to={joined ? '/community-home' : ""} state={community} >

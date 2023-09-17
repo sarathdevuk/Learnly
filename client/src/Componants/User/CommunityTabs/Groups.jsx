@@ -14,7 +14,9 @@ function Groups({ community , loadCommunityGroups , groups , groupLoading }) {
   // join groups
   const handleJoinGroup = (communityId , groupId) => {
     joinGroup(communityId , groupId ).then((response) => {
+
       if(response.data.status){
+        console.log("vertheeweeeeeeeeeeeeeeeeeeeeeeeeeee", response.data )
         toast.success(response.data.message , {
           position:"top-center"
         })

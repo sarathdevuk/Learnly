@@ -1,5 +1,5 @@
 import { BiHomeAlt } from "react-icons/bi";
-import { MdOutlineExplore, MdOutlineMessage, MdEvent } from "react-icons/md";
+import { MdOutlineExplore, MdOutlineMessage } from "react-icons/md";
 
 
 const CommunitySidebarLink = [

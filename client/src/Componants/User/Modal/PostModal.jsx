@@ -3,7 +3,7 @@ import { BiCloudUpload } from "react-icons/bi";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { toast } from "react-toastify";
-import { createCommunityPost } from '../../services/userApi';
+import { createCommunityPost } from '../../../services/userApi';
 
 
 function PostModal({ loadFeeds, closePostModal, communityId }) {
