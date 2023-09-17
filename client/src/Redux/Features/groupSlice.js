@@ -17,7 +17,7 @@ const groupSlice = createSlice({
          })
          .addCase(fetchAllJoinedGroups.fulfilled, (state, action) => {
           state.status = true
-          state.groups = action.payload.groups
+          state.groups = action.payload.group
          })
          .addCase(fetchAllJoinedGroups.rejected , (state , action) => {
           state.status = 'failed';
