@@ -16,6 +16,7 @@ import LearnPage from "../Pages/User/LearnPage";
 import SearchPage from "../Pages/User/SearchPage";
 import CourseFilterCard from "../Componants/User/CourseFilterCard/CourseFilterCard";
 import CommunityPage from "../Pages/User/CommunityPage";
+import CommunityHomePage from "../Pages/User/CommunityHomePage";
 
 function UserRouter() {
   return (
@@ -27,6 +28,7 @@ function UserRouter() {
         <Route path="/order-failed"  element={ <OrderFailedPage />} />
         <Route path="/my-enrollments" element={<EnrolledCoursePage/>} />
         <Route path="/course/learn/:courseId" element={<LearnPage/>} />
+        <Route path="/community-home" element = {<CommunityHomePage/> } /> 
 
       </Route>
 
