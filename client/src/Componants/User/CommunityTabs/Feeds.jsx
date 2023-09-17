@@ -42,14 +42,15 @@ function Feeds({ community, admin }) {
     const closePostModal = () => {
         setShowFeedModal(false);
     }
-
+    console.log(feeds);
     return (
 
         <div className='grid grid-cols gap-4'>
 
             {admin ?
-                <div className='flex justify-center'>
-                    <div onClick={() => { setShowFeedModal(true) }} className='w-full max-w-3xl flex p-5 bg-white shadow rounded-lg cursor-pointer'>
+                <div className='flex justify-center'
+                   onClick={() => { setShowFeedModal(true) }}>
+                    <div  className='w-full max-w-3xl flex p-5 bg-white shadow rounded-lg cursor-pointer'>
                         <img className="w-10 h-10 rounded-full mr-5 object-cover" src={user.image} alt="Default avatar" />
                         <input type="text" id="first_name" className="bg-gray-100 border cursor-pointer border-gray-300 text-gray-900 text-sm rounded-lg w-full  " placeholder="What's on your mind ?" readOnly disabled />
                     </div>
