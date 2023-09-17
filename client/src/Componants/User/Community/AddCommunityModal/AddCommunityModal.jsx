@@ -53,13 +53,14 @@ function AddCommunityModal(props) {
                 //edit community api
                 editCommunity({ ...values, communityId: props.community._id })
                     .then((response) => {
-                        props.loadCommuintData()
+                        props.loadCommunityData()
                         props.close()
                         toast.success(response.data.message, {
                             position: "top-center",
                         });
                     })
                     .catch((response) => {
+                        console.log(response);
                         toast.error(response.response.data.message, {
                             position: "top-center",
                         });
