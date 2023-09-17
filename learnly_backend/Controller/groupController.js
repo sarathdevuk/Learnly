@@ -70,19 +70,20 @@ export const joinGroup  = async(req,res) => {
     // check user joinded in the community
     const checkUserJoined = await Community.findOne({_id : req.params.communityId , members : {$in : [req.userId]}  })
     if(checkUserJoined) {
-    //  Adding User to Group 
-     const group = await Group.updateOne({_id : req.params.groupId} , {
+      //  Adding User to Group 
+      const group = await Group.updateOne({_id : req.params.groupId} , {
       $addToSet : { members : req.userId }
     }) 
-
+    
     // updating in the user collection 
-   const user = await User.updateOne({ _id : req.userId }, {
+    const user = await User.updateOne({ _id : req.userId }, {
       $addToSet : {
         group : group._id
       }
     })
-
+    
     if(group && user) {
+      console.log("joined group" , group , "user" , user);
       res.status(200).json({ status : false , message : "Joined Successfully" })
     }else {
       throw new Error("Something went wrong")
@@ -98,14 +99,18 @@ export const joinGroup  = async(req,res) => {
 
 export const getJoinedGroups = async( req , res) => {
   try {
+
     if(req.userId) {
       const user = await User.findOne({_id:req.userId}).populate('group');
-      res.status(200).json({status : true , group:user[0].group})
+      console.log("grt joined Groups" , user.group);
+
+      res.status(200).json({status : true , group:user.group})
 
     }else {
       throw new Error( "User id is not provided" )
     }
   } catch (error) {
+    console.log(error);
    res.status(500).json({ status: false , message : error.message}) 
   }
 }
