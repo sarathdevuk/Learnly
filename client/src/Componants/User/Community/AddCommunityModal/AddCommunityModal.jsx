@@ -3,7 +3,7 @@ import { BiCloudUpload } from "react-icons/bi";
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { toast } from "react-toastify";
-import { createCommunity } from '../../../../services/userApi';
+import { createCommunity, editCommunity } from '../../../../services/userApi';
 
 
 function AddCommunityModal(props) {
@@ -50,7 +50,20 @@ function AddCommunityModal(props) {
         validationSchema: validate,
         onSubmit: async (values) => {
             if (props.edit) {
-             
+                //edit community api
+                editCommunity({ ...values, communityId: props.community._id })
+                    .then((response) => {
+                        props.loadCommuintData()
+                        props.close()
+                        toast.success(response.data.message, {
+                            position: "top-center",
+                        });
+                    })
+                    .catch((response) => {
+                        toast.error(response.response.data.message, {
+                            position: "top-center",
+                        });
+                    })
             } else {
                 //add community api
                 createCommunity(values)
