@@ -1,6 +1,7 @@
 // import { respose } from '../app' 
 import User from '../models/userModel.js'
 import Community from '../models/communityModel.js'
+import Group from '../models/groupModel.js'
 
 const handleError = (err) => {
   // Handling duplicate error
@@ -118,13 +119,15 @@ export const getCommunityDetails = async (req , res) => {
     const communityDetails = await Community.findById({ _id: req.params.communityId, status: true }, { posts: 0 }).populate('groups')
     if (communityDetails) {
         //checking user is admin or not
-        if (req.userId.equals(communityDetails.admin)) admin = true;
-
+      
+        if (req.userId == communityDetails.admin) admin = true;
+        console.log(admin , ' admin');
         res.status(200).json({ status: true, communityDetails, admin })
     } else {
         throw new Error("Community not Exist")
     }
 } catch (err) {
+  console.log(err);
     res.json({ status: false, message: err.message });
 }
 }
@@ -169,3 +172,151 @@ export const createCommunityPost = async( req , res) => {
   }
 }
 
+export const getCommunityFeeds = async (req, res) => {
+  try {
+    if(req.params.communityId) {
+      let community = await Community.findOne({_id : req.params.communityId } , {_id : 1 , name:1 , posts :1 }).populate({
+        path:"posts" ,
+        populate : { path: 'user' , select:'firstName picture'  }
+      });
+      community.posts = community.posts.reverse() ;
+      if(community) {
+        res.status(200).json({ status : true , community : community})
+      }else {
+        throw new Error("Community not exits")
+      }
+
+    } else {
+      throw new Error( "communityId is not provided" )
+    }
+  } catch (err) {
+    res.json({ status: false, message: err.message });
+  }
+}
+
+export const getCommunityMembers = async (req , res) => {
+  try {
+    if(req.params.communityId) {
+      const members = await Community.findOne({ _id : req.params.communityId }, { _id:1 , admin:1 , members:1 }).populate("admin" , "-password").populate("members" , "-password");
+      console.log("members",members); 
+      if(members) {
+        res.status(200).json({ status : true , community:members})
+      }else {
+        throw new Error("Community not exist")
+      }
+    } else {
+      throw new Error("communityId is not provided")
+    }
+  } catch (error) {
+    res.json({ status: false, message: err.message });
+  }
+}
+
+export const editCommunity  = async (req , res) => {
+  try {
+    let image = {}
+    let community = await Community.findOne({ _id : req.body.communityId}) ;
+    if(community) {
+      // setting image
+      if(req.files.image) {
+        image = req.files.image[0];
+        req.files.image[0].path  =  req.files.image[0].path.substring('public'.length)
+      }else {
+        image = community.image 
+      }
+
+      Community.updateOne({_id : req.body.communityId } , {
+        $set : {
+          name:req.body.name ,
+          type : req.body.type,
+          about : req.body.about ,
+          description : req.body.description ,
+          image 
+        }
+      }).then((response ) => {
+        res.status(200).json({ status :true , message : "Updated Successfully" })
+      })
+      .catch((response) => {
+        throw new Error("Community details not updated")
+      })
+    }
+  } catch (err) {
+    res.status(404).json({ status: false, message: err.message });
+  }
+}
+
+// Leaving from the community
+export const leaveFromCommunity = async (req , res) => {
+  try {
+    // finding the community with communityId
+    let community = await Community.findOne({ _id : req.params.communityId }) 
+
+    if(community) {
+
+      community.groups.forEach(async(obj) => {
+        // Removing group id from user 
+        let user = await User.updateOne({_id : req.userId} , {
+          $pull : {
+            group : obj 
+          }
+        })
+        
+        // Removing member from the group
+        await GroupCard.updateOne({ _id : obj} , {
+          $pull : {
+            members : req.userId
+          }
+        })
+      })
+
+    // removing user from the community
+    const updateCommunity = await Community.updateOne({ _id : req.params.communityId} , {
+      $pull : {
+        members : req.userId 
+      }
+    }) 
+
+    // removing community from User collection 
+    const removeCommunity = await  User.updateOne({_id : req.userId } , {
+      $pull : {
+        community : req.params.communityId
+      }
+    })
+
+    if(updateCommunity&& updateUser) {
+      res.status(200).json({ status : true })
+     }else {
+      throw new Error("Something went wrong ")
+     }
+
+    }else {
+      throw new Error("Community not exist")
+    }
+
+  } catch (err) {
+    res.status(404).json({ status : false , message : err.message})
+  }
+}
+
+export const deleteCommunity = async(req , res)=> {
+  try {
+    let community = await Community.findOne({admin: req.userId , _id:req.body.communityId})
+    if(community) {
+      //  deleting all groups under this comminity
+      community.groups.forEach(async (groupId) =>{
+        await Group.deleteOne({ _id: groupId})
+      })
+
+      // deleting Community
+      Community.deleteOne({ admin : req.userId , _id : req.params.communityId }).then((res)=> {
+        res.status(200).json({ status: true, message:"Community deleted Successfully"})
+
+      })
+    }
+
+
+  } catch (err) {
+    res.status(404).json({ status: false, message: err.message });
+
+  }
+}
