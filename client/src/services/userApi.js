@@ -154,5 +154,8 @@ export const getJoinedGroups = () => {
   return axiosInstance('JwtToken').get('/community/group/joinedGroups')
 }
 
-
+//get all groups 
+export const getAllGroups=()=>{
+  return axiosInstance("JwtToken").get('/community/groups')
+}
 
