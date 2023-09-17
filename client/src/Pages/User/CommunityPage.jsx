@@ -8,8 +8,8 @@ function CommunityPage() {
   return (
     <>
       <UserHeader />
-      <div className="flex h-screen bg-blue-100">
-        <div className="sticky top-0 self-start bg-red-200">
+      <div className="flex h-screen">
+        <div className="sticky top-0 self-start">
           <CommunitySidebar />
         </div>
         <Community />
