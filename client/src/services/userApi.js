@@ -112,6 +112,10 @@ export const getMembersDetails = (communityId)=>{
   return axiosInstance("JwtToken").get(`/community/members/${communityId}`)
 }
 
+export const editCommunity =(data)=>{
+  return axiosInstance("JwtToken").post('/edit-community', { ...data }, { headers: { "Content-Type": "multipart/form-data" } });
+}
+
 
 // group
 export const createGroup = (data) => {
