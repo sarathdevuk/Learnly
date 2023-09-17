@@ -120,6 +120,21 @@ export const editCommunity =(data)=>{
   return axiosInstance("JwtToken").post('/edit-community', { ...data }, { headers: { "Content-Type": "multipart/form-data" } });
 }
 
+//leave from a community api
+export const leaveCommunity=(communityId)=>{
+  return axiosInstance("JwtToken").get(`/community/leave/${communityId}`)
+}
+
+//delte community 
+export const deleteCommunity=(communityId)=>{
+  return axiosInstance("JwtToken").get(`/commuinty/delete/${communityId}`)
+}
+
+
+
+
+
+
 
 // group
 export const createGroup = (data) => {
