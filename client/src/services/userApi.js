@@ -95,7 +95,7 @@ export const joinCommunity = (userId , communityId) => {
 }
 
 export const getJoinedCommunity = () => {
-  return axiosInstance('JwtToken').get('/community/group/joinedGroups')
+  return axiosInstance('JwtToken').get('/joined-community')
 }
 
 export const createCommunityPost=(data)=>{
@@ -107,6 +107,10 @@ export const getFeeds=(communityId)=>{
   return axiosInstance("JwtToken").get(`/community/feeds/${communityId}`,)
 }
 
+//get community members details
+export const getMembersDetails = (communityId)=>{
+  return axiosInstance("JwtToken").get(`/community/members/${communityId}`)
+}
 
 
 // group
