@@ -67,6 +67,7 @@ export const getCommunityGroups = async(req , res)=>{
 
 export const joinGroup  = async(req,res) => {
   try {
+  
     // check user joinded in the community
     const checkUserJoined = await Community.findOne({_id : req.params.communityId , members : {$in : [req.userId]}  })
     if(checkUserJoined) {
@@ -74,17 +75,19 @@ export const joinGroup  = async(req,res) => {
       const group = await Group.updateOne({_id : req.params.groupId} , {
       $addToSet : { members : req.userId }
     }) 
+
     
     // updating in the user collection 
     const user = await User.updateOne({ _id : req.userId }, {
       $addToSet : {
-        group : group._id
+        group : req.params.groupId
       }
     })
+    console.log("Joined  the group"  ,user);
     
     if(group && user) {
       console.log("joined group" , group , "user" , user);
-      res.status(200).json({ status : false , message : "Joined Successfully" })
+      res.status(200).json({ status : true , message : "Joined Successfully" })
     }else {
       throw new Error("Something went wrong")
     }
@@ -98,21 +101,18 @@ export const joinGroup  = async(req,res) => {
 }
 
 export const getJoinedGroups = async( req , res) => {
-  try {
-
-    if(req.userId) {
-      const user = await User.findOne({_id:req.userId}).populate('group');
-      console.log("grt joined Groups" , user.group);
-
-      res.status(200).json({status : true , group:user.group})
-
-    }else {
-      throw new Error( "User id is not provided" )
+  console.log("grt joined group");
+  try{
+    if(req.userId){
+        let user = await User.find({ _id: req.userId }).populate('group');
+        // console.log("get JOsdfdsfj=+++" , user[0].group);
+        res.status(200).json({status:true,group:user[0].group})
+    }else{
+        throw new Error("User Id is not Provided")
     }
-  } catch (error) {
-    console.log(error);
-   res.status(500).json({ status: false , message : error.message}) 
-  }
+} catch (err) {
+    res.status(404).json({ status: false, message: err.message });
+}
 }
 
 export const getAllGroup = async(req , res) => {
