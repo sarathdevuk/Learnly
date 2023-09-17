@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import UserHeader from '../../Componants/User/UserHeader/UserHeader' 
 import CommunitySidebar from '../../Componants/User/Community/CommunitySidebar'
-import { useLocation } from 'react-router-dom';
-import { getCommunityDetails, getCommunityGroups } from '../../services/userApi';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { deleteCommunity, getCommunityDetails, getCommunityGroups, leaveCommunity } from '../../services/userApi';
 import { useDispatch } from 'react-redux';
 import {toast} from 'react-toastify'
+import  swal from "sweetalert"
 import { BiPencil, BiCollapseAlt, BiDotsVerticalRounded } from "react-icons/bi";
 import CommunityTab from '../../utils/communityTab';
+import { IoLogInOutline } from "react-icons/io5";
+import { MdOutlineDeleteOutline } from "react-icons/md";
 import { fetchAllJoinedGroups } from '../../Redux/Actions/groupActions';
 import CreateGroupModal from '../../Componants/User/Modal/CreateGroupModal';
 import AddCommunityModal from '../../Componants/User/Community/AddCommunityModal/AddCommunityModal';
@@ -18,6 +21,7 @@ import Members from '../../Componants/User/CommunityTabs/Members';
 function CommunityHomePage() {
   const {state} = useLocation()// Getting data from the location that was passed from the Community page as state.
   const dispatch = useDispatch() ;
+  const navigate = useNavigate()
   const [community , setCommunitys] = useState();
   const [isAdmin, setIsAdmin] = useState(false)
   const [activeTab ,setActiveTab] = useState(CommunityTab[0].label)
@@ -59,6 +63,72 @@ function CommunityHomePage() {
     })
   }
 
+
+  const handleLeaveCommunity = () => {
+    swal({
+        title: "Are you sure?",
+        text: "You will be logout from all groups in this community!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+    })
+        .then((willDelete) => {
+            if (willDelete) {
+                //leave community api
+                leaveCommunity(community._id)
+                    .then((response) => {
+                        if (response.data.status) {
+                            navigate('/community')
+                        } else {
+                            toast(response.data.message, {
+                                position: 'top-center'
+                            })
+                        }
+                    })
+                    .catch((response) => {
+                        toast(response, {
+                            position: 'top-center'
+                        })
+                    })
+            }
+        });
+}
+
+
+
+    //delete community 
+    const handleDeleteCommunity = () => {
+      swal({
+          title: "Are you sure?",
+          text: "All groups under this community will be deleted!",
+          icon: "warning",
+          buttons: true,
+          dangerMode: true,
+      })
+          .then((willDelete) => {
+              if (willDelete) {
+                  //delete community api
+                  deleteCommunity(community._id)
+                      .then((response) => {
+                          if (response.data.status) {
+                              toast(response.data.message, {
+                                  position: 'top-center'
+                              });
+                              navigate('/community')
+                          } else {
+                              toast(response.data.message, {
+                                  position: 'top-center'
+                              })
+                          }
+                      })
+                      .catch((response) => {
+                          toast(response.data.message, {
+                              position: 'top-center'
+                          })
+                      })
+              }
+          });
+  };
 
   // load Tabs 
   const loadTab = () => {
