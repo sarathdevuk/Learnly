@@ -4,6 +4,7 @@ import adminSlice from "../Features/adminSlice";
 import adminSidebarToogle from "../Features/adminSidebarToogle";
 import tutorSlice from "../Features/tutorSlice";
 import courseSlice from "../Features/courseSlice";
+import groupSlice from "../Features/groupSlice";
 
 
 export default configureStore({
@@ -13,5 +14,6 @@ export default configureStore({
     adminSidebarToogle : adminSidebarToogle,
     tutor : tutorSlice ,
     course : courseSlice,
+    group : groupSlice
   }
 })
