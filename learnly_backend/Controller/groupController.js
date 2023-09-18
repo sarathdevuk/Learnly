@@ -17,6 +17,7 @@ export const createGroup = async( req , res) => {
       name : req.body.name ,
       image : req.files.image[0],
       description : req.body.description ,
+      community : req.body.communityId ,
       members : [ req.userId] ,
       admin : req.userId 
     })
@@ -128,6 +129,7 @@ export const getAllGroup = async(req , res) => {
 
 export const exitGroup = async(req, res) => {
    try {
+    console.log("exitGroup+++++" , req.params );
     const group = await Group.updateOne({ _id : req.params.groupId}, {
       $pull: { members : req.userId}
     })
@@ -136,9 +138,11 @@ export const exitGroup = async(req, res) => {
     })
 
     if(group && user) {
+      console.log("exit from groupc");
       res.status(200).json({status : true , message : "Successfully Exited from group"})
     }
    } catch (err) {
+    console.log(err);
     res.status(500).json({ status: false, message: err.message });
    }
 }
