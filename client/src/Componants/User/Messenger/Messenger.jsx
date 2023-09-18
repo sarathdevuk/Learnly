@@ -132,7 +132,40 @@ function Messenger() {
     <div className="flex-1 flex flex-col">
         <main className="flex-grow border-t flex flex-row min-h-0">
             {showMessagesDiv ?
-           
+                <section className="z-50 flex flex-col flex-none overflow-auto w-screen group border-r border-l border-[#dee2e7] lg:max-w-sm md:w-2/5 transition-all duration-300 ease-in-out">
+                    <div className="search-box border-b border-[#dee2e7] p-4 flex-none">
+                        <form >
+                            <div className="relative">
+                                <label>
+                                    <input className="rounded-full py-2 pr-6 pl-10 w-full border border-gray-100 focus:border-gray-100 bg-gray-100 focus:bg-gray-100 focus:outline-none text-gray-800 focus:shadow-md transition duration-300 ease-in" type="text" placeholder="Search Groups"
+                                        onChange={(event) => { setTitle(event.target.value); }}
+                                    />
+                                    <span className="absolute top-0 left-0 mt-2 ml-3 inline-block">
+                                        <svg viewBox="0 0 24 24" className="w-6 h-6">
+                                            <path fill="#bbb" d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
+                                        </svg>
+                                    </span>
+                                </label>
+                            </div>
+                        </form>
+                    </div>
+                    {groupData.groups.length && filteredGroups.length ?
+                        <div className="contacts flex-1 overflow-y-scroll">
+                            {filteredGroups.map((group, index) => (
+                                <div key={index} onClick={() => { handleConversation(group); setShowAbout(false) }}>
+                                    <Conversation isMobile={isMobile} setshowMessagesDiv={setShowMessagesDiv} group={group} />
+                                </div>
+                            ))}
+                        </div>
+                        :
+                        <div className='w-full h-full flex justify-center items-center'>
+                            No Joined Groups.
+                        </div>
+                    }
+                </section>
+                : ""}
+            {currentChat ?
+               
                 :
                 <div className='w-full flex justify-center items-center'>
                     No conversation selected.
