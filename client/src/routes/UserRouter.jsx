@@ -18,6 +18,7 @@ import CourseFilterCard from "../Componants/User/CourseFilterCard/CourseFilterCa
 import CommunityPage from "../Pages/User/CommunityPage";
 import CommunityHomePage from "../Pages/User/CommunityHomePage";
 import GroupPage from "../Pages/User/GroupPage";
+import MessengerPage from "../Pages/User/MessengerPage";
 
 function UserRouter() {
   return (
@@ -31,6 +32,8 @@ function UserRouter() {
         <Route path="/course/learn/:courseId" element={<LearnPage/>} />
         <Route path="/community-home" element = {<CommunityHomePage/> } /> 
         <Route path="/groups" element = {<GroupPage/> } /> 
+        <Route path="/messages" element = {<MessengerPage/> } /> 
+
 
       </Route>
 
