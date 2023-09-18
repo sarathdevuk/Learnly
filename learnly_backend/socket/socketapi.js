@@ -16,7 +16,12 @@ io.on('connection' , (socket) => {
     console.log(`Client joined group ${groupId} `);
     socket.join(groupId);
   })
-  
+
+  // send message
+  socket.on('sendMessage' , async({ userId , groupId , text}) => {
+    console.log('Send message');
+    io.on(groupId).emit('recieveMessage' , { sender : sender[0] , groupId , text  } )
+  })
 
   // Clean up when the Client disconnects 
   socket.on('disconnect' , () => {
