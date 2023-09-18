@@ -1,9 +1,7 @@
 import React from 'react'
-import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-function Card({key,group }) {
-    const user = useSelector((state) => state.user);
+function Card({ key , group }) {
 
   return (
       <div key={key} className="card cursor-pointer card-compact bg-base-100 shadow-lg">
