@@ -11,6 +11,13 @@ const socketapi = {
 io.on('connection' , (socket) => {
   console.log("A user Connected"); 
 
+  // join group
+  socket.on('joinGroup' , groupId => {
+    console.log(`Client joined group ${groupId} `);
+    socket.join(groupId);
+  })
+  
+
   // Clean up when the Client disconnects 
   socket.on('disconnect' , () => {
     console.log('Client disconnected');
