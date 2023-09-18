@@ -26,7 +26,7 @@ function Group({ isTab }) {
           </div>
           <div className="mt-3 pb-16 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {groups && groups.map((group) => (
-              <Card key={group.id} group={group} />
+              <Card key={group._id} group={group} />
             ))}
           </div>
         </>
