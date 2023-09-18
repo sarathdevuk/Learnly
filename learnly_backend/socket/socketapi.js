@@ -21,14 +21,16 @@ io.on('connection' , (socket) => {
   socket.on('sendMessage' , async({ userId , groupId , text}) => {
     console.log('Send message');
     const sender = await User.find({_id : userId } , {firstName:1 , picture :1})
-    io.on(groupId).emit('recieveMessage' , { sender : sender[0] , groupId , text  } )
+    console.log(sender , "sender" , groupId , "groupId");
+
+    io.to(groupId).emit('recieveMessage' , { sender : sender[0] , groupId , text  } )
   })
 
   //send image
   socket.on("sendImage" , async(data) => {
     console.log("sendImage");
     let sender = await User.find({ _id : data.sender} , {firstName :1 , picture : 1}) ;
-    io.to(data.group).emit("recieveMessage" , { sender : sender[0], groupId : data.group , type  : data.type , image : data.image, text : data.text })
+    io.to(data.group).emit("recieveMessage" , { sender : sender[0], groupId : data.group , type  : data.type , image : data?.image, text : data.text })
   })
 
   // Clean up when the Client disconnects 
