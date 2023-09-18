@@ -24,7 +24,7 @@ const GroupSchema = new mongoose.Schema(
       default: true,
       required: true,
     },
-    Community: {
+    community: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Communitys",
     },
