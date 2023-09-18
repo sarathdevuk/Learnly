@@ -2,13 +2,14 @@ import React from 'react'
 import { AiFillMessage } from "react-icons/ai";
 import { BsFillCameraVideoFill } from "react-icons/bs";
 import { IoExitOutline } from "react-icons/io5";
-// import { exitGroup } from '../../services/userApi';
 import { useDispatch } from 'react-redux';
-import { fetchAllJoinedGroups } from '../../Redux/Actions/groupActions';
 import { BsArrowLeft } from "react-icons/bs";
+import swal from 'sweetalert'
+import { exitGroup } from '../../../services/userApi';
+import { fetchAllJoinedGroups } from '../../../Redux/Actions/groupActions';
 
 function GroupInfo({ setShowAbout, currentChat, groupData, setCurrentChat }) {
-    // const dispatch = useDispatch();
+    const dispatch = useDispatch();
     
     const handleOnclick=()=>{
         swal({
@@ -18,15 +19,16 @@ function GroupInfo({ setShowAbout, currentChat, groupData, setCurrentChat }) {
         })
             .then((willDelete) => {
                 if (willDelete) {
-                    // exitGroup(currentChat._id)
-                    // .then((response)=>{
-                    //     setShowAbout(false);
-                    //     setCurrentChat(null);
-                    //     dispatch(fetchAllJoinedGroups());
-                    // })
-                    // .catch((response)=>{
-                    //     console.log(response);
-                    // })
+                    exitGroup(currentChat._id)
+                    .then((response)=>{
+                      console.log(response , " Exit from grou[ppppppppppppppppppppppppp" );
+                        setShowAbout(false);
+                        setCurrentChat(null);
+                        dispatch(fetchAllJoinedGroups());
+                    })
+                    .catch((response)=>{
+                        console.log(response);
+                    })
                 }
             });
     }
