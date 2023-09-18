@@ -5,6 +5,8 @@ import Message from "../models/messageModel.js";
 export const createMessage = async( req , res) => {
   try {
     const { text , group } = req.body 
+    console.log( text , "text ++++++++++");
+
     const newMessage = new Message({ 
       group,
       sender: req.userId ,
@@ -22,13 +24,15 @@ export const createMessage = async( req , res) => {
 // Get messages
 export const getMessages = async (req , res) =>{
   try {
-   
-    const messages = await Message.find({ group : req.params.groupId}).populate('sender') 
-      console.log(messages);
-    if(messages) {
-      res.status(200).json(messages);
-    }else{
-      throw new Error("No message Found")
+   if(req.params.groupId) {
+
+     const messages = await Message.find({ group : req.params.groupId}).populate('sender') 
+     console.log("getmessages++++++++++++" , messages);
+     if(messages) {
+       res.status(200).json(messages);
+      }else{
+        throw new Error("No message Found")
+      }
     }
   } catch (err) {
     console.log(err);
