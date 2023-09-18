@@ -159,3 +159,14 @@ export const getAllGroups=()=>{
   return axiosInstance("JwtToken").get('/community/groups')
 }
 
+//Messages
+//send message
+export const sendMessage=(message)=>{
+  return axiosInstance("JwtToken").post('/messages', message )
+}
+
+//load group messages
+export const getMessages=(groupId)=>{
+  console.log("GTE message" ,  groupId);
+  return axiosInstance("JwtToken").get(`/messages/${groupId}`)
+}
