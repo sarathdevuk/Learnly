@@ -12,7 +12,7 @@ import { validateId } from "../middleware/validateParams.js";
 import { CheckCourseEnrolled } from "../middleware/CheckCourseEnrolled.js";
 import { createCommunity, createCommunityPost, deleteCommunity, editCommunity, getAllCommunity, getCommunityDetails, getCommunityFeeds, getCommunityMembers, getJoinedCommunity, joinCommunity, leaveFromCommunity } from "../Controller/communityController.js";
 import { createGroup, exitGroup, getAllGroup, getCommunityGroups, getJoinedGroups, joinGroup } from "../Controller/groupController.js";
-import { createMessage, getMessages } from "../Controller/messageController.js";
+import { createMessage, getMessages, sendImage } from "../Controller/messageController.js";
 const router = express.Router()
 
 
@@ -75,6 +75,6 @@ router.get('/community/groups/exit/:groupId', verifyUser,  exitGroup);
 // Messages
 router.post('/messages', verifyUser , createMessage )
 router.get('/messages/:groupId', verifyUser , getMessages)
-
+router.post('/messages/send/file' , verifyUser , uploadImage('./public/images/messages') , sendImage)
 
 export default router
