@@ -176,3 +176,8 @@ export const getMessages=(groupId)=>{
   console.log("GTE message" ,  groupId);
   return axiosInstance("JwtToken").get(`/messages/${groupId}`)
 }
+
+//send image 
+export const sendImage = (message)=>{
+  return axiosInstance('JwtToken').post(`/messages/send/file/`, { ...message }, { headers: { "Content-Type": "multipart/form-data" }})
+}
