@@ -39,3 +39,28 @@ export const getMessages = async (req , res) =>{
     res.status(404).json({ status: false, message: err.message });
   }
 }
+
+// Upload image
+export const sendImage = async (req , res) => {
+  try {
+    req.files.image[0].path = req.files.image[0].path.substring('public'.length)
+    if(req.files) {
+      const newMessage =  new Message({
+        group:req.body.group ,
+        sender : req.userId,
+        type:'file',
+        text : req.body.text ,
+        image : process.env.BASE_URL + "/" + req.files.image[0].path
+      })
+
+      const savedMessage = await newMessage.save() ;
+      res.status(200).json({ group : savedMessage.group , sender : { _id : savedMessage.sender } , 
+      text : savedMessage.text , type :savedMessage.type , image : savedMessage.image })
+    }else {
+      throw new Error("image is not provided")
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ status: false, message: err.message });
+  }
+}
