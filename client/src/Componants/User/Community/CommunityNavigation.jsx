@@ -6,7 +6,7 @@ import CommunitySidebarLink from '../../../utils/CommmunitySidebarLinks';
 
 function CommunityNavigation() {
 
-    // const groupData = useSelector(state => state.group);
+    const groupData = useSelector(state => state.group);
 
 
 
@@ -35,7 +35,7 @@ function CommunityNavigation() {
                             className="dropdown-content menu rounded-box h-60 w-52 overflow-y-auto bg-base-100 p-2 shadow"
                             style={{ bottom: "50px" }}
                         >
-                            {/* {groupData?.groups && groupData.groups.map((group, index) => (
+                            {groupData?.groups && groupData.groups.map((group, index) => (
                                 <li className='bg-slate-100 mt-1' key={index}>
                                     <div className="py-2">
                                         <span className="w-10 h-10 mask mask-circle bg-base-200  text-xl">
@@ -44,7 +44,7 @@ function CommunityNavigation() {
                                         <span className='truncate'>{group.name}</span>
                                     </div>
                                 </li>
-                            ))} */}
+                            ))}
                         </ul>
                     </div>
                 </li>

@@ -13,10 +13,9 @@ function CommunitySidebar() {
     dispatch(fetchAllJoinedGroups());
   }, []);
 
-  console.log("group" , groupData);
   return (
     <>
-      <ul className="">
+      <ul className="hidden md:block">
         {CommunitySidebarLink.map((item) => (
           <li
             key={item.label}
